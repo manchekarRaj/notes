@@ -5,17 +5,20 @@
     body {
       font-family: Verdana, Geneva, Tahoma, sans-serif;
       font-size: large;
+      background-color: rgb(28, 28, 28);
+      color: rgb(226, 234, 241);
     }
 
     .code {
       font-family: "Consolas";
+      color: rgb(132, 219, 2);
     }
   </style>
 
 </head>
 
 <body>
-  <h2 id="1">1. What is ReactJS, and what are its key features?</h2>
+  <h2 id="1">What is ReactJS, and what are its key features?</h2>
   ReactJS is an open-source JavaScript library developed by Facebook for building user interfaces, specifically for
   single-page applications.
   <br>
@@ -46,7 +49,7 @@
   <b>StrictMode</b> - enables extra development-only checks that help you find bugs early.<br>
 
 
-  <h2 id="2">2. Functional Components</h2>
+  <h2 id="2">Functional Components</h2>
   In React, components can be defined using either functions or classes. The main differences between them are:<br><br>
 
   Functional components: They are plain JavaScript functions that accept props as an argument and return a React
@@ -54,20 +57,20 @@
   lifecycle methods using Hooks.
 
 
-  <h2 id="3">3. What are React props?</h2>
+  <h2 id="3">What are React props?</h2>
 
   Props (short for "properties") are a way to pass data from parent components to child components in React.<br>
   <b>Props are read-only</b>, meaning that child components cannot modify the data passed to them through props.<br>
   Props are passed as attributes to child components and can be accessed within the child component using the props<br>
   object.
 
-  <h2 id="4">4. State in React</h2>
+  <h2 id="4">State in React</h2>
 
   In React, the state refers to an object that holds the data or information required to render a component.
   The state is mutable and can change over time, causing the component to re-render whenever there's a change in the
   state.
 
-  <h2 id="5">5. What are React lifecycle methods?</h2>
+  <h2 id="5">What are React lifecycle methods?</h2>
 
   Lifecycle methods are methods in class based components that allow you to execute code
   during the component's lifecycle.<br>
@@ -81,7 +84,7 @@
   <b>componentWillUnmount()</b>: Called before the component is removed from the DOM. It's used to clean up resources,
   like timers or subscriptions, to prevent memory leaks.<br>
 
-  <h2 id="6">6. What are React Hooks, and what are the most commonly used hooks?</h2>
+  <h2 id="6">What are React Hooks, and what are the most commonly used hooks?</h2>
 
   Hooks are builtin functions in React, that allow you to use features in your components.
   <br>
@@ -116,7 +119,7 @@
 
 
 
-  <h2 id="7">7. What is the virtual DOM, and how does it work?</h2>
+  <h2 id="7">What is the virtual DOM, and how does it work?</h2>
 
   The virtual DOM (vDOM) is an in-memory representation of the actual DOM (Document Object Model). In React, whenever
   there is an update or change in the component's state, a new virtual DOM is created instead of updating the real DOM
@@ -137,7 +140,7 @@
   puzzle that you can quickly update. You can then compare the two puzzles and only change the pieces that are
   different. This way, you avoid the time-consuming process of rebuilding the entire puzzle from scratch.
 
-  <h2 id="8"> 8. What is JSX, and why is it used in React?</h2>
+  <h2 id="8">What is JSX, and why is it used in React?</h2>
 
   JSX (JavaScript XML) is a syntax extension for JavaScript that allows you to write HTML-like code within your
   JavaScript code. It's not a programming language, but rather a way to describe the structure and appearance of your
@@ -147,7 +150,7 @@
   understand, especially when dealing with complex UIs. JSX is not required to use React, but it's highly recommended
   and widely adopted in the community.<br>
 
-  <h2 id="9"> 9. How do you handle events in React?</h2>
+  <h2 id="9">How do you handle events in React?</h2>
 
   In React, event handling is similar to handling events in plain HTML, but with some differences in syntax. For
   example, instead of using the <b>onclick</b> attribute in HTML, you would use the <b>onClick</b> which is camelCase,
@@ -155,7 +158,7 @@
 
   <b> button onClick={handleClick}>Click me /button</b>
 
-  <h2 id="10"> 10. Controlled and uncontrolled components?</h2>
+  <h2 id="10">Controlled and uncontrolled components?</h2>
 
   In React, form elements like input, textarea, and select can be handled as either controlled or uncontrolled
   components.<br>
@@ -170,17 +173,17 @@
   not by the React state. To access the values of uncontrolled components, you use a ref to get direct access to the DOM
   element.<br>
 
-  <h2 id="11">11. What is the context API?</h2>
+  <h2 id="11">What is the context API?</h2>
   The Context API is a feature in React that allows you to share data between components without having to pass it
   through props. This can be helpful when you need to pass data through multiple levels of a component tree, or when
   you have a global state that should be accessible by multiple components.
 
 
-  <h2 id="12">12. What are Higher-Order Components (HOCs)?</h2>
+  <h2 id="12">What are Higher-Order Components (HOCs)?</h2>
 
   HOCs are functions that take a component as an argument and return a new component with additional props or behavior.
 
-  <h2 id="13">13. What is React Router</h2>
+  <h2 id="13">What is React Router</h2>
   React Router is a third-party library for managing navigation/routing in React applications.
   To use React Router, you need to install the <b>react-router-dom</b> package.<br>
   <span class="code">
@@ -195,7 +198,7 @@
   </span>
 
 
-  <h2 id="14"> 14. What are keys in React, and why are they important?</h2>
+  <h2 id="14">What are keys in React, and why are they important?</h2>
 
   Keys are a special attribute in React used to help identify and track elements in a list. When rendering a list of
   elements, each element should have a unique key prop to help React determine which elements have changed, been
@@ -227,7 +230,7 @@
   updates and state management.
 
 
-  <h2 id="15">15. What is useCallback</h2>
+  <h2 id="15">What is useCallback</h2>
 
   useCallback is a hook in React that allows you to memoize a function, so it doesn't get recreated on every render of
   the component. This can be useful when you want to optimize the performance of your application by preventing
@@ -262,7 +265,7 @@
 
 
 
-  <h2 id="16">16. What is useMemo, and when should you use it?</h2>
+  <h2 id="16">What is useMemo, and when should you use it?</h2>
 
   useMemo is a hook in React that allows you to memoize the result of a function so that it doesn't get recomputed on
   every render of the component. This can be useful when you want to optimize the performance of your application by
@@ -308,7 +311,28 @@
   and overhead to your code. In many cases, computing the value directly or using a regular function is sufficient and
   more efficient.
 
-  <h2 id="17">17. What is React.Children, and when should you use it?</h2>
+  <h2 id="20">useRef?</h2>
+
+  -- useRef allows us to access DOM elements and retain mutable values without re-rendering.<br>
+  -- Used with ref attribute for direct DOM interactions<br>
+  -- Can hold previous state values or props values<br>
+  -- Not limited to DOM references, can hold any value<br>
+  -- Refs can be passed as props also.
+  <br><br>
+  <span class="code">
+    import { useRef } from "react"<br>
+    const textFld = useRef()<br>
+    const emailInput = useRef()<br>
+
+    console.log(emailInput.current.value, textFld.current.value)<br>
+    return(
+    textarea ref={textFld} className="form-control" rows="3"><br>
+    input ref={emailInput} type="email" className="form-control" placeholder="name@example.com"><br>
+
+    )
+  </span>
+
+  <h2 id="17">What is React.Children, and when should you use it?</h2>
 
   React.Children is a utility provided by React to help you work with the children prop in a more consistent and
   flexible way. It provides methods for counting, mapping, or iterating over the children, as well as other utility
@@ -339,7 +363,7 @@
   strings,
   or elements.
 
-  <h2 id="18">18. What is the difference between React.PureComponent and React.Component?</h2>
+  <h2 id="18">What is the difference between React.PureComponent and React.Component?</h2>
 
   React.PureComponent is a subclass of React.Component that implements a shallow comparison for checking if the
   component should update. This means that PureComponent only re-renders when its props or state have changed in a
@@ -373,33 +397,9 @@
   that if you're passing complex data structures like nested objects or arrays, it may not update correctly, and you
   might need to implement a custom shouldComponentUpdate method in your component.
 
-  <h2 id="19">19. What is PropTypes, and how do you use it?</h2>
+  <h2 id="19">What is PropTypes, and how do you use it?</h2>
 
   PropTypes is a library, it is used to define the types of props it helps you to catch errors during development.<br>
-
-  <h2 id="20">20. useRef?</h2>
-
-  -- useRef allows us to access DOM elements and retain mutable values without re-rendering.<br>
-  -- Used with ref attribute for direct DOM interactions<br>
-  -- Can hold previous state values or props values<br>
-  -- Not limited to DOM references, can hold any value<br>
-  -- Refs can be passed as props also.
-  <br><br>
-  <span class="code">
-    import { useRef } from "react"<br>
-    const textFld = useRef()<br>
-    const emailInput = useRef()<br>
-
-    console.log(emailInput.current.value, textFld.current.value)<br>
-    return(
-    textarea ref={textFld} className="form-control" rows="3"><br>
-    input ref={emailInput} type="email" className="form-control" placeholder="name@example.com"><br>
-
-    )
-  </span>
-
-
-
 </body>
 
 </html>

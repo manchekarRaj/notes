@@ -2,38 +2,53 @@
 
 <head>
   <style>
+    body {
+      background-color: rgb(28, 28, 28);
+      color: rgb(226, 234, 241);
+    }
+
     a {
       font-size: large;
       font-family: Verdana, Geneva, Tahoma, sans-serif;
       margin-bottom: 5px;
       text-decoration: none;
+      font-style: normal;
+      color: bisque;
 
     }
   </style>
+  <script>
+    function load(e) {
+      var ele = document.getElementById(e.id)
+      const url = "body.html#" + e.id
+      open(url, "main")
+    }
+  </script>
+
 </head>
 
 <body>
   <ul>
-    <li><a href="body.html#1" target="main">What is ReactJS,</a><br></li>
-    <li><a href="body.html#2" target="main">Functional components</a><br></li>
-    <li><a href="body.html#3" target="main">Props</a><br></li>
-    <li><a href="body.html#4" target="main">State in React</a><br></li>
-    <li><a href="body.html#5" target="main">React lifecycle methods</a><br></li>
-    <li><a href="body.html#6" target="main">React Hooks</a><br></li>
-    <li><a href="body.html#15" target="main">useCallback</a><br></li>
-    <li><a href="body.html#16" target="main">useMemo</a><br></li>
-    <li><a href="body.html#20" target="main">useRef</a><br></li>
-    <li><a href="body.html#11" target="main">Context API</a><br></li>
-    <li><a href="body.html#13" target="main">React Router</a><br></li>
-    <li><a href="body.html#7" target="main">Virtual DOM</a><br></li>
-    <li><a href="body.html#8" target="main">What is JSX</a><br></li>
-    <li><a href="body.html#9" target="main">Events in React</a><br></li>
-    <li><a href="body.html#10" target="main">Controlled and Uncontrolled components</a><br></li>
-    <li><a href="body.html#12" target="main">Higher-Order Components (HOCs)</a><br></li>
-    <li><a href="body.html#14" target="main">Keys in React</a><br></li>
-    <li><a href="body.html#17" target="main">React.Children</a><br></li>
-    <li><a href="body.html#18" target="main">React.PureComponent and React.Component</a><br></li>
-    <li><a href="body.html#19" target="main">PropTypes</a><br></li>
+    <li><a id="1" onmouseenter="load(this)">What is ReactJS,</a></li>
+    <li><a id="2" onmouseenter="load(this)">Functional components</a></li>
+    <li><a id="3" onmouseenter="load(this)">Props</a></li>
+    <li><a id="4" onmouseenter="load(this)">State in React</a></li>
+    <li><a id="5" onmouseenter="load(this)">React lifecycle methods</a></li>
+    <li><a id="6" onmouseenter="load(this)">React Hooks</a></li>
+    <li><a id="15" onmouseenter="load(this)">useCallback</a></li>
+    <li><a id="16" onmouseenter="load(this)">useMemo</a></li>
+    <li><a id="20" onmouseenter="load(this)">useRef</a></li>
+    <li><a id="11" onmouseenter="load(this)">Context API</a></li>
+    <li><a id="13" onmouseenter="load(this)">React Router</a></li>
+    <li><a id="17" onmouseenter="load(this)">Virtual DOM</a></li>
+    <li><a id="8" onmouseenter="load(this)">What is JSX</a></li>
+    <li><a id="9" onmouseenter="load(this)">Events in React</a></li>
+    <li><a id="10" onmouseenter="load(this)">Controlled and Uncontrolled components</a></li>
+    <li><a id="12" onmouseenter="load(this)">Higher-Order Components (HOCs)</a></li>
+    <li><a id="14" onmouseenter="load(this)">Keys in React</a></li>
+    <li><a id="17" onmouseenter="load(this)">React.Children</a></li>
+    <li><a id="18" onmouseenter="load(this)">React.PureComponent and React.Component</a></li>
+    <li><a id="19" onmouseenter="load(this)">PropTypes</a></li>
   </ul>
 </body>
 
