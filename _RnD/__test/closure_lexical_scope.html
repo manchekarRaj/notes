@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<head>
+
+  <title>Closure - Lexical Scope </title>
+</head>
+
+<body>
+  <script>
+
+    var outerVar = "Outer Var"
+
+    // function fn() {
+    //   console.log('calling outerVar:', outerVar)
+    // }
+
+    // fn()
+
+    function ClosureFunction() {
+      console.log('calling outerVar 1:', outerVar)
+      var x = 0;
+      function Ctr() {
+        console.log('calling outerVar 2:', outerVar)
+
+        x++
+        if (x > 20) {
+          x = 0
+        }
+      }
+
+      function GetCtr() {
+        return x
+      }
+
+      function Init() {
+        x = 0
+      }
+      return { Ctr, GetCtr }
+    }
+
+    var ref = ClosureFunction()
+    ref.Ctr()
+    ref.Ctr()
+
+    // var counter = ref.GetCtr()
+    // console.log(counter)
+
+  </script>
+
+</body>
+
+</html>

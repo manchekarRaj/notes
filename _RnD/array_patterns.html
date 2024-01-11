@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<head>
+  <title>Array Patterns</title>
+</head>
+
+<body>
+  <script>
+    function pattern1(n) {
+      var output = ``;
+      for (let row = 1; row <= n; row++) {
+        for (let col = 1; col <= n; col++) {
+          output += `* `;
+        }
+        output += ` \n`
+      }
+      console.log(output)
+    }
+    pattern1(5)
+
+    function pattern2(n) {
+      var output = ``;
+      for (let row = 1; row <= n; row++) {
+        for (let col = 1; col <= row; col++) {
+          output += `* `
+        }
+        output += ` \n`
+      }
+      console.log(output)
+    }
+    pattern2(5)
+
+    function pattern3(n) {
+      var output = ``;
+      for (let row = 1; row <= n; row++) {
+        for (let col = 1; col <= n - row + 1; col++) {
+          output += `* `
+        }
+        output += ` \n`
+      }
+      console.log(output)
+    }
+
+    pattern3(5)
+
+
+
+
+
+
+
+
+  </script>
+
+
+
+
+</body>
+
+</html>

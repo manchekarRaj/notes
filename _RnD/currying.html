@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<head>
+  <title>Currying</title>
+</head>
+
+<body>
+  <script>
+
+
+
+    console.log(50 / 10)
+
+    console.log('----------------------------')
+
+    //let x = 12.54
+    let x = "10";
+    // console.log(x, " , ", toString(x))
+
+
+    let cars1 = ['Honda', 'Hyundai'];
+    let cars2 = cars1;
+
+    cars1.push('Mahinda');
+
+    // console.log(cars1 + "---" + cars2);
+
+    let d = new Date().getUTCFullYear()
+    // console.log(d)
+
+    //console.log(Math.round(107.40))
+
+    function fn(a) {
+      return function (b) {
+        return function (c) {
+          return a + b + c
+        }
+
+      }
+    }
+    //console.log(fn(5))
+
+    // Infinite currying
+
+    function Infn(a) {
+      return function (b) {
+        if (b) return Infn(a + b);
+        return a
+      }
+    }
+
+    //console.log(Infn(5)(2)(4)(3)())
+
+    const sum = (a, b, c, d) => a + b + c + d
+
+    function curry(func) {
+      return function curriedFunc(...args) {
+        if (args.length >= func.length) {
+          return func(...args)
+        } else {
+          return function (...next) {
+            return curriedFunc(...args, ...next)
+          }
+        }
+      }
+    }
+
+    const totalSum = curry(sum)
+
+    //console.log(totalSum(1)(6)(7)(5))
+  </script>
+</body>
+
+</html>

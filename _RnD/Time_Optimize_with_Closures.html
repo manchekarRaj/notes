@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<head>
+  <title>Time optimization with Closures</title>
+</head>
+
+<body>
+  <script>
+    function find() {
+      let a = [];
+      for (let i = 0; i < 1000000; i++) {
+        a[i] = i * i
+      }
+
+      return function (index) {
+        console.log(a[index])
+      }
+    }
+
+    const closr = find()
+    console.time("6")
+    closr(6)
+    console.timeEnd("6")
+
+    console.time("50")
+    closr(50)
+    console.timeEnd("50")
+
+    console.time("200")
+    closr(200)
+    console.timeEnd("200")
+
+
+
+
+
+
+
+  </script>
+
+
+
+
+</body>
+
+</html>
