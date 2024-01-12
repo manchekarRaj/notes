@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<head>
+  <style>
+    body {
+      background-color: rgb(28, 28, 28);
+      color: rgb(226, 234, 241);
+    }
+
+    a {
+      font-size: medium;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      margin-bottom: 5px;
+      text-decoration: none;
+      font-style: normal;
+      color: bisque;
+
+    }
+  </style>
+  <script>
+    function load(e) {
+      const url = "body.html#" + e.id
+      open(url, "main")
+    }
+  </script>
+
+</head>
+
+<body>
+  <ul>
+    <li><a id="0" onmouseenter="load(this)">Basic Queries</a></li>
+    <li><a id="1" onmouseenter="load(this)">Ranking Rows Based on a Specific Ordering Criteria</a></li>
+    <li><a id="2" onmouseenter="load(this)">List The First 5 Rows of a Result Set</a></li>
+    <li><a id="3" onmouseenter="load(this)">List the Last 5 Rows of a Result Set</a></li>
+    <li><a id="4" onmouseenter="load(this)">List The Second Highest Row of a Result Set</a></li>
+    <li><a id="5" onmouseenter="load(this)">List the Second Highest Salary By Department</a></li>
+    <li><a id="6" onmouseenter="load(this)">List the First 50% Rows in a Result Set</a></li>
+    <li><a id="7" onmouseenter="load(this)">List the Last 25% Rows in a Result Set</a></li>
+    <li><a id="8" onmouseenter="load(this)">Number the Rows in a Result Set</a></li>
+    <li><a id="9" onmouseenter="load(this)">List All Combinations of Rows from Two Tables</a></li>
+    <li><a id="10" onmouseenter="load(this)">Join a Table to Itself</a></li>
+    <li><a id="11" onmouseenter="load(this)">Show All Rows with an Above-Average Value</a></li>
+    <li><a id="12" onmouseenter="load(this)">Employees with Salaries Higher Than Their Departmental Average</a></li>
+    <li><a id="13" onmouseenter="load(this)">Obtain All Rows Where a Value Is in a Subquery Result</a></li>
+    <li><a id="14" onmouseenter="load(this)">Find Duplicate Rows in SQL</a></li>
+    <li><a id="15" onmouseenter="load(this)">Count Duplicate Rows</a></li>
+    <li><a id="16" onmouseenter="load(this)">Find Common Records Between Tables</a></li>
+    <li><a id="17" onmouseenter="load(this)">Grouping Data with ROLLUP</a></li>
+    <li><a id="18" onmouseenter="load(this)">Conditional Summation</a></li>
+    <li><a id="19" onmouseenter="load(this)">Group Rows by a Range</a></li>
+    <!-- <li><a id="20" onmouseenter="load(this)">Compute a Running Total in SQL</a></li>
+    <li><a id="21" onmouseenter="load(this)">Compute a Moving Average in SQL</a></li>
+    <li><a id="22" onmouseenter="load(this)">Compute a Difference (Delta) Between Two Columns on Different Rows</a></li>
+    <li><a id="23" onmouseenter="load(this)">Compute a Year-Over-Year Difference</a></li>
+    <li><a id="24" onmouseenter="load(this)">Use Recursive Queries to Manage Data Hierarchies</a></li>
+    <li><a id="25" onmouseenter="load(this)">Find the Length of a Series Using Window Functions</a></li> -->
+  </ul>
+</body>
+
+</html>

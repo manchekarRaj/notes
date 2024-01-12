@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<head>
+  <style>
+    body {
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-size: large;
+      background-color: rgb(28, 28, 28);
+      color: rgb(226, 234, 241);
+    }
+
+    .code {
+      font-family: "fira code", monospace;
+      font-style: italic;
+      color: rgb(132, 219, 2);
+      border: 1px;
+      border-style: inset;
+      padding: 2px;
+      margin: 5px;
+      width: 98%;
+    }
+
+    .con {
+      border: 2px;
+      border-style: double;
+      padding: 5px;
+      margin: 5px;
+      width: 98%;
+
+    }
+
+    .comment {
+      font-size: medium;
+      font-style: italic;
+      color: rgb(112, 111, 111);
+    }
+
+    h2 {
+      color: rgb(72, 176, 245);
+    }
+
+    h4 {
+      color: rgb(71, 144, 177);
+      font-style: italic;
+    }
+
+    li {
+      color: rgb(234, 225, 98);
+
+    }
+  </style>
+
+</head>
+
+<body>
+  <div id="0" class="con">
+    <h2>Basic Queries</h2>
+    <ul>
+      <li>select MIN(age) as age from students;</li>
+      <li>select name, gender, age from students where age = (select MIN(age) as age from students);</li>
+      <li>select name, gender, age from students where age = (select MAX(age) as age from students);</li>
+      <li>select SUM(age) as TotalAge from students;</li>
+      <li>select AVG(age) as AverageAge from students;</li>
+    </ul>
+
+  </div>
+
+  <div id="1" class="con">
+    <h2>Ranking Rows Based on a Specific Ordering Criteria</h2>
+
+    <div id="code">
+      SELECT
+      employee_id,<br>
+      last_name,<br>
+      first_name,<br>
+      salary,<br>
+      RANK() OVER (ORDER BY salary DESC) as ranking<br>
+      FROM employee<br>
+      ORDER BY ranking<br>
+    </div>
+
+  </div>
+
+  <div id="2" class="con">
+    <h2>List The First 5 Rows of a Result Set</h2>
+    <div id="code">
+      WITH employee_ranking AS (<br>
+      SELECT<br>
+      employee_id,<br>
+      last_name,<br>
+      first_name,<br>
+      salary,<br>
+      RANK() OVER (ORDER BY salary DESC) as ranking<br>
+      FROM employee<br>
+      )<br>
+      SELECT<br>
+      employee_id,<br>
+      last_name,<br>
+      first_name,<br>
+      salary<br>
+      FROM employee_ranking<br>
+      WHERE ranking <= 5 ORDER BY ranking </div><br>
+
+    </div>
+
+    <div id="3" class="con">
+      <h2>List the Last 5 Rows of a Result Set</h2>
+      <div id="code">
+        WITH employee_ranking AS (<br>
+        SELECT<br>
+        employee_id,<br>
+        last_name,<br>
+        first_name,<br>
+        salary,<br>
+        RANK() OVER (ORDER BY salary ASC) as ranking<br>
+        FROM employee<br>
+        )<br>
+        SELECT<br>
+        employee_id,<br>
+        last_name,<br>
+        first_name,<br>
+        salary<br>
+        FROM employee_ranking<br>
+        WHERE ranking <= 5 ORDER BY ranking </div>
+
+
+      </div>
+
+      <div id="4" class="con">
+        <h2>List The Second Highest Row of a Result Set</h2>
+        <div id="code">
+          WITH employee_ranking AS (<br>
+          SELECT<br>
+          employee_id,<br>
+          last_name,<br>
+          first_name,<br>
+          salary,<br>
+          RANK() OVER (ORDER BY salary DESC) as ranking<br>
+          FROM employee<br>
+          )<br>
+          SELECT<br>
+          employee_id,<br>
+          last_name,<br>
+          first_name,<br>
+          salary<br>
+          FROM employee_ranking<br>
+          WHERE ranking = 2<br>
+
+        </div>
+
+      </div>
+
+      <div id="5" class="con">
+        <h2>List the Second Highest Salary By Department</h2>
+        <div id="code">
+          WITH employee_ranking AS (<br>
+          SELECT<br>
+          employee_id,<br>
+          last_name,<br>
+          first_name,<br>
+          salary,<br>
+          dept_id<br>
+          RANK() OVER (PARTITION BY dept_id ORDER BY salary DESC) as ranking<br>
+          FROM employee<br>
+          )<br>
+          SELECT<br>
+          dept_id,<br>
+          employee_id,<br>
+          last_name,<br>
+          first_name,<br>
+          salary<br>
+          FROM employee_ranking<br>
+          WHERE ranking = 2<br>
+          ORDER BY dept_id, last_name<br>
+        </div>
+
+
+
+      </div>
+
+      <div id="6" class="con">
+        <h2>List the First 50% Rows in a Result Set</h2>
+        <div id="code">
+          WITH employee_ranking AS (<br>
+          SELECT<br>
+          employee_id,<br>
+          last_name,<br>
+          first_name,<br>
+          salary,<br>
+          NTILE(2) OVER (ORDER BY salary ) as ntile<br>
+          FROM employee<br>
+          )<br>
+          SELECT<br>
+          employee_id,<br>
+          last_name,<br>
+          first_name,<br>
+          salary<br>
+          FROM employee_ranking<br>
+          WHERE ntile = 1<br>
+          ORDER BY salary<br>
+        </div>
+
+
+
+
+      </div>
+
+      <div id="7" class="con">
+        <h2>List the Last 25% Rows in a Result Set</h2>
+        <div id="code">
+          WITH employee_ranking AS (<br>
+          SELECT<br>
+          employee_id,<br>
+          last_name,<br>
+          first_name,<br>
+          salary,<br>
+          NTILE(4) OVER (ORDER BY salary) as ntile<br>
+          FROM employee<br>
+          )<br>
+          SELECT<br>
+          employee_id,<br>
+          last_name,<br>
+          first_name,<br>
+          salary<br>
+          FROM employee_ranking<br>
+          WHERE ntile = 4<br>
+          ORDER BY salary<br>
+        </div>
+      </div>
+
+      <div id="8" class="con">
+        <h2>Number the Rows in a Result Set</h2>
+        <div id="code">SELECT<br>
+          employee_id,<br>
+          last_name,<br>
+          first_name,<br>
+          salary,<br>
+          ROW_NUMBER() OVER (ORDER BY employee_id) as ranking_position<br>
+          FROM employee</div>
+      </div>
+
+      <div id="9" class="con">
+        <h2>List All Combinations of Rows from Two Tables</h2>
+        <div id="code">SELECT<br>
+          grain.product_name,<br>
+          box_size.description,<br>
+          grain.price_per_pound * box_size.box_weight<br>
+          FROM product<br>
+          CROSS JOIN box_sizes</div>
+      </div>
+
+      <div id="10" class="con">
+        <h2>Join a Table to Itself</h2>
+        <div id="code">SELECT<br>
+          e1.first_name ||' '|| e1.last_name AS manager_name,<br>
+          e2.first_name ||' '|| e2.last_name AS employee_name<br>
+          FROM employee e1<br>
+          JOIN employee e2<br>
+          ON e1.employee_id = e2.manager_id</div>
+      </div>
+
+      <div id="11" class="con">
+        <h2>Show All Rows with an Above-Average Value</h2>
+        <div id="code">SELECT<br>
+          first_name,<br>
+          last_name,<br>
+          salary<br>
+          FROM employee<br>
+          WHERE salary > ( SELECT AVG(salary) FROM employee )</div>
+      </div>
+
+      <div id="12" class="con">
+        <h2>Employees with Salaries Higher Than Their Departmental Average</h2>
+        <div id="code">SELECT<br>
+          first_name,<br>
+          last_name,<br>
+          salary<br>
+          FROM employee e1<br>
+          WHERE salary > (SELECT AVG(salary) FOM employee e2 WHERE e1.departmet_id = e2.department_id)</div>
+      </div>
+
+      <div id="13" class="con">
+        <h2>Obtain All Rows Where a Value Is in a Subquery Result</h2>
+        <div id="code">SELECT<br>
+          first_name,<br>
+          last_name<br>
+          FROM employee e1<br>
+          WHERE department_id IN (<br>
+          SELECT department_id<br>
+          FROM department<br>
+          WHERE manager_name='John Smith')</div>
+      </div>
+
+      <div id="14" class="con">
+        <h2>Find Duplicate Rows in SQL</h2>
+        <div id="code">SELECT<br>
+          employee_id,<br>
+          last_name,<br>
+          first_name,<br>
+          dept_id,<br>
+          manager_id,<br>
+          salary<br>
+          FROM employee<br>
+          GROUP BY<br>
+          employee_id,<br>
+          last_name,<br>
+          first_name,<br>
+          dept_id,<br>
+          manager_id,<br>
+          salary<br>
+          HAVING COUNT(*) > 1</div>
+      </div>
+
+      <div id="15" class="con">
+        <h2>Count Duplicate Rows</h2>
+        <div id="code">SELECT<br>
+          employee_id,<br>
+          last_name,<br>
+          first_name,<br>
+          dept_id,<br>
+          manager_id,<br>
+          salary,<br>
+          COUNT(*) AS number_of_rows<br>
+          FROM employee<br>
+          GROUP BY<br>
+          employee_id,<br>
+          last_name,<br>
+          first_name,<br>
+          dept_id,<br>
+          manager_id,<br>
+          salary<br>
+          HAVING COUNT(*) > 1</div>
+      </div>
+
+      <div id="16" class="con">
+        <h2>Find Common Records Between Tables</h2>
+        <div id="code">SELECT<br>
+          last_name,<br>
+          first_name<br>
+          FROM employee<br>
+          INTERSECT<br>
+          SELECT<br>
+          last_name,<br>
+          first_name<br>
+          FROM employee_2020_jan</div>
+      </div>
+
+      <div id="17" class="con">
+        <h2>Grouping Data with ROLLUP</h2>
+        <div id="code">
+          SELECT<br>
+          dept_id,<br>
+          expertise,<br>
+          SUM(salary) total_salary<br>
+          FROM employee<br>
+          GROUP BY ROLLUP (dept_id, expertise)<br>
+        </div>
+      </div>
+
+      <div id="18" class="con">
+        <h2>Conditional Summation</h2>
+        <div id="code">
+          SELECT<br>
+          SUM (CASE
+          WHEN dept_id IN ('SALES','HUMAN RESOURCES')<br>
+          THEN salary<br>
+          ELSE 0 END) AS total_salary_sales_and_hr,<br>
+          SUM (CASE<br>
+          WHEN dept_id IN ('IT','SUPPORT')<br>
+          THEN salary<br>
+          ELSE 0 END) AS total_salary_it_and_support<br>
+          FROM employee<br>
+        </div>
+      </div>
+
+      <div id="19" class="con">
+        <h2>Group Rows by a Range</h2>
+        <div id="code">
+          SELECT<br>
+          CASE<br>
+          WHEN salary <= 750000 THEN 'low' WHEN salary> 750000 AND salary <= 100000 THEN 'medium' WHEN salary>
+              100000<br>
+              THEN 'high'<br>
+              END AS salary_category,<br>
+              COUNT(*) AS number_of_employees<br>
+              FROM employee<br>
+              GROUP BY<br>
+              CASE<br>
+              WHEN salary <= 750000 THEN 'low' WHEN salary> 750000 AND salary <= 100000 THEN 'medium' WHEN salary><br>
+                  100000 THEN 'high'<br>
+                  END<br>
+        </div>
+      </div>
+
+</body>
+
+</html>
