@@ -12,7 +12,7 @@
     .code {
       font-family: "Consolas";
       font-style: italic;
-      color: rgb(132, 219, 2);
+      color: rgb(236, 255, 209);
       border: 1px;
       border-style: inset;
       padding: 2px;
@@ -46,7 +46,14 @@
 
     li {
       color: rgb(234, 225, 98);
+    }
 
+    .keyword {
+      color: rgb(13, 122, 255);
+    }
+
+    .fn {
+      color: rgb(255, 16, 16);
     }
   </style>
 
@@ -68,9 +75,9 @@
     The event loop works by constantly checking if there are any tasks in the queue and executing them one by one until
     the queue is empty.
 
-    <h2>Event queue</h2>
-    Event queue
-
+    <h2>Microtasks Queue</h2>
+    Asynchronous operations need proper management. For that, for that JavaScript has an internal queue also called as
+    PromiseJobs more often referred to as the "microtask queue" (V8 term).
 
   </div>
 
@@ -872,20 +879,201 @@
       <li>Use the init system provided by your OS to restart the process manager when the OS crashes. It's also possible
         to use the init system without a process manager.</li>
     </ul>
-
-
-
-
-
-
-
-
-
-
-
-
-
   </div>
+
+
+  <div id="23" class="con">
+    <h2>WebSockets</h2>
+    WebSockets provide a bidirectional communication channel between a client (such as a web browser) and a server. This
+    allows real-time data transfer without the overhead of traditional HTTP requests and responses.<br><br>
+
+    <b>Server-Side (Node.js)</b>
+    <p>First, you need to set up a WebSocket server using Node.js. You can use the ws library, which provides a
+      WebSocket implementation for Node.js:</p>
+
+    <div class="code">
+      <span class="comment">// server.js</span><br>
+      <span class="keyword">const</span> <span class="fn">WebSocket</span> = require('ws');<br>
+      <span class="keyword">const</span> wss = new <span class="fn">WebSocket.Server</span>({ port: 8080 });<br>
+      <br>
+      wss.<span class="fn">on</span>('connection', <span class="fn">function</span> <span
+        class="fn">connection</span>(ws) {<br>
+      console.log('A new client connected.');<br>
+      <br>
+      ws.<span class="fn">on</span>('message', <span class="fn">function</span> <span
+        class="fn">incoming</span>(message) {<br>
+      console.log('Received: %s', message);<br>
+      <span class="comment">// Echo the received message back to the client</span><br>
+      ws.<span class="fn">send</span>(`Server received: ${message}`);<br>
+      });<br>
+      });<br>
+    </div>
+
+    <b>Client-Side (JavaScript)</b>
+    <p>Then, on the client-side, you can establish a WebSocket connection using JavaScript. Browser clients must use the
+      native WebSocket object.</p>
+
+    <div class="code">
+      script><br>
+      const ws = new WebSocket('ws://localhost:8080');<br>
+      <br>
+      <span class="comment">// Create WebSocket connection.</span><br>
+      const socket = new WebSocket("ws://localhost:8080");
+      <br><br>
+      <span class="comment">// Connection opened</span><br>
+      socket.addEventListener("open", (event) => {<br>
+      socket.send("Hello Server!");<br>
+      });<br>
+      <br>
+      <span class="comment">// Listen for messages</span><br>
+      socket.addEventListener("message", (event) => {<br>
+      console.log("Message from server ", event.data);<br>
+      });<br>
+      <br>
+      /script><br>
+
+      <p>
+        <b>Instance methods:</b>
+      <ul>
+        <li>close()</li>
+        <li>send()</li>
+      </ul>
+      <b>Events:</b>
+      <ul>
+        <li>close</li>
+        <li>error</li>
+        <li>message</li>
+        <li>open</li>
+      </ul>
+      </p>
+    </div>
+  </div>
+
+  <div id="24" class="con">
+    <h2>Unhandled rejection</h2>
+    An "unhandled rejection" occurs when a promise error is not handled at the end of the microtask queue. if we expect
+    an error, we add .catch to the promise chain to handle it.
+  </div>
+
+  <div id="25" class="con">
+    <h2>Promise</h2>
+    Promise in JavaScript is object which represents the eventual completion (or failure) of an asynchronous operations.
+    A Promise take two parameters: 'resolve' and 'reject'.
+
+    <div class="code">
+      <span class="keyword">const</span> myPromise = <span class="keyword">new</span> <span
+        class="fn">Promise</span>((resolve, reject) => {<br>
+      <span class="comment">// Asynchronous operation, e.g., fetching data from an API</span><br>
+      setTimeout(() => {<br>
+      <span class="comment">// If operation is successful</span><br>
+      <span class="keyword">resolve</span>('Data successfully fetched');<br>
+      <span class="comment">// If operation fails</span><br>
+      <span class="keyword">reject</span>('Failed to fetch data');<br>
+      }, 2000);<br>
+      });<br>
+
+      <h2>Promise.all()</h2>
+      <p>Promise.all() is useful for aggregating the results of multiple promises. It will reject immediately upon any
+        of
+        the input promise is rejected</p>
+
+      <h2>Promise.allSettled()</h2>
+      <p>Promise.allSettled() is typically used when you have multiple asynchronous tasks that are not dependent on one
+        another to complete successfully, or you'd always like to know the result of each promise.</p>
+
+      <h2>Promise.any()</h2>
+      <p>Promise.any() is useful for returning the first promise that fulfills. It does not wait for the other promises
+        to
+        complete once it finds one.</p>
+
+      <h2>Promise.race()</h2>
+      <p>Promise.race() is useful when you want the first async task to complete, but do not care about its eventual
+        state.</p>
+
+      <h2>Async-Await</h2>
+      <p>Async-Await is a new JavaScript feature that allows you to write asynchronous code in a synchronous-like
+        manner. It's provides cleaner and readable syntax for handling asynchronous operations.</p>
+
+      <div class="code">
+        <span class="keyword">async</span> <span class="fn">function</span> fetchData() {<br>
+        try {<br>
+        const data = <span class="keyword">await</span> fetchDataFromAPI(); <span class="comment">// fetchDataFromAPI()
+          returns a promise</span><br>
+        console.log(data);<br>
+        } catch (error) {<br>
+        console.error(error); <span class="comment">// Handle error</span><br>
+        }<br>
+        }<br>
+
+        <br>
+        <span class="fn">fetchData</span>()<br>
+        . <span class="fn">then</span>((_data) => console.log('Data fetched successfully', _data))<br>
+        . <span class="fn">catch</span>((error) => console.error('Failed to fetch data:', error));<br>
+
+
+      </div>
+
+    </div>
+  </div>
+
+  <div id="26" class="con">
+    <h2>Authentication and Authorization</h2>
+    <p>Authentication is when you verify the user's identity using username and password during login, while
+      authorization
+      determines
+      whether a user is authorised to perform actions in the application.</p>
+    <p>You can use JWT token for stateless authentication. JWT token consists of user information like userId, roleId
+      etc.<br>
+      JWT HEADER:ALGORITHM & TOKEN TYPE
+    <div class="fn">
+      {<br>
+      "alg": "HS256",<br>
+      "typ": "JWT"<br>
+      }<br>
+    </div>
+    Payload
+    <div class="code">
+      {
+      "sub": "1234567890",
+      "name": "John Doe",
+      "iat": 1516239022
+      }
+    </div>
+    </p>
+  </div>
+
+  <div id="27" class="con">
+    <h2>Unit testing - Mocha-Chai</h2>
+    An "unhandled rejection" occurs when a promise error is not handled at the end of the microtask queue. if we expect
+    an error, we add .catch to the promise chain to handle it.
+
+    <div class="code">
+      <span class="comment">// utils.js</span><br>
+      <span class="keyword">function</span> <span class="fn">sum</span>(a, b) {<br>
+      <span class="keyword">return</span> a + b;<br>
+      }<br>
+      <br>
+      module.exports = { sum };
+
+    </div>
+    <div class="code">
+      <span class="comment">// test/utils.test.js</span><br>
+      <span class="keyword">const</span> { expect } = <span class="keyword">require</span>('chai');<br>
+      <span class="keyword">const</span> { sum } = <span class="keyword">require</span>('../utils');<br>
+      <br>
+      <span class="fn">describe</span>('sum function', () => {<br>
+      <span class="fn">it</span>('should return the sum of two numbers', () => {<br>
+      <span class="fn">expect</span>(sum(1, 2)).to.equal(3);<br>
+      });<br>
+      <br>
+      <span class="fn">it</span>('should return 0 when adding -1 and 1', () => {<br>
+      <span class="fn">expect</span>(sum(-1, 1)).to.equal(0);<br>
+      });<br>
+      });<br>
+
+    </div>
+  </div>
+
 
 
 

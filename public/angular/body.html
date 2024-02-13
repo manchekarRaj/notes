@@ -585,10 +585,9 @@
   <div id="21" class="con">
     <h2>Promise</h2>
     <p>
-      In JavaScript, a promise is an object representing the eventual completion or failure of an asynchronous
-      operation.
-      It allows you to handle asynchronous operations more cleanly and efficiently, avoiding deeply nested callback
-      functions (known as "callback hell"). Promises have three states: pending, fulfilled, or rejected.
+      Promise in JavaScript is object which represents the eventual completion (or failure) of an asynchronous
+      operations.
+      A Promise take two parameters: 'resolve' and 'reject'.
     </p>
 
     Eg.
@@ -623,78 +622,147 @@
     <h2>Promise.race()</h2>
     <p>Promise.race() is useful when you want the first async task to complete, but do not care about its eventual
       state.</p>
-  </div>
 
-  <div id="22" class="con">
-    <h2>Optimize your web App</h2>
-    <p>
-      Debouncing and Throttling concepts are used for optimizing your web app. It happens by limiting the rate of
-      execution of API calls.</p>
-    Eg: The user types in the search bar to find a product and on every keystroke, we fire an event to fetch the
-    data.<br>
-    Debouncing is more used in e-commerce sites<br>
-    <b>Debouncing</b>: If the difference between the two keystrokes is 300ms<br>
-    <b>Throttling</b>: If the difference between the two function calls is 300ms. Calling an API after a certain
-    interval of time.
-  </div>
+    <h2>Async-Await</h2>
+    <p>Async-Await is a new JavaScript feature that allows you to write asynchronous code in a synchronous-like
+      manner. It's provides cleaner and readable syntax for handling asynchronous operations.</p>
 
-  <div id="23" class="con">
-    <h2>View Encapsulation</h2>
-    <p>
-      The view encapsulation is a concept where the component's CSS styles are encapsulated into the components view and
-      do not effect the rest of the application.</p>
-  </div>
+    <div class="code">
+      <span class="keyword">async</span> <span class="fn">function</span> fetchData() {<br>
+      try {<br>
+      const data = <span class="keyword">await</span> fetchDataFromAPI(); <span class="comment">// fetchDataFromAPI()
+        returns a promise</span><br>
+      console.log(data);<br>
+      } catch (error) {<br>
+      console.error(error); <span class="comment">// Handle error</span><br>
+      }<br>
+      }<br>
 
-  <div id="24" class="con">
-    <h2>View Child</h2>
-    <ul>
-      <li>In Javascript we use document.getElementById('con'), to get a reference of our HTML element, and then with DOM
-        methods, we manipulate it.
-      </li>
-      <li>In Angular, if you want to get a reference of the element of your template file into the component class, in
-        that case, you can use ViewChild or ViewChildern.
-      </li>
-      <li>If you need to access references of multiple components then use ViewChildren.</li>
-    </ul>
+      <br>
+      <span class="fn">fetchData</span>()<br>
+      . <span class="fn">then</span>((_data) => console.log('Data fetched successfully', _data))<br>
+      . <span class="fn">catch</span>((error) => console.error('Failed to fetch data:', error));<br>
+    </div>
 
-  </div>
+    <div id="22" class="con">
+      <h2>Optimize your web App</h2>
+      <p>
+        Debouncing and Throttling concepts are used for optimizing your web app. It happens by limiting the rate of
+        execution of API calls.</p>
+      Eg: The user types in the search bar to find a product and on every keystroke, we fire an event to fetch the
+      data.<br>
+      Debouncing is more used in e-commerce sites<br>
+      <b>Debouncing</b>: If the difference between the two keystrokes is 300ms<br>
+      <b>Throttling</b>: If the difference between the two function calls is 300ms. Calling an API after a certain
+      interval of time.
+    </div>
 
-  <div id="25" class="con">
-    <h2>Modules</h2>
-    <p> Angular modules (NgModule) are containers for a group of related components, directives, pipes, and services.
-      They help organize an application into cohesive blocks of functionality and enable lazy loading for better
-      performance.</p>
+    <div id="23" class="con">
+      <h2>View Encapsulation</h2>
+      <p>
+        The view encapsulation is a concept where the component's CSS styles are encapsulated into the components view
+        and
+        do not effect the rest of the application.</p>
+    </div>
 
-  </div>
+    <div id="24" class="con">
+      <h2>View Child</h2>
+      <ul>
+        <li>In Javascript we use document.getElementById('con'), to get a reference of our HTML element, and then with
+          DOM
+          methods, we manipulate it.
+        </li>
+        <li>In Angular, if you want to get a reference of the element of your template file into the component class, in
+          that case, you can use ViewChild or ViewChildern.
+        </li>
+        <li>If you need to access references of multiple components then use ViewChildren.</li>
+      </ul>
 
-  <div id="26" class="con">
-    <h2>Data Binding</h2>
-    <p> Data binding in Angular allows you to synchronize the data between the component and the view. There are four
-      types of data binding in Angular: interpolation, property binding, event binding, and two-way binding.</p>
+    </div>
 
-    <ul>
-      <li><b>Interpolation</b>: Interpolation is denoted by double curly braces ({{ }}). It allows you to render
-        component data in the HTML template.</li>
-      <li><b>Property Binding</b>: It allows you to set the value of an HTML element property by using square brackets
-        [].</li>
-      <li><b>Event Binding</b>: It allows you to listen to events raised by the user in the view, Eg: Click event</li>
-      <li><b>Two-way Binding</b>: It combines property binding and event binding, allowing data to flow both ways
-        between the component and the view. Two-way binding syntax is a combination of square brackets and parentheses
-        [()].<br>
-        Eg: app-sizer [(size)]="fontSizePx">/app-sizer>
-      </li>
-    </ul>
+    <div id="25" class="con">
+      <h2>Modules</h2>
+      <p> Angular modules (NgModule) are containers for a group of related components, directives, pipes, and services.
+        They help organize an application into cohesive blocks of functionality and enable lazy loading for better
+        performance.</p>
 
-  </div>
+    </div>
 
-  <div id="27" class="con">
-    <h2>Routes</h2>
-    <p>Angular's router is responsible for managing the application's navigation flow. Actually it allows you to
-      navigate between different views (components) based on the URL. </p>
+    <div id="26" class="con">
+      <h2>Data Binding</h2>
+      <p> Data binding in Angular allows you to synchronize the data between the component and the view. There are four
+        types of data binding in Angular: interpolation, property binding, event binding, and two-way binding.</p>
 
-    <p><b>router-outlet</b> Angular will render the components corresponding to the current route.</p>
+      <ul>
+        <li><b>Interpolation</b>: Interpolation is denoted by double curly braces ({{ }}). It allows you to render
+          component data in the HTML template.</li>
+        <li><b>Property Binding</b>: It allows you to set the value of an HTML element property by using square brackets
+          [].</li>
+        <li><b>Event Binding</b>: It allows you to listen to events raised by the user in the view, Eg: Click event</li>
+        <li><b>Two-way Binding</b>: It combines property binding and event binding, allowing data to flow both ways
+          between the component and the view. Two-way binding syntax is a combination of square brackets and parentheses
+          [()].<br>
+          Eg: app-sizer [(size)]="fontSizePx">/app-sizer>
+        </li>
+      </ul>
 
-  </div>
+    </div>
+
+    <div id="27" class="con">
+      <h2>Routes</h2>
+      <p>Angular's router is responsible for managing the application's navigation flow. Actually it allows you to
+        navigate between different views (components) based on the URL. </p>
+      <p><b>router-outlet</b> Angular will render the components corresponding to the current route.</p>
+    </div>
+
+    <div id="28" class="con">
+      <h2>Hoisting</h2>
+      <p>Hoisting is a JavaScript mechanism where variables and function declarations are moved to the top of their
+        containing scope during the compile phase before the code execution. This means that regardless of where
+        variables and functions are declared within their scope, they are treated as if they were declared at the top.
+        However, only the declarations are hoisted, not the initializations or assignments.</p>
+    </div>
+
+    <div id="29" class="con">
+      <h2>Loops</h2>
+      <ul>
+        <li>for - loops through a block of code a number of times</li>
+        <li>for/in - loops through the properties of an object</li>
+        <li>for/of - loops through the values of an iterable object</li>
+        <li>while - loops through a block of code while a specified condition is true</li>
+        <li>do/while - also loops through a block of code while a specified condition is true</li>
+      </ul>
+
+      <b>while loop</b>
+      <div class="code">
+        let i = 0;<br>
+        while (i'<'5) { <br>
+          console.log(i); <span class="comment">// Output: 0, 1, 2, 3, 4</span> <br>
+          i++; <br>
+          }
+      </div>
+
+      <b>'do-while' Loop</b>
+      <div class="code">
+        let i = 0;<br>
+        do {<br>
+        console.log(i); <span class="comment">// Output: 0, 1, 2, 3, 4</span> <br>
+        i++;<br>
+        } while (i '<' 5); </div>
+
+
+          <b>'for...of' Loop</b>
+          <div class="code">
+            const numbers = [1, 2, 3, 4, 5];<br>
+            for (const num of numbers) {<br>
+            console.log(num); <span class="comment">// Output: 0, 1, 2, 3, 4, 5</span><br>
+            }<br>
+
+          </div>
+
+
+
+      </div>
 
 </body>
 

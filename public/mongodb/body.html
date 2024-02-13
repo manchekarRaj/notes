@@ -31,7 +31,7 @@
     .comment {
       font-size: medium;
       font-style: italic;
-      color: rgb(112, 111, 111);
+      color: rgb(163, 161, 161);
     }
 
     h2 {
@@ -44,7 +44,7 @@
     }
 
     li {
-      color: rgb(234, 225, 98);
+      color: rgb(249, 244, 170);
     }
 
     u {
@@ -73,614 +73,178 @@
 
 <body>
   <div id="1" class="con">
-    <h2>Setup</h2>
+    <h2>Indexing</h2>
+    <p>MongoDB utilizes indexing to enhance query processing efficiency. <br>
+      Without indexing, MongoDB would need to scan every document in the collection and retrieve only those matching the
+      query. So Indexing limits how MongoDB scans the document.
+      <br>
+    <p>Negative performance impact: For collection with a high write-to-read ratio, indexes are expensive because each
+      insert must also update any indexes. </p>
+
+    </p>
+
+    <p>Types of Indexes:</p>
     <ul>
-      <li>To install the Angular CLI > <span class="cmd">npm install -g @angular/cli</span></li>
-      <li>To create a new workspace > <span class="cmd">ng new my-app</span></li>
-      <li>Run the application > <span class="cmd">ng serve</span></li>
+      <li>Single Field Indexes - Single field indexes store information from a single field in a collection. </li>
+      <li>Compound Indexes - Compound indexes are indexes that contain references to multiple fields.</li>
+      <li>Multikey Indexes</li>
+      <li>Text Indexes</li>
+      <li>Wildcard Indexes</li>
+      <li>Geospatial Indexes</li>
+      <li>Hashed Indexes</li>
     </ul>
+
+    <ul>
+      <p><b>Single Field Indexes</b> - Single field indexes store information from a single field in a collection. </p>
+      <li><u>Create an Index on a Single Field</u>: <span class="comment">db.students.createIndex( { gpa: 1 } )</span>
+      </li>
+      <li><u>Create an Index on an Embedded Document</u>: Eg, Student location is stored in an embedded document called
+        location.
+        The location document contains the fields city and state. You can create an index on the location field to
+        improve
+        performance for queries on the location document: <span class="comment">db.students.createIndex( { location: 1 }
+          )</span>
+        <p>The following query uses the index on the location field:<br>
+          <span class="comment">db.students.find( { location: { city: "Sacramento", state: "California" } } )</span>
+        </p>
+      </li>
+      <li><u>Create an Index on an Embedded Field</u>: You can create indexes on fields within embedded documents. <span
+          class="comment">db.students.createIndex( { "location.state": 1 } )</span></li>
+
+      <p><b>Compound Indexes</b> - Compound indexes are indexes that contain references to multiple fields.</p>
+      <li><u>Create a Compound Index</u>
+        <br>
+        <span class="comment">
+          db.students.createIndex( {<br>
+          name: 1,<br>
+          gpa: -1<br>
+          } )<br>
+          <p>In this example:<br>
+            - The index on name is ascending (1).<br>
+            - The index on gpa is descending (-1).</p>
+        </span>
+      </li>
+      <li><u>Compound Index Sort Order</u></li>
+    </ul>
+
+    <p></p>
+    <p></p>
+
 
   </div>
 
   <div id="2" class="con">
-    <h2>Components</h2>
-    <p>Components are the main building blocks for Angular applications. Each component consists of:</p>
-    <ul>
-      <li>An HTML template that declares what renders on the page</li>
-      <li>A TypeScript class that defines behavior</li>
-      <li>A CSS selector that defines how the component is used in a template</li>
-    </ul>
-    <p>Generate component</p>
-    <ul>
-      <li><span class="cmd">ng generate component [name]</span></li>
-    </ul>
-    <p>Component Lifecycle</p>
-    <ul>
-      <li>The component's lifecycle starts when Angular initializes the component, Then the component changes as per
-        change detection, and the lifecycle ends when Angular destroys the component instance and removes its from the
-        DOM.</li>
-    </ul>
-    <p>Component Lifecycle Hooks</p>
-    <ul>
-      <li><u>ngOnChanges</u> - When an input or output binding value changes.</li>
-      <li><u>ngOnInit</u> - After the first ngOnChanges.</li>
-      <li><u>ngDoCheck</u> - Developer's custom change detection.</li>
-      <li><u>ngOnDestroy</u> - Just before the directive is destroyed.</li>
-    </ul>
-    <p>Sharing data between child and parent directives and components</p>
-    <ul>
-      <li>'@'Input() and Output() decorators give a child component a way to communicate with its parent component.</li>
-      <li>'@'Input() decorator, data flows from parent to child, To use Input() decorator, you must configure both
-        parent and child.</li>
-      <li>'@'Output() decorator, the data flow from the child to the parent component.</li>
-      <li>Use EventEmitter class to while using '@'Output() decorator</li>
-      <li><span class="cmd">'@'Output() newItemEvent = new EventEmitter<string>();</span></li>
-      <li><span class="cmd">this.newItemEvent.emit(value);</span></li>
-    </ul>
+    <h2></h2>
 
-    <p>Use '@'Input() and '@'Output() on the same child component as follows:</p>
-    <ul>
-      <li><span class="cmd">child-component [item]="currentItem" (deleteRequest)="crossOffItem($event)"
-          /child-component</span></li>
-    </ul>
 
   </div>
 
   <div id="3" class="con">
-    <h2>Templates</h2>
-    <p>In Angular, a template is a blueprint for a fragment of a user interface (UI), written in HTML, and syntax</p>
+    <h2></h2>
 
-    <p>Templates syntax</p>
-    <ul>
-      <li><u>Interpolation</u> - Uses the double curly braces <span class="cmd">{{ and }}</span> as delimiters.</li>
-      <li><u>Property binding</u> - In property binding you set values for properties of HTML elements or directives.
-      </li>
-      <li>Eg, img tag: <span class="cmd">img alt="item" [src]="itemImageUrl"</span></li>
-      <li><u>Event binding</u> - <span class="cmd">button (click)="onSave()" Save /button</span></li>
-      <li><u>Attributes</u> - Provides additional information about that particular element. </li>
-      <li>Attributes in HTML - src, alt, id, href, style, lang, width, height</li>
-      <li><u>Class and style binding</u> - <span class="cmd">nav [style.background-color]="expression"/nav</span></li>
-      <li><u>Two-way data binding</u> - <span class="cmd">app-sizer [(size)]="fontSizePx" app-sizer</span></li>
-    </ul>
-    <br>
   </div>
 
   <div id="4" class="con">
-    <h2>Pipes</h2>
-    <p>Pipes are used in the template expressions to transforme the values. </p>
-    <ul>
-      <li><u>DatePipe</u>: Formats a date value according to locale rules.</li>
-      <li><u>CurrencyPipe</u>: Transforms a number to a currency string, formatted according to locale rules.</li>
-      <li>LowerCasePipe , UpperCasePipe</li>
-      <li><u>AsyncPipe</u>: Subscribe and unsubscribe to an asynchronous source such as an observable.</li>
-      <li>The hero's birthday is {{ birthday | date }}</li>
-      <li><u>Chained pipes</u>: The hero's birthday is {{ birthday | date | uppercase}}</li>
-    </ul>
-    <div class="code">
-      import { Component } from '@angular/core';<br>
-      import { DatePipe } from '@angular/common';<br>
-      <br>
-      '@'Component({<br>
-      standalone: true,<br>
-      selector: 'app-birthday',<br>
-      templateUrl: './birthday.component.html',<br>
-      imports: [DatePipe],<br>
-      })<br><br>
-      export class BirthdayComponent {<br>
-      birthday = new Date(1988, 3, 15); // April 15, 1988 -- since month parameter is zero-based<br>
-      }<br>
-      <br>
-    </div>
-    <br>
+    <h2></h2>
 
-    <h3>Custom Pipe</h3>
-
-    <div class="code">
-
-      <span class="keyword">import</span> { <span class="keyword">Pipe, PipeTransform</span> } <span
-        class="keyword">from</span> '@angular/core';
-      <br>
-      '@'Pipe({<br>
-      name: 'custom'<br>
-      })<br>
-      <span class="keyword">export class</span> <span class="class">CustomPipe</span> <span
-        class="keyword">implements</span> <span class="class">PipeTransform</span> {<br>
-      transform(value: any): any {<br>
-      return value * 2;<br>
-      }<br>
-      }<br>
-
-      <span class="comment">import and declare your custom pipe in app.module.ts</span>
-
-      <div class="code">
-        import { NgModule } from '@angular/core';<br>
-        import { BrowserModule } from '@angular/platform-browser';<br>
-        <span class="keyword">import</span> {<span class="class">CustomPipe</span>} <span class="keyword">from</span>
-        './custom.pipe'; <span class="comment">// Import your custom pipe</span><br>
-        <br>
-        '@'NgModule({<br>
-        declarations: [<br>
-        CustomPipe <span class="comment">// Declare your custom pipe here</span><br>
-        ],<br>
-        imports: [<br>
-        BrowserModule<br>
-        ],<br>
-        bootstrap: [],<br>
-        })<br>
-        export class AppModule { }<br>
-      </div>
-
-
-
-      </app>
-
-    </div>
   </div>
 
   <div id="5" class="con">
-    <h2>Directives</h2>
-    <p>Directives are classes that add additional behavior to the elements in your Angular applications.</p>
-    <ul>
-      <li>Components - </li>
-      <li>Attribute directives - Change the appearance or behavior of DOM elements<br>
-        - <u>NgClass</u>: Adds and removes a set of CSS classes.<br>
-        - <u>NgStyle</u>: Adds and removes a set of HTML styles.<br>
-        - <u>NgModel</u>: Adds two-way data binding to an HTML form element.<br>
-      </li>
-      <li>Structural directives - Change the DOM layout by adding and removing DOM elements.<br>
-        - <u>NgIf</u>: Adds and removes a set of CSS classes.<br>
-        - <u>NgFor</u>: Adds and removes a set of HTML styles.<br>
-      </li>
-    </ul>
+    <h2></h2>
+
 
   </div>
 
   <div id="6" class="con">
-    <h2>Dependency Injection</h2>
-    <p>When you develop a smaller part of your system, like a module or a class, you may need to use features from other
-      classes. For example, you may need an HTTP service to make backend calls. Dependency Injection, or DI, is a design
-      pattern and mechanism for creating and delivering some parts of an application to other parts of an application
-      that require them. Angular supports this design pattern and you can use it in your applications to increase
-      flexibility and modularity.</p>
-    <ul>
-      <li>'@'Injectable() - The first step is to add the @Injectable decorator to show that the class can be injected.
-      </li>
-      <li>constructor(private service: HeroService) {} - The most common way to inject a dependency is to declare it in
-        a class constructor.</li>
-    </ul>
-    <p>Hierarchical injectors</p>
-    <ul>
-      <li>In Hierarchical injectors, you can determine whether to declare a provider at the application level, in a
-        Component, or in a Directive</li>
-    </ul>
+    <h2></h2>
 
   </div>
 
   <div id="7" class="con">
-    <h2>Best Practices</h2>
-    <ul>
-      <li><u>Security</u>: Security against cross-site scripting attacks</li>
-      <li><u>Accessibility</u>: For people with visual or motor impairements</li>
-      <li><u>Keeping up-to-date</u>: To optamize your application there is one way you can do is to keep your
-        application
-        up-to-date</li>
-      <li><u>Property binding best practices</u>: Avoid side effects?????
-      </li>
-      <li><u>Lazy-loading</u>: By default, NgModules are eagerly loaded. So for large applications with lots of routes,
-        we can
-        consider using lazy loading, this will help to keep the application (bundle) size small, which in turn helps
-        decrease load times.</li>
-      <li><u>Lightweight injection token pattern for libraries</u>: The lightweight injection token design pattern is
-        especially important for library developers. It ensures that when an application uses only some of your
-        library's capabilities, the unused code can be eliminated from the client's application bundle???????</li>
-    </ul>
-
-    <p>
-      Cross-site scripting (XSS) enables attackers to inject malicious code into web pages and then they can steal your
-      sensative data like login username/password or perform actions that impersonate the user.<br>
-      To block XSS attacks, you must prevent malicious code from entering the Document Object Model (DOM).<br>
-      Eg: <span class="cmd"> img alt="" onerror="..."> and a> href="javascript:..."/a> </span>.
-
-    </p>
-
+    <h2></h2>
 
   </div>
 
   <div id="8" class="con">
-    <h2>Interceptor</h2>
-    <p>The http Interceptor basically intercepts the outgoing HTTP requests, transforms them and then sends it to the
-      server. The Interceptor modifies the request to contain the token that is stored in the browser’s local storage.
-    </p>
+    <h2></h2>
+
   </div>
 
 
   <div id="9" class="con">
-    <h2>Route Guard</h2>
-    <p>
-      Route guards control the navigation to and from components, it can return true in which case the normal execution
-      continues or returns false in which case the navigation is stopped. For routes which needs authentication the
-      route guard will return true if the token is present in the browser and return false if the token is absent.<br>
-
-      Just the existence of the token is not important, the token has to be verified through the backend to make sure it
-      is valid. To achieve that we can use Angular Interceptor
-
-    </p>
-    <div class="code">
-
-    </div>
+    <h2></h2>
 
   </div>
 
   <div id="10" class="con">
-    <h2>Observables & RxJS</h2>
-    Observables are used to pass values/data across your application. They are used frequently in Angular and are a
-    technique for event handling, asynchronous programming, and handling multiple values.
-    <br>
-
-    <b>NOTIFICATION TYPE</b><br>
-    <u>next</u>: Required. A handler for each delivered value. Called zero or more times after execution starts.<br>
-    <u>error</u>: Optional. A handler for an error notification. An error halts execution of the observable
-    instance.<br>
-    <u>complete</u>: Optional. A handler for the execution-complete notification. Delayed values can continue to be
-    delivered to the next handler after execution is complete.<br>
-    For Error handling you use error callbacks on the observer.<br><br>
-    <span class="cmd">
-      myObservable.subscribe({<br>
-      next(num) { console.log('Next num: ' + num)},<br>
-      error(err) { console.log('Received an error: ' + err)}<br>
-      });<br>
-    </span>
-    <br>
+    <h2></h2>
 
   </div>
 
   <div id="11" class="con">
-    <h2>Lifecycle hooks</h2>
-    <p>An Angular Component goes through different phases right from its creation until it is destroyed.</p>
-    <uL>
-      <li><u>constructor</u> : This is invoked when Angular creates a component or directive by calling new on the
-        class.</li>
-      <li><u>ngOnChanges</u>: Invoked every time there is a change in one of the input properties of the component.</li>
-      <li><u>ngOnInit</u> : Invoked when a given component has been initialized.
-        This hook is only called once after the first ngOnChanges
-      </li>
-      <li><u>ngDoCheck</u>: Invoked when the change detector of the given component is invoked. It allows us to
-        implement our
-        own change detection algorithm for the given component.
-        Use ngDoCheck when you want to capture changes that Angular otherwise doesn't. For example, if a binding
-        reference remains unchanged after a click event, ngOnChanges won't run but ngDoCheck will.
-      </li>
-      <li><u>ngOnDestroy</u>:This method will be invoked just before Angular destroys the component. Use this hook to
-        unsubscribe
-        observables and detach event handlers to avoid memory leaks.</li>
-      <li><u>ngAfterViewChecked</u>: ngAfterViewChecked is useful when you want to call a lifecycle hook after all child
-        components have been initialized and checked.</li>
-    </uL>
-
+    <h2></h2>
 
   </div>
 
   <div id="12" class="con">
-    <h2>Async Pipe</h2>
-    <ul>
-      <li>The async pipe returns the latest value from a stream of data and continues to do so for the life of a given
-        component. When Angular destroys that component, the async pipe automatically stops.</li>
-      <li>We are directly using the Observables with the async pipe on the template.</li>
-      <li>With an async pipe you can handle asynchronous data in an Angular template.</li>
-      <li>Any time you subscribe to an Observable, you need to unsubscribe, otherwise your code would leak and you might
-        face unexpected behavior in your application.</li>
-      <li>Async pipe handles unsubscription for you.</li>
-      <li>The async pipe will trigger change detection when a new value is emitted.</li>
-    </ul>
+    <h2></h2>
 
-    <span class="cmd">
-      {{ greeting | async }} // in template
-
-    </span>
   </div>
   <div id="13" class="con">
-    <h2>ViewChild Decorator</h2>
-    <uL>
-      <li>In Javascript we use document.getElementById('con'), to get a reference of our HTML element, and then with DOM
-        methods, we manipulate it.</li>
-      <li>In Angular, if you want to get a reference of the element of your template file into the component class, in
-        that case, you can use ViewChild or ViewChildern.</li>
-      <li>If you need to access references of multiple components then use ViewChildren.</li>
-    </uL>
+    <h2></h2>
 
-    <span class="cmd">
-      // In template <br>
-      pane id="1" '*'ngIf="shouldShow">/pane><br>
-      pane id="2" '*'ngIf="'!'shouldShow">/pane><br>
-
-      <br>
-      // In component <br>
-      '@'ViewChild(Pane) <br>
-      set pane(v: Pane) { <br>
-      setTimeout(() => { <br>
-      this.selectedPane = v.id; <br>
-      }, 0); <br>
-      } <br>
-
-
-
-    </span>
 
 
   </div>
   <div id="14" class="con">
-    <h2>Template variables / Symbol</h2>
-    Template variables are used to refer to an HTML element and all of its DOM properties. You use the # symbol followed
-    by the variable name.<br>
-    <span class="cmd">
-      input #myInput type=”text”><br>
-      button (click)=”logMessage(myInput.value)”> /button><br>
-    </span>
-    <p><u>Template variable scope</u>: Refer to a template variable anywhere within its surrounding template. Structural
-      directives, such as *ngIf and *ngFor, or /ng-template> act as a template boundary. You cannot access template
-      variables outside of these boundaries.
-    </p>
+    <h2></h2>
+
   </div>
 
   <div id="15" class="con">
-    <h2>Typescript</h2>
-    TypeScript is a typed language, it is a superset of JavaScript. TypeScript simplifies JavaScript code, making it
-    easier to read and debug. <br>
-    Current version: 5.3.3
-
-
-    <br>
+    <h2></h2>
 
   </div>
 
 
   <div id="16" class="con">
-    <h2>Data binding in Angular</h2>
-    Interpolation, Property binding, Class binding, Style binding, Attribute binding, Event binding, Two-way binding.
+    <h2></h2>
 
-    <p>Types of Style binding<br>
-      Style binding is used to set a style of a view element. There are 2 types of style bindings.
-    </p>
-    <ul>
-      <li><u>Inline Style binding</u> eg: [style.width]="width"</li>
-      <li><u>Expression style binding</u> eg: [style]="styleExpression" (Expression can be string or an object) <br>eg:
-        {width: '100px', height: '100px', backgroundColor: 'cornflowerblue'}.
-      </li>
-    </ul>
   </div>
 
-  <!--
   <div id="17" class="con">
-    <h2>Middleware</h2>
-    Middleware are functions that have access to the request object (req), the response object (res), and the next
-    function in the application's request-response cycle. <br>
-    <br>
-    The next function is a function in the Express router which, when invoked, executes the middleware succeeding the
-    current middleware.<br>
-    <br>
-    To load the middleware function, call app.use(), specifying the middleware function. <br>
+    <h2></h2>
 
-    <ul>
-      <li>app.use(myLogger)</li>
-    </ul>
-    <br>
-
-    If the current middleware function does not end the request-response cycle, it must call next() to pass control to
-    the next middleware function. Otherwise, the request will be left hanging. Eg:<br>
-
-    <div class="code">
-      const myLogger = function (req, res, next) {<br>
-      console.log('LOGGED');<br>
-      next();<br>
-    </div>
-    <br><i>
-      Notice the call above to next(). Calling this function invokes the next middleware function in the app. The next()
-      function is not a part of the Node.js or Express API, but is the third argument that is passed to the middleware
-      function. The next() function could be named anything, but by convention, it is always named “next”. To avoid
-      confusion, always use this convention.</i>
-    <h4>Using Middleware</h4>
-    Middleware functions can perform the following tasks:
-    <ul>
-      <li>Execute any code.</li>
-      <li>Make changes to the request and the response objects.</li>
-      <li>End the request-response cycle.</li>
-      <li>Call the next middleware function in the stack.</li>
-    </ul>
   </div>
 
 
   <div id="18" class="con">
-    <h2>Types of Middlewares</h2>
-    <ul>
-      <li>Application-level middleware</li>
-      <li>Router-level middleware</li>
-      <li>Error-handling middleware</li>
-      <li>Built-in middleware</li>
-      <li>Third-party middleware</li>
-    </ul>
+    <h2></h2>
 
-    <h4>Application-level middleware</h4>
-    Application-level middleware binds to app Object by using the app.use() and app.METHOD() functions, where METHOD is
-    the HTTP method of the request that the middleware function handles (such as GET, PUT, or POST).<br>
-    <br>
-    <div class="code">
-      const express = require('express');<br>
-      const app = express();<br>
-      <br>
-      app.use((req, res, next) => {<br>
-      console.log('Time:', Date.now())<br>
-      next();<br>
-      })<br>
-
-
-    </div>
-    <h4>Router-level middleware</h4>
-    Router-level middleware works in the same way as application-level middleware, except it is bound to an instance of
-    express.Router().<br>
-    <br>
-
-    <div class="code">
-      const express = require('express');<br>
-      const router = express.Router();<br>
-      router.get('/user/:id', (req, res, next) => {<br>
-      console.log(req.params.id)<br>
-      res.render('special')<br>
-      })<br>
-      <br>
-    </div>
-    <h4>Error-handling middleware</h4>
-    Error-handling middleware functions in the same way as other middleware functions, except with four arguments
-    instead of three, specifically with the signature (err, req, res, next)<br>
-    <br>
-    <div class="code">
-      app.use((err, req, res, next) => {<br>
-      console.error(err.stack);<br>
-      res.status(500).send('Something broke!')<br>
-      })<br>
-      <br>
-    </div>
-    <h4>Built-in middleware</h4>
-    Express has the following built-in middleware functions:
-    <ul>
-      <li>express.static serves static assets such as HTML files, images, and so on.</li>
-      <li>express.json parses incoming requests with JSON payloads.</li>
-      <li>express.urlencoded parses incoming requests with URL-encoded payloads.</li>
-    </ul>
-
-    <h4>Third-party middleware</h4>
-
-    <ul>
-      <li>Body-parser</li>
-      <li>Cors</li>
-      <li>Multer </li>
-      <li>Cookie-parser</li>
-    </ul>
-
-    <div class="code">
-      <span class="comment">// Parse incoming request bodies in a middleware before your handlers, available under the
-        req.body property.</span><br>
-
-      const bodyParser = require('body-parser');<br>
-      app.use(bodyParser.json())<br>
-      <br>
-      <span class="comment"> // Enable cross-origin resource sharing (CORS) with various options.</span><br>
-
-      const cors = require('cors');<br>
-      app.use(cors());<br>
-      <span class="comment">//Multer - Handle multi-part form data.<br>
-        //Multer is used for uploading files<br>
-        //form action="/profile" method="post" enctype="multipart/form-data"//<br>
-        //form//</span><br>
-
-      const multer = require('multer');<br>
-      const upload = multer({ dest: 'uploads/' });<br>
-      app.post('/profile', upload.single('avatar'), function (req, res, next) { <br>
-      <span class="comment">// req.file is the `avatar` file </span><br>
-      })<br>
-
-    </div>
 
   </div>
 
 
   <div id="19" class="con">
-    <h2>Template engines</h2>
-    A template engine enables you to use static template files in your application. At runtime, the template engine
-    replaces variables in a template file with actual values and transforms the template into an HTML file sent to the
-    client.<br><br>
+    <h2></h2>
 
-    <div class="code">
-      app.set('view engine', 'ejs');<br>
-      app.get('/', (req, res, next)=>{<br>
-      res.render('index', {text: "Hello World!!"})<br>
-      })<br>
-    </div>
-
-    <ul>
-      <li>To pass information from the server down into the views, the render function takes the second parameter as an
-        object. res.render('index', {text: "Hello World!!"})</li>
-      <li>Inside view.ejs file.<span class="comment"> //%= local.text % </span></li>
-    </ul>
 
   </div>
 
 
   <div id="20" class="con">
-    <h2>Process Manager</h2>
+    <h2></h2>
 
-    When you run Express apps for production, it is helpful to use a process manager to:
-    <ul>
-      <li>Restart the app automatically if it crashes.</li>
-      <li>Gain insights into runtime performance and resource consumption.</li>
-      <li>Modify settings dynamically to improve performance.</li>
-      <li>Control clustering.</li>
-    </ul>
-    <br>
-    A process manager is somewhat like an application server: it's a "container" for applications that facilitates
-    deployment, provides high availability, and enables you to manage the application at runtime.<br><br>
-    The most popular process managers for Express and other Node.js applications are:<br>
-    <ul>
-      <li> Forever: A simple command-line interface tool to ensure that a script runs continuously (forever). Forever's
-        simple interface makes it ideal for running smaller deployments of Node.js apps and scripts.</li>
-      <li>PM2: A production process manager for Node.js applications that has a built-in load balancer. PM2 enables you
-        to keep applications alive forever, reloads them without downtime, helps you to manage application logging,
-        monitoring, and clustering.</li>
-      <li>StrongLoop Process Manager (Strong-PM): A production process manager for Node.js applications with built-in
-        load balancing, monitoring, and multi-host deployment. Includes a CLI to build, package, and deploy Node.js
-        applications to a local or remote system.</li>
-    </ul>
 
   </div>
   <div id="21" class="con">
-    <h2>Security Best Practices</h2>
-    Most of the time older versions are not maintained, so it's better to migrate to the latest version.<br>
-    <br>
-    If you are dealing with sensitive data, it is better to use SSL, This technology encrypts data before it is sent
-    from the client to the server, thus preventing some common hacks like packet sniffing. TLS is the next level of SSL.
-    <br><br>
-    Packet sniffing is the process of intercepting the data stream that flows across the network, you can capture each
-    packet and, if needed, decode the packet's raw data. This way you can get access to the raw value.
-    <br><br>
-    You can use Helmet. Helmet helps protect your application by setting HTTP headers appropriately.
-    <br><br>
-    <ul>
-      <li>Content-Security-Policy header. This helps prevent cross-site scripting attacks.</li>
-      <li>X-Frame-Options header. This provides clickjacking protection.</li>
-      <li> Strict-Transport-Security header. This helps enforce secure (HTTPS) connections to the server.</li>
-    </ul>
-    <br>
+    <h2></h2>
 
-    <b>Clickjacking</b> - When an attacker uses multiple transparent or opaque layers to trick a user into clicking on a
-    button
-    or link on another page.
-    <br><br>
-    Helmet is a collection of smaller middleware functions that set security-related HTTP response headers.
-    <br><br>
-    Security best practices for Express applications in production include:
-    <ul>
-      <li>Don't use deprecated or vulnerable versions of Express</li>
-      <li>Use TLS (Transport Layer Security)</li>
-      <li>Use Helmet</li>
-      <li>Use cookies securely</li>
-      <li>Prevent brute-force attacks against authorization</li>
-      <li>Ensure your dependencies are secure</li>
-      <li>Avoid other known vulnerabilities</li>
-    </ul>
   </div>
-  -->
+
 
   <div id="22" class="con">
-    <h2>Optimize your web App</h2>
-    <p>
-      Debouncing and Throttling concepts are used for optimizing your web app. It happens by limiting the rate of
-      execution of API calls.</p>
-    Eg: The user types in the search bar to find a product and on every keystroke, we fire an event to fetch the
-    data.<br>
-    Debouncing is more used in e-commerce sites<br>
-    <b>Debouncing</b>: If the difference between the two keystrokes is 300ms<br>
-    <b>Throttling</b>: If the difference between the two function calls is 300ms. Calling an API after a certain
-    interval of time.
-
+    <h2></h2>
   </div>
 
 
