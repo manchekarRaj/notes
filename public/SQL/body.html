@@ -1,32 +1,30 @@
 <!DOCTYPE html>
 
 <head>
+  <link rel="stylesheet" href="./../notes_style.css">
   <style>
     body {
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-      font-size: large;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 17px;
       background-color: rgb(28, 28, 28);
       color: rgb(226, 234, 241);
     }
 
     .code {
-      font-family: "fira code", monospace;
-      font-style: italic;
-      color: rgb(132, 219, 2);
+      font-family: "Consolas";
+      color: rgb(236, 255, 209);
       border: 1px;
       border-style: inset;
-      padding: 2px;
-      margin: 5px;
       width: 98%;
     }
 
     .con {
+      background-color: black;
       border: 2px;
       border-style: double;
-      padding: 5px;
-      margin: 5px;
+      padding: 3px;
+      margin: 3px;
       width: 98%;
-
     }
 
     .comment {
@@ -61,6 +59,10 @@
       <li>select name, gender, age from students where age = (select MAX(age) as age from students);</li>
       <li>select SUM(age) as TotalAge from students;</li>
       <li>select AVG(age) as AverageAge from students;</li>
+      <li>UPDATE Customers SET ContactName = 'Rishabh', City= 'Mumbai' WHERE CustomerID = 1;</li>
+      <li>DELETE FROM Customers WHERE name='Jack';</li>
+      <li>INSERT INTO Customers (Name, Address, City, PostalCode, State)
+        VALUES ('Tom Erichsen', '36, Old Village Road', 'Canacone', '560016', 'Goa');</li>
     </ul>
 
   </div>
@@ -68,7 +70,7 @@
   <div id="1" class="con">
     <h2>Ranking Rows Based on a Specific Ordering Criteria</h2>
 
-    <div id="code">
+    <div class="code">
       SELECT
       employee_id,<br>
       last_name,<br>
@@ -83,7 +85,7 @@
 
   <div id="2" class="con">
     <h2>List The First 5 Rows of a Result Set</h2>
-    <div id="code">
+    <div class="code">
       WITH employee_ranking AS (<br>
       SELECT<br>
       employee_id,<br>
@@ -99,298 +101,421 @@
       first_name,<br>
       salary<br>
       FROM employee_ranking<br>
-      WHERE ranking <= 5 ORDER BY ranking </div><br>
+      WHERE ranking lessthen=5 ORDER BY ranking;
+    </div>
+  </div>
+
+  <div id="3" class="con">
+    <h2>List the Last 5 Rows of a Result Set</h2>
+    <div class="code">
+      WITH employee_ranking AS (<br>
+      SELECT<br>
+      employee_id,<br>
+      last_name,<br>
+      first_name,<br>
+      salary,<br>
+      RANK() OVER (ORDER BY salary ASC) as ranking<br>
+      FROM employee<br>
+      )<br>
+      SELECT<br>
+      employee_id,<br>
+      last_name,<br>
+      first_name,<br>
+      salary<br>
+      FROM employee_ranking<br>
+      WHERE ranking lessthen= 5 ORDER BY ranking </div>
+
+
+  </div>
+
+  <div id="4" class="con">
+    <h2>List The Second Highest Row of a Result Set</h2>
+    <div class="code">
+      WITH employee_ranking AS (<br>
+      SELECT<br>
+      employee_id,<br>
+      last_name,<br>
+      first_name,<br>
+      salary,<br>
+      RANK() OVER (ORDER BY salary DESC) as ranking<br>
+      FROM employee<br>
+      )<br>
+      SELECT<br>
+      employee_id,<br>
+      last_name,<br>
+      first_name,<br>
+      salary<br>
+      FROM employee_ranking<br>
+      WHERE ranking = 2<br>
 
     </div>
 
-    <div id="3" class="con">
-      <h2>List the Last 5 Rows of a Result Set</h2>
-      <div id="code">
-        WITH employee_ranking AS (<br>
-        SELECT<br>
-        employee_id,<br>
-        last_name,<br>
-        first_name,<br>
-        salary,<br>
-        RANK() OVER (ORDER BY salary ASC) as ranking<br>
-        FROM employee<br>
-        )<br>
-        SELECT<br>
-        employee_id,<br>
-        last_name,<br>
-        first_name,<br>
-        salary<br>
-        FROM employee_ranking<br>
-        WHERE ranking <= 5 ORDER BY ranking </div>
+  </div>
 
+  <div id="5" class="con">
+    <h2>List the Second Highest Salary By Department</h2>
+    <div class="code">
+      WITH employee_ranking AS (<br>
+      SELECT<br>
+      employee_id,<br>
+      last_name,<br>
+      first_name,<br>
+      salary,<br>
+      dept_id<br>
+      RANK() OVER (PARTITION BY dept_id ORDER BY salary DESC) as ranking<br>
+      FROM employee<br>
+      )<br>
+      SELECT<br>
+      dept_id,<br>
+      employee_id,<br>
+      last_name,<br>
+      first_name,<br>
+      salary<br>
+      FROM employee_ranking<br>
+      WHERE ranking = 2<br>
+      ORDER BY dept_id, last_name<br>
+    </div>
+  </div>
 
-      </div>
+  <div id="6" class="con">
+    <h2>List the First 50% Rows in a Result Set</h2>
+    <div class="code">
+      WITH employee_ranking AS (<br>
+      SELECT<br>
+      employee_id,<br>
+      last_name,<br>
+      first_name,<br>
+      salary,<br>
+      NTILE(2) OVER (ORDER BY salary ) as ntile<br>
+      FROM employee<br>
+      )<br>
+      SELECT<br>
+      employee_id,<br>
+      last_name,<br>
+      first_name,<br>
+      salary<br>
+      FROM employee_ranking<br>
+      WHERE ntile = 1<br>
+      ORDER BY salary<br>
+    </div>
+  </div>
 
-      <div id="4" class="con">
-        <h2>List The Second Highest Row of a Result Set</h2>
-        <div id="code">
-          WITH employee_ranking AS (<br>
-          SELECT<br>
-          employee_id,<br>
-          last_name,<br>
-          first_name,<br>
-          salary,<br>
-          RANK() OVER (ORDER BY salary DESC) as ranking<br>
-          FROM employee<br>
-          )<br>
-          SELECT<br>
-          employee_id,<br>
-          last_name,<br>
-          first_name,<br>
-          salary<br>
-          FROM employee_ranking<br>
-          WHERE ranking = 2<br>
+  <div id="7" class="con">
+    <h2>List the Last 25% Rows in a Result Set</h2>
+    <div class="code">
+      WITH employee_ranking AS (<br>
+      SELECT<br>
+      employee_id,<br>
+      last_name,<br>
+      first_name,<br>
+      salary,<br>
+      NTILE(4) OVER (ORDER BY salary) as ntile<br>
+      FROM employee<br>
+      )<br>
+      SELECT<br>
+      employee_id,<br>
+      last_name,<br>
+      first_name,<br>
+      salary<br>
+      FROM employee_ranking<br>
+      WHERE ntile = 4<br>
+      ORDER BY salary<br>
+    </div>
+  </div>
 
-        </div>
+  <div id="8" class="con">
+    <h2>Number the Rows in a Result Set</h2>
+    <div class="code">SELECT<br>
+      employee_id,<br>
+      last_name,<br>
+      first_name,<br>
+      salary,<br>
+      ROW_NUMBER() OVER (ORDER BY employee_id) as ranking_position<br>
+      FROM employee</div>
+  </div>
 
-      </div>
+  <div id="9" class="con">
+    <h2>List All Combinations of Rows from Two Tables</h2>
+    <div class="code">SELECT<br>
+      grain.product_name,<br>
+      box_size.description,<br>
+      grain.price_per_pound * box_size.box_weight<br>
+      FROM product<br>
+      CROSS JOIN box_sizes</div>
+  </div>
 
-      <div id="5" class="con">
-        <h2>List the Second Highest Salary By Department</h2>
-        <div id="code">
-          WITH employee_ranking AS (<br>
-          SELECT<br>
-          employee_id,<br>
-          last_name,<br>
-          first_name,<br>
-          salary,<br>
-          dept_id<br>
-          RANK() OVER (PARTITION BY dept_id ORDER BY salary DESC) as ranking<br>
-          FROM employee<br>
-          )<br>
-          SELECT<br>
-          dept_id,<br>
-          employee_id,<br>
-          last_name,<br>
-          first_name,<br>
-          salary<br>
-          FROM employee_ranking<br>
-          WHERE ranking = 2<br>
-          ORDER BY dept_id, last_name<br>
-        </div>
+  <div id="10" class="con">
+    <h2>Join a Table to Itself</h2>
+    <div class="code">SELECT<br>
+      e1.first_name ||' '|| e1.last_name AS manager_name,<br>
+      e2.first_name ||' '|| e2.last_name AS employee_name<br>
+      FROM employee e1<br>
+      JOIN employee e2<br>
+      ON e1.employee_id = e2.manager_id</div>
+  </div>
 
+  <div id="11" class="con">
+    <h2>Show All Rows with an Above-Average Value</h2>
+    <div class="code">SELECT<br>
+      first_name,<br>
+      last_name,<br>
+      salary<br>
+      FROM employee<br>
+      WHERE salary > ( SELECT AVG(salary) FROM employee )</div>
+  </div>
 
+  <div id="12" class="con">
+    <h2>Employees with Salaries Higher Than Their Departmental Average</h2>
+    <div class="code">SELECT<br>
+      first_name,<br>
+      last_name,<br>
+      salary<br>
+      FROM employee e1<br>
+      WHERE salary > (SELECT AVG(salary) FOM employee e2 WHERE e1.departmet_id = e2.department_id)</div>
+  </div>
 
-      </div>
+  <div id="13" class="con">
+    <h2>Obtain All Rows Where a Value Is in a Subquery Result</h2>
+    <div class="code">SELECT<br>
+      first_name,<br>
+      last_name<br>
+      FROM employee e1<br>
+      WHERE department_id IN (<br>
+      SELECT department_id<br>
+      FROM department<br>
+      WHERE manager_name='John Smith')</div>
+  </div>
 
-      <div id="6" class="con">
-        <h2>List the First 50% Rows in a Result Set</h2>
-        <div id="code">
-          WITH employee_ranking AS (<br>
-          SELECT<br>
-          employee_id,<br>
-          last_name,<br>
-          first_name,<br>
-          salary,<br>
-          NTILE(2) OVER (ORDER BY salary ) as ntile<br>
-          FROM employee<br>
-          )<br>
-          SELECT<br>
-          employee_id,<br>
-          last_name,<br>
-          first_name,<br>
-          salary<br>
-          FROM employee_ranking<br>
-          WHERE ntile = 1<br>
-          ORDER BY salary<br>
-        </div>
+  <div id="14" class="con">
+    <h2>Find Duplicate Rows in SQL</h2>
+    <div class="code">SELECT<br>
+      employee_id,<br>
+      last_name,<br>
+      first_name,<br>
+      dept_id,<br>
+      manager_id,<br>
+      salary<br>
+      FROM employee<br>
+      GROUP BY<br>
+      employee_id,<br>
+      last_name,<br>
+      first_name,<br>
+      dept_id,<br>
+      manager_id,<br>
+      salary<br>
+      HAVING COUNT(*) > 1</div>
+  </div>
 
+  <div id="15" class="con">
+    <h2>Count Duplicate Rows</h2>
+    <div class="code">SELECT<br>
+      employee_id,<br>
+      last_name,<br>
+      first_name,<br>
+      dept_id,<br>
+      manager_id,<br>
+      salary,<br>
+      COUNT(*) AS number_of_rows<br>
+      FROM employee<br>
+      GROUP BY<br>
+      employee_id,<br>
+      last_name,<br>
+      first_name,<br>
+      dept_id,<br>
+      manager_id,<br>
+      salary<br>
+      HAVING COUNT(*) > 1</div>
+  </div>
 
+  <div id="16" class="con">
+    <h2>Find Common Records Between Tables</h2>
+    <div class="code">SELECT<br>
+      last_name,<br>
+      first_name<br>
+      FROM employee<br>
+      INTERSECT<br>
+      SELECT<br>
+      last_name,<br>
+      first_name<br>
+      FROM employee_2020_jan</div>
+  </div>
 
+  <div id="17" class="con">
+    <h2>Grouping Data with ROLLUP</h2>
+    <div class="code">
+      SELECT<br>
+      dept_id,<br>
+      expertise,<br>
+      SUM(salary) total_salary<br>
+      FROM employee<br>
+      GROUP BY ROLLUP (dept_id, expertise)<br>
+    </div>
+  </div>
 
-      </div>
+  <div id="18" class="con">
+    <h2>Conditional Summation</h2>
+    <div class="code">
+      SELECT<br>
+      SUM (CASE
+      WHEN dept_id IN ('SALES','HUMAN RESOURCES')<br>
+      THEN salary<br>
+      ELSE 0 END) AS total_salary_sales_and_hr,<br>
+      SUM (CASE<br>
+      WHEN dept_id IN ('IT','SUPPORT')<br>
+      THEN salary<br>
+      ELSE 0 END) AS total_salary_it_and_support<br>
+      FROM employee<br>
+    </div>
+  </div>
 
-      <div id="7" class="con">
-        <h2>List the Last 25% Rows in a Result Set</h2>
-        <div id="code">
-          WITH employee_ranking AS (<br>
-          SELECT<br>
-          employee_id,<br>
-          last_name,<br>
-          first_name,<br>
-          salary,<br>
-          NTILE(4) OVER (ORDER BY salary) as ntile<br>
-          FROM employee<br>
-          )<br>
-          SELECT<br>
-          employee_id,<br>
-          last_name,<br>
-          first_name,<br>
-          salary<br>
-          FROM employee_ranking<br>
-          WHERE ntile = 4<br>
-          ORDER BY salary<br>
-        </div>
-      </div>
-
-      <div id="8" class="con">
-        <h2>Number the Rows in a Result Set</h2>
-        <div id="code">SELECT<br>
-          employee_id,<br>
-          last_name,<br>
-          first_name,<br>
-          salary,<br>
-          ROW_NUMBER() OVER (ORDER BY employee_id) as ranking_position<br>
-          FROM employee</div>
-      </div>
-
-      <div id="9" class="con">
-        <h2>List All Combinations of Rows from Two Tables</h2>
-        <div id="code">SELECT<br>
-          grain.product_name,<br>
-          box_size.description,<br>
-          grain.price_per_pound * box_size.box_weight<br>
-          FROM product<br>
-          CROSS JOIN box_sizes</div>
-      </div>
-
-      <div id="10" class="con">
-        <h2>Join a Table to Itself</h2>
-        <div id="code">SELECT<br>
-          e1.first_name ||' '|| e1.last_name AS manager_name,<br>
-          e2.first_name ||' '|| e2.last_name AS employee_name<br>
-          FROM employee e1<br>
-          JOIN employee e2<br>
-          ON e1.employee_id = e2.manager_id</div>
-      </div>
-
-      <div id="11" class="con">
-        <h2>Show All Rows with an Above-Average Value</h2>
-        <div id="code">SELECT<br>
-          first_name,<br>
-          last_name,<br>
-          salary<br>
-          FROM employee<br>
-          WHERE salary > ( SELECT AVG(salary) FROM employee )</div>
-      </div>
-
-      <div id="12" class="con">
-        <h2>Employees with Salaries Higher Than Their Departmental Average</h2>
-        <div id="code">SELECT<br>
-          first_name,<br>
-          last_name,<br>
-          salary<br>
-          FROM employee e1<br>
-          WHERE salary > (SELECT AVG(salary) FOM employee e2 WHERE e1.departmet_id = e2.department_id)</div>
-      </div>
-
-      <div id="13" class="con">
-        <h2>Obtain All Rows Where a Value Is in a Subquery Result</h2>
-        <div id="code">SELECT<br>
-          first_name,<br>
-          last_name<br>
-          FROM employee e1<br>
-          WHERE department_id IN (<br>
-          SELECT department_id<br>
-          FROM department<br>
-          WHERE manager_name='John Smith')</div>
-      </div>
-
-      <div id="14" class="con">
-        <h2>Find Duplicate Rows in SQL</h2>
-        <div id="code">SELECT<br>
-          employee_id,<br>
-          last_name,<br>
-          first_name,<br>
-          dept_id,<br>
-          manager_id,<br>
-          salary<br>
+  <div id="19" class="con">
+    <h2>Group Rows by a Range</h2>
+    <div class="code">
+      SELECT<br>
+      CASE<br>
+      WHEN salary <= 750000 THEN 'low' WHEN salary> 750000 AND salary <= 100000 THEN 'medium' WHEN salary>
+          100000<br>
+          THEN 'high'<br>
+          END AS salary_category,<br>
+          COUNT(*) AS number_of_employees<br>
           FROM employee<br>
           GROUP BY<br>
-          employee_id,<br>
-          last_name,<br>
-          first_name,<br>
-          dept_id,<br>
-          manager_id,<br>
-          salary<br>
-          HAVING COUNT(*) > 1</div>
-      </div>
-
-      <div id="15" class="con">
-        <h2>Count Duplicate Rows</h2>
-        <div id="code">SELECT<br>
-          employee_id,<br>
-          last_name,<br>
-          first_name,<br>
-          dept_id,<br>
-          manager_id,<br>
-          salary,<br>
-          COUNT(*) AS number_of_rows<br>
-          FROM employee<br>
-          GROUP BY<br>
-          employee_id,<br>
-          last_name,<br>
-          first_name,<br>
-          dept_id,<br>
-          manager_id,<br>
-          salary<br>
-          HAVING COUNT(*) > 1</div>
-      </div>
-
-      <div id="16" class="con">
-        <h2>Find Common Records Between Tables</h2>
-        <div id="code">SELECT<br>
-          last_name,<br>
-          first_name<br>
-          FROM employee<br>
-          INTERSECT<br>
-          SELECT<br>
-          last_name,<br>
-          first_name<br>
-          FROM employee_2020_jan</div>
-      </div>
-
-      <div id="17" class="con">
-        <h2>Grouping Data with ROLLUP</h2>
-        <div id="code">
-          SELECT<br>
-          dept_id,<br>
-          expertise,<br>
-          SUM(salary) total_salary<br>
-          FROM employee<br>
-          GROUP BY ROLLUP (dept_id, expertise)<br>
-        </div>
-      </div>
-
-      <div id="18" class="con">
-        <h2>Conditional Summation</h2>
-        <div id="code">
-          SELECT<br>
-          SUM (CASE
-          WHEN dept_id IN ('SALES','HUMAN RESOURCES')<br>
-          THEN salary<br>
-          ELSE 0 END) AS total_salary_sales_and_hr,<br>
-          SUM (CASE<br>
-          WHEN dept_id IN ('IT','SUPPORT')<br>
-          THEN salary<br>
-          ELSE 0 END) AS total_salary_it_and_support<br>
-          FROM employee<br>
-        </div>
-      </div>
-
-      <div id="19" class="con">
-        <h2>Group Rows by a Range</h2>
-        <div id="code">
-          SELECT<br>
           CASE<br>
-          WHEN salary <= 750000 THEN 'low' WHEN salary> 750000 AND salary <= 100000 THEN 'medium' WHEN salary>
-              100000<br>
-              THEN 'high'<br>
-              END AS salary_category,<br>
-              COUNT(*) AS number_of_employees<br>
-              FROM employee<br>
-              GROUP BY<br>
-              CASE<br>
-              WHEN salary <= 750000 THEN 'low' WHEN salary> 750000 AND salary <= 100000 THEN 'medium' WHEN salary><br>
-                  100000 THEN 'high'<br>
-                  END<br>
-        </div>
-      </div>
+          WHEN salary <= 750000 THEN 'low' WHEN salary> 750000 AND salary <= 100000 THEN 'medium' WHEN salary><br>
+              100000 THEN 'high'<br>
+              END<br>
+    </div>
+  </div>
+
+  <div id="20" class="con">
+    <h2>Sequelize v6</h2><br>
+    <h3>Connecting to a database</h3>
+    <p>To connect to the database, you must create a Sequelize instance. This can be done by either passing the
+      connection parameters separately to the Sequelize constructor or by passing a single connection URI:</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+        <span class="hljs-keyword">const</span> { <span class="hljs-title class_">Sequelize</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'sequelize'</span>);
+
+          <span class="hljs-comment">// Option 1: Passing a connection URI</span>
+          <span class="hljs-keyword">const</span> sequelizeSQLite = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Sequelize</span>(<span class="hljs-string">'sqlite::memory:'</span>); <span class="hljs-comment">// Example for sqlite</span>
+          <span class="hljs-keyword">const</span> sequelizePostgres = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Sequelize</span>(<span class="hljs-string">'postgres://user:pass@example.com:5432/dbname'</span>); <span class="hljs-comment">// Example for postgres</span>
+          
+          <span class="hljs-comment">// Option 2: Passing parameters separately (sqlite)</span>
+          <span class="hljs-keyword">const</span> sequelizeOption2 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Sequelize</span>({
+            <span class="hljs-attr">dialect</span>: <span class="hljs-string">'sqlite'</span>,
+            <span class="hljs-attr">storage</span>: <span class="hljs-string">'path/to/database.sqlite'</span>
+          });
+          
+          <span class="hljs-comment">// Option 3: Passing parameters separately (other dialects)</span>
+          <span class="hljs-keyword">const</span> sequelizeOption3 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Sequelize</span>(<span class="hljs-string">'database'</span>, <span class="hljs-string">'username'</span>, <span class="hljs-string">'password'</span>, {
+            <span class="hljs-attr">host</span>: <span class="hljs-string">'localhost'</span>,
+            <span class="hljs-attr">dialect</span>: <span class="hljs-comment">/* one of 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'db2' | 'snowflake' | 'oracle' */</span>
+          });
+          </code>
+
+    </div>
+    <br>
+    <h3>Testing the connection</h3>
+    <p>You can use the .authenticate() function to test if the connection is OK:</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      <span class="hljs-keyword">try</span> {
+        <span class="hljs-keyword">await</span> sequelize.<span class="hljs-title function_">authenticate</span>();
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Connection has been established successfully.'</span>);
+      } <span class="hljs-keyword">catch</span> (error) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">'Unable to connect to the database:'</span>, error);
+      }
+      </code>
+    </div>
+    <br>
+    <p>To close the connection: sequelize.close()</p>
+
+
+
+  </div>
+
+  <div id="21" class="con">
+    <h2>Model with Validations & Constraints</h2>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+        <span class="hljs-keyword">const</span> { <span class="hljs-title class_">Sequelize</span>, <span class="hljs-title class_">Op</span>, <span class="hljs-title class_">Model</span>, <span class="hljs-title class_">DataTypes</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"sequelize"</span>);
+        <span class="hljs-keyword">const</span> sequelize = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Sequelize</span>(<span class="hljs-string">"sqlite::memory:"</span>);
+        <span class="hljs-keyword">const</span> <span class="hljs-title class_">User</span> = sequelize.<span class="hljs-title function_">define</span>(<span class="hljs-string">"user"</span>, {
+          <span class="hljs-attr">username</span>: {
+            <span class="hljs-attr">type</span>: <span class="hljs-title class_">DataTypes</span>.<span class="hljs-property">TEXT</span>,
+            <span class="hljs-attr">allowNull</span>: <span class="hljs-literal">false</span>,
+            <span class="hljs-attr">unique</span>: <span class="hljs-literal">true</span>
+          },
+          <span class="hljs-attr">hashedPassword</span>: {
+            <span class="hljs-attr">type</span>: <span class="hljs-title class_">DataTypes</span>.<span class="hljs-title function_">STRING</span>(<span class="hljs-number">64</span>),
+            <span class="hljs-attr">validate</span>: {
+              <span class="hljs-attr">is</span>: <span class="hljs-regexp">/^[0-9a-f]{64}$/i</span>
+            }
+          }
+        });
+        
+        (<span class="hljs-keyword">async</span> () =&gt; {
+          <span class="hljs-keyword">await</span> sequelize.<span class="hljs-title function_">sync</span>({ <span class="hljs-attr">force</span>: <span class="hljs-literal">true</span> });
+          <span class="hljs-comment">// Code here</span>
+        })();
+        </code>
+
+    </div>
+
+    <h3>Difference between Validations and Constraints</h3>
+    <p>Validations are checks performed in the Sequelize level, in pure JavaScript. If a validation fails, no SQL query
+      will be sent to the database at all.</p>
+    <br>
+    <p>On the other hand, constraints are rules defined at SQL level. For example, a Unique Constraint. If a constraint
+      check fails, an error (SequelizeUniqueConstraintError) will be thrown by the database and Sequelize will forward
+      this error to JavaScript.</p>
+  </div>
+
+  <div id="22" class="con">
+    <h2>Raw Queries</h2>
+    <h4>Bind Parameter</h4>
+    <p>Bind parameters are like replacements. Except replacements are escaped and inserted into the query by sequelize
+      before the query is sent to the database, while bind parameters are sent to the database outside the SQL query
+      text. A query can have either bind parameters or replacements. Bind parameters are referred to by either $1, $2,
+      ... (numeric) or $key (alpha-numeric). This is independent of the dialect.</p>
+    <br>
+    <ul>
+      <li>- If an array is passed, $1 is bound to the 1st element in the array (bind[0])</li>
+      <li>- If an object is passed, $key is bound to object['key']. Each key must begin with a non-numeric char. $1 is
+        not a valid key, even if object['1'] exists.</li>
+      <li>- In either case $$ can be used to escape a literal $ sign.</li>
+    </ul>
+    <br>
+    <p>The array or object must contain all bound values or Sequelize will throw an exception. This applies even to
+      cases in which the database may ignore the bound parameter.</p>
+
+    <p>The database may add further restrictions to this. Bind parameters cannot be SQL keywords, nor table or column
+      names. They are also ignored in quoted text or data. In PostgreSQL it may also be needed to typecast them, if the
+      type cannot be inferred from the context $1::varchar.</p>
+
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+        <span class="hljs-keyword">const</span> { <span class="hljs-title class_">QueryTypes</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'sequelize'</span>);
+
+        <span class="hljs-keyword">await</span> sequelize.<span class="hljs-title function_">query</span>(
+          <span class="hljs-string">'SELECT *, "text with literal $$1 and literal $$status" as t FROM projects WHERE status = $1'</span>,
+          {
+            <span class="hljs-attr">bind</span>: [<span class="hljs-string">'active'</span>],
+            <span class="hljs-attr">type</span>: <span class="hljs-title class_">QueryTypes</span>.<span class="hljs-property">SELECT</span>
+          }
+        );
+        
+        <span class="hljs-keyword">await</span> sequelize.<span class="hljs-title function_">query</span>(
+          <span class="hljs-string">'SELECT *, "text with literal $$1 and literal $$status" as t FROM projects WHERE status = $status'</span>,
+          {
+            <span class="hljs-attr">bind</span>: { <span class="hljs-attr">status</span>: <span class="hljs-string">'active'</span> },
+            <span class="hljs-attr">type</span>: <span class="hljs-title class_">QueryTypes</span>.<span class="hljs-property">SELECT</span>
+          }
+        );
+        </code>
+    </div>
+
+  </div>
 
 </body>
 

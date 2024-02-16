@@ -1,30 +1,29 @@
 <!DOCTYPE html>
 
 <head>
+  <link rel="stylesheet" href="./../notes_style.css">
   <style>
     body {
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-      font-size: large;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 17px;
       background-color: rgb(28, 28, 28);
       color: rgb(226, 234, 241);
     }
 
     .code {
       font-family: "Consolas";
-      font-style: italic;
       color: rgb(236, 255, 209);
       border: 1px;
       border-style: inset;
-      padding: 2px;
-      margin: 5px;
       width: 98%;
     }
 
     .con {
+      background-color: black;
       border: 2px;
       border-style: double;
-      padding: 5px;
-      margin: 5px;
+      padding: 3px;
+      margin: 3px;
       width: 98%;
 
     }
@@ -44,8 +43,8 @@
       font-style: italic;
     }
 
-    li {
-      color: rgb(234, 225, 98);
+    b {
+      color: orange;
     }
 
     .keyword {
@@ -56,10 +55,192 @@
       color: rgb(255, 16, 16);
     }
   </style>
-
 </head>
 
 <body>
+  <div id="0" class="con">
+    <h2>About JavaScript</h2>
+    <b>ES6</b>
+    <p>ES6, Which is also known as ECMAScript 2015, introduced some features in JavaScript language.</p>
+    <ul>
+      <li><b>Arrow Functions</b> : Arrow function {()=>} is concise way of writing JavaScript functions in shorter way.
+        They
+        make our code more structured and readable.
+        <br>
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// ES5</span>
+            <span class="hljs-keyword">var</span> add = <span class="hljs-keyword">function</span>(<span class="hljs-params">a, b</span>) {
+                <span class="hljs-keyword">return</span> a + b;
+            };
+            <span class="hljs-comment">// ES6</span>
+            <span class="hljs-keyword">const</span> <span class="hljs-title function_">add</span> = (<span class="hljs-params">a, b</span>) =&gt; a + b;
+            </code>
+        </div>
+      </li>
+      <li><b>Let and Const Declarations</b>: let and const introduce block-scoped that provide better control over
+        variable scope and preventing unintended reassignments.
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// ES5</span>
+            <span class="hljs-keyword">var</span> x = <span class="hljs-number">10</span>;
+            <span class="hljs-keyword">if</span> (<span class="hljs-literal">true</span>) {
+                <span class="hljs-keyword">var</span> x = <span class="hljs-number">20</span>;
+            }
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(x); <span class="hljs-comment">// 20</span>
+            
+            <span class="hljs-comment">// ES6</span>
+            <span class="hljs-keyword">let</span> y = <span class="hljs-number">10</span>;
+            <span class="hljs-keyword">if</span> (<span class="hljs-literal">true</span>) {
+                <span class="hljs-keyword">let</span> y = <span class="hljs-number">20</span>;
+            }
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(y); <span class="hljs-comment">// 10</span>
+            </code>
+        </div>
+      </li>
+      <li><b>Template Literals</b>: Template literals allow for easier string interpolation and multiline strings, using
+        backticks.
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// ES5</span>
+            <span class="hljs-keyword">var</span> name = <span class="hljs-string">"John"</span>;
+            <span class="hljs-keyword">var</span> message = <span class="hljs-string">"Hello, "</span> + name + <span class="hljs-string">"!"</span>;
+            <span class="hljs-comment">// ES6</span>
+            <span class="hljs-keyword">let</span> name = <span class="hljs-string">"John"</span>;
+            <span class="hljs-keyword">let</span> message = <span class="hljs-string">`Hello, <span class="hljs-subst">${name}</span>!`</span>;
+            </code>
+        </div>
+
+
+      </li>
+      <li><b>Default Parameters</b>: ES6 allows parameters to have default values if no argument is provided when the
+        function is called.
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// ES6</span>
+            <span class="hljs-keyword">function</span> <span class="hljs-title function_">greet</span>(<span class="hljs-params">name = <span class="hljs-string">'World'</span></span>) {
+                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Hello, <span class="hljs-subst">${name}</span>!`</span>);
+            }
+            <span class="hljs-title function_">greet</span>(); <span class="hljs-comment">// Hello, World!</span>
+            <span class="hljs-title function_">greet</span>(<span class="hljs-string">'Alice'</span>); <span class="hljs-comment">// Hello, Alice!</span>
+            </code>
+        </div>
+
+      </li>
+      <li><b>Spread and Rest Operators</b>: The spread operator (...) allows for the expansion of iterable objects into
+        individual elements, while the rest operator collects multiple elements into a single array.
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// Spread operator</span>
+          <span class="hljs-keyword">let</span> arr1 = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];
+          <span class="hljs-keyword">let</span> arr2 = [...arr1, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>];
+          
+          <span class="hljs-comment">// Rest operator</span>
+          <span class="hljs-keyword">function</span> <span class="hljs-title function_">sum</span>(<span class="hljs-params">...numbers</span>) {
+              <span class="hljs-keyword">return</span> numbers.<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">total, num</span>) =&gt;</span> total + num, <span class="hljs-number">0</span>);
+          }
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">sum</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>)); <span class="hljs-comment">// 15</span>
+          </code>
+        </div>
+      </li>
+      <li><b>Classes</b>: ES6 introduces class syntax for defining objects and inheritance hierarchies, which is
+        syntactic sugar over JavaScript's existing prototype-based inheritance.
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// ES6</span>
+          <span class="hljs-keyword">class</span> <span class="hljs-title class_">Rectangle</span> {
+              <span class="hljs-title function_">constructor</span>(<span class="hljs-params">width, height</span>) {
+                  <span class="hljs-variable language_">this</span>.<span class="hljs-property">width</span> = width;
+                  <span class="hljs-variable language_">this</span>.<span class="hljs-property">height</span> = height;
+              }
+              <span class="hljs-title function_">area</span>(<span class="hljs-params"></span>) {
+                  <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">width</span> * <span class="hljs-variable language_">this</span>.<span class="hljs-property">height</span>;
+              }
+          }
+          </code>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="100" class="con">
+    <h2>JavaScript Engine</h2>
+    <p>All modern browsers have their own version of the JavaScript Engine, like V8 in Chrome, SpiderMonkey in Firefox,
+      or JavaScriptCore in Safari, they are responsible for executing JavaScript code.</p><br>
+    <ul>
+      <li>V8 - JavaScript Engine developed by Google for Chrome</li>
+      <li>SpiderMonkey - The JavaScript Engine used by Mozilla Firefox</li>
+      <li>JavaScriptCore - Developed by Apple for Safari</li>
+      <li>Rhino - Managed by Mozilla Foundation for Firefox</li>
+      <li>Chakra - A JavaScript Engine for Microsoft Edge</li>
+      <li>JerryScript - A JavaScript Engine employed for the Internet of Things (IoT).</li>
+    </ul>
+    <br>
+
+    1. <b>Parsing</b>: The engine starts by parsing the JavaScript code. It reads the code and
+    generates a data structure called the Abstract Syntax Tree (AST), which represents the syntactic structure of the
+    code.
+    <br>
+    2. <b>Compilation</b>: After parsing, the engine compiles the JavaScript code into bytecode or machine code, which
+    browser can understand.
+    <br>
+    3. <b>Optimizations</b>: Modern JavaScript engines employ various optimization techniques to improve performance.
+    These include inline caching, function inlining, loop unrolling, and dynamic optimization based on runtime feedback.
+    Optimization is an ongoing process and may happen at different stages of execution.
+    <br>
+    4. <b>Execution</b>: Once the code is parsed and compiled, the engine executes it line by line. During execution,
+    variables are allocated memory, functions are defined, and statements are executed sequentially. The engine also
+    manages the call stack to keep track of function calls and their execution contexts. JavaScript is single-threaded
+    and uses an event-driven, asynchronous programming model, meaning that certain operations like I/O operations or
+    any asynchronous operations do not block the main execution thread.
+    <br>
+    5. <b>Event Loop</b>: JavaScript utilizes an event loop to manage asynchronous operations and handle events. The
+    event loop continuously checks for tasks in the task queue and executes them in a first-in-first-out manner. This
+    allows JavaScript to handle tasks such as responding to user interactions, fetching data from servers, or executing
+    callbacks without blocking the main thread.
+    <br>
+    6. <b>Rendering</b>: JavaScript often interacts with the Document Object Model (DOM) to manipulate the structure and
+    content of the web page dynamically. Changes made to the DOM through JavaScript can trigger reflows and repaints,
+    ultimately updating what the user sees on the screen.
+    <br><br>
+
+
+    <b>Memory Heap</b>
+    <p>Heap is a large unstructured data structure that stores all the dynamic data like function definitions, objects,
+      arrays, etc. The memory heap is where the memory allocation happens, it is a location in memory where memory may
+      be allocated at random access. Individual data elements distributed on the heap are typically released in ways
+      that are asynchronous from one another. The memory occupied in the heap continues to exist even after JavaScript
+      code execution has been completed and is later removed by the JavaScript Garbage Collector if needed.</p>
+
+
+  </div>
+  <div id="102" class="con">
+    <h2>Ahead of Time (AOT)</h2>
+    <p>When you serve/build your angular application, the Ahead of Time compiler converts your code during the build
+      time before your browser downloads and runs that code.</p>
+    <br>
+    <p>Why should you use the Ahead of Time compiler ?</p>
+    <ul>
+      <li>- When you are using Ahead of Time Compiler, compilation only happens once, while you build your project.</li>
+      <li>- The browser does not need to compile the code in run time, it can directly render the application
+        immediately, without waiting to compile the app first so, it provides quicker component rendering.</li>
+      <li>- We don't have to ship the HTML templates and the Angular compiler whenever we enter a new component.</li>
+      <li>- It can minimize the size of your application.</li>
+      <li>- The Ahead of time compiler detects template error earlier. It detects and reports template binding errors
+        during the build steps before users can see them.</li>
+      <li>- AOT provides better security, It reduces the chances of injections attacks, because it compiles HTML
+        components and templates into JavaScript files long before they are served into the client display. So, there
+        are no templates to read and no risky client-side HTML or JavaScript evaluation.</li>
+    </ul>
+  </div>
+
+  <div id="103" class="con">
+    <h2>Just in Time (JIT)</h2>
+    <p>In Just in Time (JIT), code get compiles when it's needed, not at the build time.</p>
+    <br>
+    <p>Why and When Should you use Just In Time Compiler ?</p>
+    <ul>
+      <li>- In Just in Time (JIT), Most compiling is done on the browser side, so it will take less compiling time.</li>
+      <li>- Just in time compiler compiles each file separately and it's mostly compiled in the browser. You don't have
+        to
+        build your project again after changing your code.</li>
+      <li>- Just in Time compiler is best when your application is in local development.</li>
+    </ul>
+  </div>
+
   <div id="1" class="con">
     <h2>NodeJS</h2>
     Node.js is an open-source, server-side JavaScript runtime environment built on Chrome's V8 JavaScript engine. It
@@ -74,12 +255,90 @@
     blocking the main thread.
     The event loop works by constantly checking if there are any tasks in the queue and executing them one by one until
     the queue is empty.
-
     <h2>Microtasks Queue</h2>
     Asynchronous operations need proper management. For that, for that JavaScript has an internal queue also called as
     PromiseJobs more often referred to as the "microtask queue" (V8 term).
+  </div>
+
+  <div id="101" class="con">
+    <h2>Macrotasks and Microtasks</h2>
+    <br>
+    <h4>Macrotasks:</h4>
+    <p>
+      Macrotasks are tasks that are scheduled to be executed in the main script execution context. They include
+      operations like script execution, rendering, input events, setTimeout, setInterval, requestAnimationFrame, I/O
+      operations, and UI rendering. Macrotasks are processed one at a time, in sequence.
+    </p>
+    <p><u>Examples of macrotasks</u>:</p>
+    <ul>
+      <li>- Script execution</li>
+      <li>- setTimeout and setInterval callbacks</li>
+      <li>- I/O operations</li>
+      <li>- DOM rendering</li>
+      <li>- UI rendering</li>
+    </ul>
+    <br>
+    <h4>Microtasks:</h4>
+    <p>
+      Microtasks are tasks that are scheduled to be executed after the execution of the current task and before the next
+      macrotask. They are usually high-priority tasks and are executed as soon as the call stack is empty. Microtasks
+      are used for tasks that need to be processed quickly, such as promise resolution, mutation observer callbacks, and
+      process.nextTick in Node.js.
+    </p>
+    <p><u>Examples of microtasks</u>:</p>
+    <ul>
+      <li>- Promise resolution (resolve or reject)</li>
+      <li>- Mutation observer callbacks</li>
+      <li>- process.nextTick in Node.js</li>
+    </ul>
+    <br>
+    <h4>Relationship:</h4>
+    <p>
+      When a macrotask is executed, it can queue up microtasks, and those microtasks will be executed before the next
+      macrotask is picked from the queue. This ensures that microtasks are executed as soon as possible after the
+      current execution context is cleared.
+    </p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Start'</span>);
+
+        <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'setTimeout (macrotask) executed'</span>);
+        }, <span class="hljs-number">0</span>);
+        
+        <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>().<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Promise (microtask) resolved'</span>);
+        });
+        
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'End'</span>);
+        </code>
+    </div>
+
+    <p>Output:</p>
+
+    <div class="code">
+      <code class="!whitespace-pre hljs language-java">
+        Start
+        End
+        <span class="hljs-title function_">Promise</span> <span class="hljs-params">(microtask)</span> resolved
+        <span class="hljs-title function_">setTimeout</span> <span class="hljs-params">(macrotask)</span> executed
+        </code>
+    </div>
+    <p>
+      In this example, even though setTimeout is scheduled with a delay of 0 milliseconds, it is processed after the
+      current execution context. On the other hand, the Promise microtask is executed before the setTimeout macrotask
+      because microtasks have higher priority and are executed before the next macrotask.
+    </p>
+
+
+
+
+
 
   </div>
+
+
+
 
   <div id="3" class="con">
     <h2>Cluster</h2>
@@ -93,23 +352,33 @@
 
     Here's how you can use the cluster module:<br>
 
-    <div class="code">
-      const {fork} = require('child_process');<br>
-      const child = fork('child.js');<br>
-      <br>
-      child.send('Hello from parent');<br>
-      <br>
-      child.on('message', (data)=>{<br>
-      console.log(`Data received from Child ${data}`);<br>
-      })<br>
-      <br>
-      <span class="comment">//In Child.js</span>
-      <br>
-      process.on('message', (mgs)=>{<br>
-      console.log(`Message received from parent ${msg}`);<br>
-      })<br>
-      <br>
-      process.send('Hello from child');<br>
+    <div class="code"><code class="!whitespace-pre hljs language-javascript">
+        <span class="hljs-keyword">const</span> cluster = <span class="hljs-built_in">require</span>(<span class="hljs-string">'cluster'</span>);
+        <span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>);
+        <span class="hljs-keyword">const</span> numCPUs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'os'</span>).<span class="hljs-title function_">cpus</span>().<span class="hljs-property">length</span>;
+        
+        <span class="hljs-keyword">if</span> (cluster.<span class="hljs-property">isMaster</span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Master <span class="hljs-subst">${process.pid}</span> is running`</span>);
+        
+          <span class="hljs-comment">// Fork workers</span>
+          <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; numCPUs; i++) {
+            cluster.<span class="hljs-title function_">fork</span>();
+          }
+        
+          cluster.<span class="hljs-title function_">on</span>(<span class="hljs-string">'exit'</span>, <span class="hljs-function">(<span class="hljs-params">worker, code, signal</span>) =&gt;</span> {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Worker <span class="hljs-subst">${worker.process.pid}</span> died`</span>);
+          });
+        } <span class="hljs-keyword">else</span> {
+          <span class="hljs-comment">// Workers can share any TCP connection</span>
+          <span class="hljs-comment">// In this case it is an HTTP server</span>
+          http.<span class="hljs-title function_">createServer</span>(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+            res.<span class="hljs-title function_">writeHead</span>(<span class="hljs-number">200</span>);
+            res.<span class="hljs-title function_">end</span>(<span class="hljs-string">'Hello World\n'</span>);
+          }).<span class="hljs-title function_">listen</span>(<span class="hljs-number">8000</span>);
+        
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Worker <span class="hljs-subst">${process.pid}</span> started`</span>);
+        }
+        </code>
 
     </div>
     <br>
@@ -130,52 +399,40 @@
   <div id="4" class="con">
     <h2>Worker Thread</h2>
     Worker threads are the separate thread which runs parallel with the main thread. They are used to perform
-    CPU-intensive tasks.
+    CPU-intensive tasks. Worker threads can be particularly useful for parallelizing tasks and improving the performance
+    of multi-core systems.
 
     <div class="code">
-      <u>Index.js (main thread)</u><br><br>
-      const { Worker } = require('worker_threads');<br>
-      <br>
-      function nodeWorker(workerData) {<br>
-      return new Promise((resolve, reject) => {<br>
-      const worker = new Worker('./worker.js', { workerData })<br>
-      worker.on('error', (err) => {<br>
-      reject({ "statue": "Something went wrong!", err })<br>
-      })<br>
-      worker.on('message', (data) => {<br>
-      resolve(data)<br>
-      })<br>
-      worker.on('exit', (code) => {<br>
-      reject(new Error(`Worker exited with code ${code}`))<br>
-      })<br>
-      })<br>
-      }<br>
+      <code class="!whitespace-pre hljs language-javascript"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">Worker</span>, isMainThread, parentPort } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'worker_threads'</span>);
 
-      async function createWorker() {<br>
-      try {<br>
-      let data = {<br>
-      msg: "\n Hello again, Please update this text in the text file."<br>
-      }<br>
-      const workerData = await nodeWorker(data)<br>
-      console.log(workerData)<br>
-      } catch (error) {<br>
-      console.log(error)<br>
-      }<br>
-      }<br>
-      <br>
-      createWorker()<br>
-      <br>
+        <span class="hljs-keyword">if</span> (isMainThread) {
+          <span class="hljs-comment">// This code runs in the main thread (the main JavaScript file)</span>
+        
+          <span class="hljs-comment">// Create a new worker thread</span>
+          <span class="hljs-keyword">const</span> worker = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Worker</span>(__filename);
+        
+          <span class="hljs-comment">// Listen for messages from the worker thread</span>
+          worker.<span class="hljs-title function_">on</span>(<span class="hljs-string">'message'</span>, <span class="hljs-function">(<span class="hljs-params">message</span>) =&gt;</span> {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Received message from worker:'</span>, message);
+          });
+        
+          <span class="hljs-comment">// Send a message to the worker thread</span>
+          worker.<span class="hljs-title function_">postMessage</span>(<span class="hljs-string">'Hello from the main thread'</span>);
+        } <span class="hljs-keyword">else</span> {
+          <span class="hljs-comment">// This code runs in the worker thread</span>
+        
+          <span class="hljs-comment">// Listen for messages from the main thread</span>
+          parentPort.<span class="hljs-title function_">on</span>(<span class="hljs-string">'message'</span>, <span class="hljs-function">(<span class="hljs-params">message</span>) =&gt;</span> {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Received message from main thread:'</span>, message);
+        
+            <span class="hljs-comment">// Send a message back to the main thread</span>
+            parentPort.<span class="hljs-title function_">postMessage</span>(<span class="hljs-string">'Hello from the worker thread'</span>);
+          });
+        }
+        </code>
+
     </div>
 
-    <div class="code">
-      <u>Worker.js (worker thread)</u><br>
-      const { parentPort, workerData }=require('worker_threads'); <br>
-      const fs=require('fs');<br><br>
-      fs.appendFile('./output.txt', workerData.msg, (err, data)=> {<br>
-      if (err) return parentPort.postMessage({ status: err })<br>
-      return parentPort.postMessage({ staus: 'File saved' })<br>
-      }) <span class="comment">//fs.writeFile()</span><br>
-    </div>
   </div>
 
   <div id="5" class="con">
@@ -270,31 +527,54 @@
 
   <div id="7" class="con">
     <h2>Zlib</h2>
-    Zlib library is used to compress and decompress streams eg: files, text files
+    Zlib library is used to compress and decompress streams eg: files, text files. You can use it to compress or
+    decompress data using various compression algorithms such as deflate, gzip, and brotli.
 
-
+    <h3>Compression</h3>
+    <p>We're compressing the contents of the input.txt file using gzip compression and writing the compressed data to a
+      file named compressed.gz.</p>
     <div class="code">
-      const { createGzip } = require('node:zlib');<br>
-      const { pipeline } = require('node:stream');<br>
-      const {<br>
-      createReadStream,<br>
-      createWriteStream,<br>
-      } = require('node:fs');<br>
-
-
-      const gzip = createGzip();<br>
-      const source = createReadStream('input.txt');<br>
-      const destination = createWriteStream('input.txt.gz');<br>
-
-      pipeline(source, gzip, destination, (err) => {<br>
-      if (err) {<br>
-      console.error('An error occurred:', err);<br>
-      process.exitCode = 1;<br>
-      }<br>
-      });<br>
-      <br>
-
+      <code class="!whitespace-pre hljs language-javascript"><span class="hljs-keyword">const</span> zlib = <span class="hljs-built_in">require</span>(<span class="hljs-string">'zlib'</span>);
+        <span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+        
+        <span class="hljs-keyword">const</span> inputFilePath = <span class="hljs-string">'input.txt'</span>;
+        <span class="hljs-keyword">const</span> outputFilePath = <span class="hljs-string">'compressed.gz'</span>;
+        
+        <span class="hljs-keyword">const</span> readStream = fs.<span class="hljs-title function_">createReadStream</span>(inputFilePath);
+        <span class="hljs-keyword">const</span> writeStream = fs.<span class="hljs-title function_">createWriteStream</span>(outputFilePath);
+        
+        <span class="hljs-keyword">const</span> gzip = zlib.<span class="hljs-title function_">createGzip</span>();
+        
+        readStream.<span class="hljs-title function_">pipe</span>(gzip).<span class="hljs-title function_">pipe</span>(writeStream);
+        
+        writeStream.<span class="hljs-title function_">on</span>(<span class="hljs-string">'finish'</span>, <span class="hljs-function">() =&gt;</span> {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'File compressed successfully.'</span>);
+        });
+        </code>
     </div>
+    <h3>Decompression</h3>
+    <p>We're decompressing the contents of the compressed.gz file using gzip decompression and writing the decompressed
+      data to a file named decompressed.txt.</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript"><span class="hljs-keyword">const</span> zlib = <span class="hljs-built_in">require</span>(<span class="hljs-string">'zlib'</span>);
+        <span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+        
+        <span class="hljs-keyword">const</span> inputFilePath = <span class="hljs-string">'compressed.gz'</span>;
+        <span class="hljs-keyword">const</span> outputFilePath = <span class="hljs-string">'decompressed.txt'</span>;
+        
+        <span class="hljs-keyword">const</span> readStream = fs.<span class="hljs-title function_">createReadStream</span>(inputFilePath);
+        <span class="hljs-keyword">const</span> writeStream = fs.<span class="hljs-title function_">createWriteStream</span>(outputFilePath);
+        
+        <span class="hljs-keyword">const</span> gunzip = zlib.<span class="hljs-title function_">createGunzip</span>();
+        
+        readStream.<span class="hljs-title function_">pipe</span>(gunzip).<span class="hljs-title function_">pipe</span>(writeStream);
+        
+        writeStream.<span class="hljs-title function_">on</span>(<span class="hljs-string">'finish'</span>, <span class="hljs-function">() =&gt;</span> {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'File decompressed successfully.'</span>);
+        });
+        </code>
+    </div>
+
 
   </div>
 
@@ -302,21 +582,75 @@
     <h2>Buffer class</h2>
     The Buffer class is useful when dealing with binary data while performing read-write operations on the file
     system.<br>
+    <br>
+    <h4>Creating Buffers:</h4>
+    <p>You can create buffers using the Buffer.from(), Buffer.alloc(), or Buffer.allocUnsafe() methods.</p>
     <div class="code">
-      <span class="comment">//It initializes the buffer with given data.</span>
-      <br>
-      const buffer = Buffer.from('Hello World!', 'utf-8')<br>
-
-      console.log(buffer) <span class="comment">// <Buffer 48 65 6c 6c 6f 20 57 6f 72 6c 64 21></Buffer></span><br>
-      console.log(buffer.toString('utf-8')) <span class="comment"></span> Hello World!<br>
-      console.log(buffer.toString('hex')) <span class="comment">// 48656c6c6f20576f726c6421</span><br>
-      console.log(buffer.length) <span class="comment">// 12 - returns the length of the buffer</span><br>
+      <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// Creating buffer from a string</span>
+        <span class="hljs-keyword">const</span> bufFromString = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'Hello, World!'</span>);
+        
+        <span class="hljs-comment">// Creating buffer from an array</span>
+        <span class="hljs-keyword">const</span> bufFromArray = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>([<span class="hljs-number">0x68</span>, <span class="hljs-number">0x65</span>, <span class="hljs-number">0x6c</span>, <span class="hljs-number">0x6c</span>, <span class="hljs-number">0x6f</span>]); <span class="hljs-comment">// 'hello'</span>
+        
+        <span class="hljs-comment">// Creating buffer with a specific size</span>
+        <span class="hljs-keyword">const</span> bufWithSize = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">alloc</span>(<span class="hljs-number">10</span>); <span class="hljs-comment">// Creates a buffer of size 10 with all bytes set to 0</span>
+        
+        <span class="hljs-comment">// Creating buffer with an uninitialized memory</span>
+        <span class="hljs-keyword">const</span> uninitializedBuffer = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">allocUnsafe</span>(<span class="hljs-number">10</span>); <span class="hljs-comment">// Creates a buffer of size 10 without initializing it</span>
+        </code>
     </div>
-
-    Node.js has been moving towards using more modern approaches for handling asynchronous operations, such as Promises,
-    async/await, and the Buffer class is synchronous.
-    In modern Node.js applications, you might also encounter the use of TypedArray objects or streams to handle binary
-    data more efficiently in certain scenarios.
+    <br>
+    <h4>Reading and Writing Buffers:</h4>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// Reading from a buffer</span>
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(bufFromString.<span class="hljs-title function_">toString</span>()); <span class="hljs-comment">// Outputs: Hello, World!</span>
+        
+        <span class="hljs-comment">// Writing to a buffer</span>
+        <span class="hljs-keyword">const</span> buf = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">alloc</span>(<span class="hljs-number">5</span>);
+        buf.<span class="hljs-title function_">write</span>(<span class="hljs-string">'Hello'</span>, <span class="hljs-number">0</span>, <span class="hljs-string">'utf-8'</span>); <span class="hljs-comment">// Writes the string 'Hello' starting from index 0</span>
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(buf.<span class="hljs-title function_">toString</span>()); <span class="hljs-comment">// Outputs: Hello</span>
+        </code>
+    </div>
+    <br>
+    <h4>Concatenating Buffers:</h4>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// Concatenating buffers</span>
+        <span class="hljs-keyword">const</span> buf1 = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'Hello'</span>);
+        <span class="hljs-keyword">const</span> buf2 = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">' World'</span>);
+        <span class="hljs-keyword">const</span> concatenatedBuf = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">concat</span>([buf1, buf2]);
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(concatenatedBuf.<span class="hljs-title function_">toString</span>()); <span class="hljs-comment">// Outputs: Hello World</span>
+        </code>
+    </div>
+    <br>
+    <h4>Manipulating Buffers:</h4>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// Slicing buffers</span>
+    <span class="hljs-keyword">const</span> buf = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'Hello, World!'</span>);
+    <span class="hljs-keyword">const</span> slicedBuf = buf.<span class="hljs-title function_">slice</span>(<span class="hljs-number">7</span>, <span class="hljs-number">12</span>); <span class="hljs-comment">// Slice from index 7 to 11 (inclusive)</span>
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(slicedBuf.<span class="hljs-title function_">toString</span>()); <span class="hljs-comment">// Outputs: World</span>
+    
+    <span class="hljs-comment">// Modifying buffer</span>
+    buf.<span class="hljs-title function_">write</span>(<span class="hljs-string">'Node.js'</span>, <span class="hljs-number">7</span>); <span class="hljs-comment">// Overwrite 'World' with 'Node.js'</span>
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(buf.<span class="hljs-title function_">toString</span>()); <span class="hljs-comment">// Outputs: Hello, Node.js!</span>
+    </code>
+    </div>
+    <br>
+    <h4>Buffer Properties:</h4>
+    Buffers have several properties like:
+    <br>
+    - <b>length</b>: The length of the buffer in bytes.<br>
+    - <b>byteLength</b>: An alias for length.<br>
+    - <b>byteOffset</b>: The offset of the buffer in the parent buffer.<br>
+    - <b>buffer</b>: The underlying ArrayBuffer of the buffer.<br>
+    <br>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript"><span class="hljs-keyword">const</span> buf = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'Hello, World!'</span>);
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(buf.<span class="hljs-property">length</span>); <span class="hljs-comment">// Outputs: 13</span>
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(buf.<span class="hljs-property">byteLength</span>); <span class="hljs-comment">// Outputs: 13</span>
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(buf.<span class="hljs-property">byteOffset</span>); <span class="hljs-comment">// Outputs: 0</span>
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(buf.<span class="hljs-property">buffer</span>); <span class="hljs-comment">// Outputs: ArrayBuffer {...}</span>
+        </code>
+    </div>
   </div>
 
   <div id="9" class="con">
@@ -324,12 +658,12 @@
     <ul>
       <li>Require is an inbuilt function that is used to include modules that exist in separate files. (It is CommonJS
         Syntax)
-        <ol>- const http = require(‘http’)</ol>
+        <ol>- const http = require(‘http')</ol>
       </li>
       <li>The require() is synchronous, ie. it blocks other operations until the module is loaded.</li>
       <li>Import is the modern approach to include external modules.</li>
       <li>It was introduced in ES6 from Node version 12.
-        <ol>- import test from ‘./test.js’ </ol>
+        <ol>- import test from ‘./test.js' </ol>
       </li>
     </ul>
     <div class="code">
@@ -607,7 +941,7 @@
   <div id="17" class="con">
     <h2>Middleware</h2>
     Middleware are functions that have access to the request object (req), the response object (res), and the next
-    function in the application’s request-response cycle. <br>
+    function in the application's request-response cycle. <br>
     <br>
     The next function is a function in the Express router which, when invoked, executes the middleware succeeding the
     current middleware.<br>
@@ -989,29 +1323,78 @@
       <h2>Promise.race()</h2>
       <p>Promise.race() is useful when you want the first async task to complete, but do not care about its eventual
         state.</p>
+    </div>
+    <br>
+    <h2>Nested Promise - Promise Chaining</h2>
+    <p>Nested promises, also known as chained promises, are a common pattern in JavaScript for handling asynchronous
+      operations in a sequential manner. Instead of nesting multiple levels of callbacks, which can lead to callback
+      hell and reduce code readability, you can chain promises together to handle asynchronous operations more cleanly.
+    </p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+        <span class="hljs-keyword">function</span> <span class="hljs-title function_">asyncOperation1</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+            <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+                <span class="hljs-title function_">resolve</span>(<span class="hljs-string">'Async Operation 1 Completed'</span>);
+            }, <span class="hljs-number">1000</span>);
+        });
+    }
+    
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">asyncOperation2</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+            <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+                <span class="hljs-title function_">resolve</span>(<span class="hljs-string">'Async Operation 2 Completed'</span>);
+            }, <span class="hljs-number">1000</span>);
+        });
+    }
+    
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">asyncOperation3</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+            <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+                <span class="hljs-title function_">resolve</span>(<span class="hljs-string">'Async Operation 3 Completed'</span>);
+            }, <span class="hljs-number">1000</span>);
+        });
+    }
+    
+    <span class="hljs-title function_">asyncOperation1</span>()
+        .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">result1</span> =&gt;</span> {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result1);
+            <span class="hljs-keyword">return</span> <span class="hljs-title function_">asyncOperation2</span>();
+        })
+        .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">result2</span> =&gt;</span> {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result2);
+            <span class="hljs-keyword">return</span> <span class="hljs-title function_">asyncOperation3</span>();
+        })
+        .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">result3</span> =&gt;</span> {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result3);
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'All async operations completed successfully'</span>);
+        })
+        .<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">'Error:'</span>, error);
+        });
+    </code>
+    </div>
+    <br>
+    <h2>Async-Await</h2>
+    <p>Async-Await is a new JavaScript feature that allows you to write asynchronous code in a synchronous-like
+      manner. It's provides cleaner and readable syntax for handling asynchronous operations.</p>
 
-      <h2>Async-Await</h2>
-      <p>Async-Await is a new JavaScript feature that allows you to write asynchronous code in a synchronous-like
-        manner. It's provides cleaner and readable syntax for handling asynchronous operations.</p>
+    <div class="code">
+      <span class="keyword">async</span> <span class="fn">function</span> fetchData() {<br>
+      try {<br>
+      const data = <span class="keyword">await</span> fetchDataFromAPI(); <span class="comment">// fetchDataFromAPI()
+        returns a promise</span><br>
+      console.log(data);<br>
+      } catch (error) {<br>
+      console.error(error); <span class="comment">// Handle error</span><br>
+      }<br>
+      }<br>
 
-      <div class="code">
-        <span class="keyword">async</span> <span class="fn">function</span> fetchData() {<br>
-        try {<br>
-        const data = <span class="keyword">await</span> fetchDataFromAPI(); <span class="comment">// fetchDataFromAPI()
-          returns a promise</span><br>
-        console.log(data);<br>
-        } catch (error) {<br>
-        console.error(error); <span class="comment">// Handle error</span><br>
-        }<br>
-        }<br>
+      <br>
+      <span class="fn">fetchData</span>()<br>
+      . <span class="fn">then</span>((_data) => console.log('Data fetched successfully', _data))<br>
+      . <span class="fn">catch</span>((error) => console.error('Failed to fetch data:', error));<br>
 
-        <br>
-        <span class="fn">fetchData</span>()<br>
-        . <span class="fn">then</span>((_data) => console.log('Data fetched successfully', _data))<br>
-        . <span class="fn">catch</span>((error) => console.error('Failed to fetch data:', error));<br>
-
-
-      </div>
 
     </div>
   </div>
@@ -1024,22 +1407,43 @@
       whether a user is authorised to perform actions in the application.</p>
     <p>You can use JWT token for stateless authentication. JWT token consists of user information like userId, roleId
       etc.<br>
-      JWT HEADER:ALGORITHM & TOKEN TYPE
-    <div class="fn">
-      {<br>
-      "alg": "HS256",<br>
-      "typ": "JWT"<br>
-      }<br>
-    </div>
-    Payload
+      JWT (JSON Web Token) is a compact, URL-safe means of representing claims to be transferred between two parties.
+      It's a JSON-based open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting
+      information between parties as a JSON object. Here's a detailed breakdown of JWT:</p>
+    <br>
+    <b>Components of JWT</b>
+    <br>
+    1. <b>Header</b>: The header typically consists of two parts: the type of token (JWT) and the signing algorithm
+    being used, such as HMAC SHA256 or RSA.<br>
+
     <div class="code">
-      {
-      "sub": "1234567890",
-      "name": "John Doe",
-      "iat": 1516239022
-      }
+      <code class="!whitespace-pre hljs language-json"><span class="hljs-punctuation">{</span>
+          <span class="hljs-attr">"alg"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"HS256"</span><span class="hljs-punctuation">,</span>
+          <span class="hljs-attr">"typ"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"JWT"</span>
+        <span class="hljs-punctuation">}</span>
+        </code>
+    </div><br>
+
+    2. <b>Payload (Claims)</b>: The payload contains data related to the user, Eg, userId, roleId etc.
+    <div class="code">
+      <code class="!whitespace-pre hljs language-json"><span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">"sub"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"1234567890"</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">"name"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"John Doe"</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">"admin"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
+      <span class="hljs-punctuation">}</span>
+      </code>
+    </div><br>
+
+    3. <b>Signature</b>: The signature is created by combining the encoded header, encoded payload, and a secret key (or
+    private key in the case of RSA). The signature is used to verify the JWT.
+    <div class="code">
+      <code class="!whitespace-pre hljs language-scss"><span class="hljs-built_in">HMACSHA256</span>(
+        base64UrlEncode(header) + "." +
+        <span class="hljs-built_in">base64UrlEncode</span>(payload),
+        secret
+      )
+      </code>
     </div>
-    </p>
   </div>
 
   <div id="27" class="con">
@@ -1072,6 +1476,211 @@
       });<br>
 
     </div>
+  </div>
+
+  <div id="28" class="con">
+    <h2>Upload Image on AWS-S3</h2>
+    <p>Create a file (uploadToS3.js) and add the following code:</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript"><span class="hljs-keyword">const</span> <span class="hljs-variable constant_">AWS</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'aws-sdk'</span>);
+        <span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+        
+        <span class="hljs-comment">// Update the following variables with your S3 bucket name and desired key (file name) in S3</span>
+        <span class="hljs-keyword">const</span> bucketName = <span class="hljs-string">'your-s3-bucket-name'</span>;
+        <span class="hljs-keyword">const</span> key = <span class="hljs-string">'your-image-file-name.jpg'</span>; <span class="hljs-comment">// Change the file name and extension as needed</span>
+        
+        <span class="hljs-comment">// Set up AWS credentials and S3 client</span>
+        <span class="hljs-variable constant_">AWS</span>.<span class="hljs-property">config</span>.<span class="hljs-title function_">update</span>({
+          <span class="hljs-attr">accessKeyId</span>: process.<span class="hljs-property">env</span>.<span class="hljs-property">AWS_ACCESS_KEY_ID</span>,
+          <span class="hljs-attr">secretAccessKey</span>: process.<span class="hljs-property">env</span>.<span class="hljs-property">AWS_SECRET_ACCESS_KEY</span>,
+          <span class="hljs-attr">region</span>: <span class="hljs-string">'your-aws-region'</span>, <span class="hljs-comment">// Update with your AWS region</span>
+        });
+        
+        <span class="hljs-keyword">const</span> s3 = <span class="hljs-keyword">new</span> <span class="hljs-variable constant_">AWS</span>.<span class="hljs-title function_">S3</span>();
+        
+        <span class="hljs-comment">// Read the image file as a buffer</span>
+        <span class="hljs-keyword">const</span> fileContent = fs.<span class="hljs-title function_">readFileSync</span>(<span class="hljs-string">'path/to/your/image.jpg'</span>); <span class="hljs-comment">// Update with the path to your image file</span>
+        
+        <span class="hljs-comment">// Set up the parameters for S3 upload</span>
+        <span class="hljs-keyword">const</span> params = {
+          <span class="hljs-title class_">Bucket</span>: bucketName,
+          <span class="hljs-title class_">Key</span>: key,
+          <span class="hljs-title class_">Body</span>: fileContent,
+          <span class="hljs-title class_">ContentType</span>: <span class="hljs-string">'image/jpeg'</span>, <span class="hljs-comment">// Change the content type based on your file type</span>
+          <span class="hljs-attr">ACL</span>: <span class="hljs-string">'public-read'</span>, <span class="hljs-comment">// Adjust the ACL based on your requirements</span>
+        };
+        
+        <span class="hljs-comment">// Upload the file to S3</span>
+        s3.<span class="hljs-title function_">upload</span>(params, <span class="hljs-function">(<span class="hljs-params">err, data</span>) =&gt;</span> {
+          <span class="hljs-keyword">if</span> (err) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">'Error uploading to S3:'</span>, err);
+          } <span class="hljs-keyword">else</span> {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Successfully uploaded to S3:'</span>, data.<span class="hljs-property">Location</span>);
+          }
+        });
+        </code>
+    </div>
+  </div>
+
+  <div id="29" class="con">
+    <h2>RabbitMQ</h2>
+    <b>Let's create a producer and a consumer:</b>
+    <h4>Producer</h4>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript"><span class="hljs-keyword">const</span> amqp = <span class="hljs-built_in">require</span>(<span class="hljs-string">'amqplib'</span>);
+
+        <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">produceMessage</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-comment">// Connect to RabbitMQ server</span>
+          <span class="hljs-keyword">const</span> connection = <span class="hljs-keyword">await</span> amqp.<span class="hljs-title function_">connect</span>(<span class="hljs-string">'amqp://localhost'</span>);
+          <span class="hljs-keyword">const</span> channel = <span class="hljs-keyword">await</span> connection.<span class="hljs-title function_">createChannel</span>();
+        
+          <span class="hljs-comment">// Declare a queue</span>
+          <span class="hljs-keyword">const</span> queueName = <span class="hljs-string">'hello'</span>;
+          <span class="hljs-keyword">await</span> channel.<span class="hljs-title function_">assertQueue</span>(queueName, { <span class="hljs-attr">durable</span>: <span class="hljs-literal">false</span> });
+        
+          <span class="hljs-comment">// Send a message to the queue</span>
+          <span class="hljs-keyword">const</span> message = <span class="hljs-string">'Hello RabbitMQ!'</span>;
+          channel.<span class="hljs-title function_">sendToQueue</span>(queueName, <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(message));
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Message sent: <span class="hljs-subst">${message}</span>`</span>);
+        
+          <span class="hljs-comment">// Close connection and channel</span>
+          <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+            connection.<span class="hljs-title function_">close</span>();
+            process.<span class="hljs-title function_">exit</span>(<span class="hljs-number">0</span>);
+          }, <span class="hljs-number">500</span>);
+        }
+        
+        <span class="hljs-title function_">produceMessage</span>().<span class="hljs-title function_">catch</span>(<span class="hljs-variable language_">console</span>.<span class="hljs-property">error</span>);
+        </code>
+    </div>
+    <h4>Consumer</h4>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript"><span class="hljs-keyword">const</span> amqp = <span class="hljs-built_in">require</span>(<span class="hljs-string">'amqplib'</span>);
+
+        <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">consumeMessage</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-comment">// Connect to RabbitMQ server</span>
+          <span class="hljs-keyword">const</span> connection = <span class="hljs-keyword">await</span> amqp.<span class="hljs-title function_">connect</span>(<span class="hljs-string">'amqp://localhost'</span>);
+          <span class="hljs-keyword">const</span> channel = <span class="hljs-keyword">await</span> connection.<span class="hljs-title function_">createChannel</span>();
+        
+          <span class="hljs-comment">// Declare a queue</span>
+          <span class="hljs-keyword">const</span> queueName = <span class="hljs-string">'hello'</span>;
+          <span class="hljs-keyword">await</span> channel.<span class="hljs-title function_">assertQueue</span>(queueName, { <span class="hljs-attr">durable</span>: <span class="hljs-literal">false</span> });
+        
+          <span class="hljs-comment">// Consume messages from the queue</span>
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Waiting for messages...'</span>);
+          channel.<span class="hljs-title function_">consume</span>(queueName, <span class="hljs-function">(<span class="hljs-params">message</span>) =&gt;</span> {
+            <span class="hljs-keyword">if</span> (message !== <span class="hljs-literal">null</span>) {
+              <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Received message: <span class="hljs-subst">${message.content.toString()}</span>`</span>);
+              channel.<span class="hljs-title function_">ack</span>(message); <span class="hljs-comment">// Acknowledge message</span>
+            }
+          });
+        
+          <span class="hljs-comment">// Close connection and channel</span>
+          <span class="hljs-comment">// This should not be reached, as the consumer will keep running</span>
+          <span class="hljs-comment">// Press Ctrl+C to exit the program</span>
+        }
+        
+        <span class="hljs-title function_">consumeMessage</span>().<span class="hljs-title function_">catch</span>(<span class="hljs-variable language_">console</span>.<span class="hljs-property">error</span>);
+        </code>
+    </div>
+
+    <p>
+      In this example:
+
+      - The producer sends a message ("Hello RabbitMQ!") to a queue named "hello".
+      - The consumer waits for messages on the same queue and prints them to the console.
+      - Both the producer and consumer connect to RabbitMQ using amqp.connect() and create a channel using
+      connection.createChannel().
+      - They then declare a queue with channel.assertQueue() and send/consume messages using channel.sendToQueue() and
+      channel.consume(), respectively.
+      - Finally, they close the connection and channel after their work is done.<br><br>
+      To run this example, you should start the consumer first and then the producer. You should see the consumer
+      logging the received message when the producer sends it.
+    </p>
+  </div>
+
+  <div id="30" class="con">
+    <h2>Validate message from RabbitMQ</h2>
+    <p>We can use Joi as a library for data validation. It allows you to define schemas and validate data
+      against those schemas.</p>
+
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript"><span class="hljs-keyword">const</span> amqp = <span class="hljs-built_in">require</span>(<span class="hljs-string">'amqplib'</span>);
+          <span class="hljs-keyword">const</span> <span class="hljs-title class_">Joi</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'joi'</span>);
+          
+          <span class="hljs-comment">// Define schema for incoming data using Joi</span>
+          <span class="hljs-keyword">const</span> schema = <span class="hljs-title class_">Joi</span>.<span class="hljs-title function_">object</span>({
+            <span class="hljs-attr">name</span>: <span class="hljs-title class_">Joi</span>.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">min</span>(<span class="hljs-number">1</span>).required(),
+            <span class="hljs-attr">age</span>: <span class="hljs-title class_">Joi</span>.<span class="hljs-title function_">number</span>().<span class="hljs-title function_">integer</span>().<span class="hljs-title function_">min</span>(<span class="hljs-number">18</span>).required()
+          });
+          
+          <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">handleMessage</span>(<span class="hljs-params">message</span>) {
+            <span class="hljs-keyword">try</span> {
+              <span class="hljs-comment">// Parse incoming JSON message</span>
+              <span class="hljs-keyword">const</span> data = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(message.<span class="hljs-property">content</span>.<span class="hljs-title function_">toString</span>());
+          
+              <span class="hljs-comment">// Validate data against schema</span>
+              <span class="hljs-keyword">const</span> validationResult = schema.<span class="hljs-title function_">validate</span>(data);
+          
+              <span class="hljs-keyword">if</span> (validationResult.<span class="hljs-property">error</span>) {
+                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">'Validation failed:'</span>, validationResult.<span class="hljs-property">error</span>.<span class="hljs-property">message</span>);
+                <span class="hljs-comment">// Handle validation error (e.g., send rejection message)</span>
+                <span class="hljs-keyword">return</span>;
+              }
+          
+              <span class="hljs-comment">// Data is valid, process it further</span>
+              <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Valid data:'</span>, data);
+            } <span class="hljs-keyword">catch</span> (error) {
+              <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">'Error processing message:'</span>, error);
+            }
+          }
+          
+          <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">consumeMessages</span>(<span class="hljs-params"></span>) {
+            <span class="hljs-keyword">const</span> connection = <span class="hljs-keyword">await</span> amqp.<span class="hljs-title function_">connect</span>(<span class="hljs-string">'amqp://localhost'</span>);
+            <span class="hljs-keyword">const</span> channel = <span class="hljs-keyword">await</span> connection.<span class="hljs-title function_">createChannel</span>();
+          
+            <span class="hljs-keyword">const</span> queueName = <span class="hljs-string">'my_queue'</span>;
+            <span class="hljs-keyword">await</span> channel.<span class="hljs-title function_">assertQueue</span>(queueName, { <span class="hljs-attr">durable</span>: <span class="hljs-literal">false</span> });
+          
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Waiting for messages...'</span>);
+          
+            channel.<span class="hljs-title function_">consume</span>(queueName, handleMessage, { <span class="hljs-attr">noAck</span>: <span class="hljs-literal">true</span> });
+          }
+          
+          <span class="hljs-title function_">consumeMessages</span>().<span class="hljs-title function_">catch</span>(<span class="hljs-variable language_">console</span>.<span class="hljs-property">error</span>);
+          </code>
+    </div>
+  </div>
+
+  <div id="31" class="con">
+    <h2>Callback function</h2>
+    <p>
+      Callback functions are functions passed as arguments to other functions, which are then invoked or executed inside
+      the outer function. They are commonly used in JavaScript for asynchronous operations or to achieve more flexible
+      and reusable code.
+    </p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// Function that takes a callback as an argument</span>
+        <span class="hljs-keyword">function</span> <span class="hljs-title function_">greet</span>(<span class="hljs-params">name, callback</span>) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">"Hello, "</span> + name + <span class="hljs-string">"!"</span>);
+            <span class="hljs-comment">// Invoke the callback function</span>
+            <span class="hljs-title function_">callback</span>();
+        }
+        
+        <span class="hljs-comment">// Callback function</span>
+        <span class="hljs-keyword">function</span> <span class="hljs-title function_">sayGoodbye</span>(<span class="hljs-params"></span>) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">"Goodbye!"</span>);
+        }
+        
+        <span class="hljs-comment">// Call the greet function and pass the callback function as an argument</span>
+        <span class="hljs-title function_">greet</span>(<span class="hljs-string">"Alice"</span>, sayGoodbye);
+        </code>
+    </div>
+    <p>Output:<br>
+      Hello, Alice!<br>
+      Goodbye!
+    </p>
+
   </div>
 
 

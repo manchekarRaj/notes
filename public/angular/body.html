@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 
 <head>
+  <link rel="stylesheet" href="./../notes_style.css">
   <style>
     body {
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-      font-size: large;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 17px;
       background-color: rgb(28, 28, 28);
       color: rgb(226, 234, 241);
     }
 
     .code {
       font-family: "Consolas";
-      font-style: italic;
-      color: rgb(132, 219, 2);
+      color: rgb(236, 255, 209);
       border: 1px;
       border-style: inset;
-      padding: 2px;
-      margin: 5px;
       width: 98%;
     }
 
     .con {
+      background-color: black;
       border: 2px;
       border-style: double;
-      padding: 5px;
-      margin: 5px;
+      padding: 3px;
+      margin: 3px;
       width: 98%;
+
     }
 
     .comment {
@@ -74,29 +74,81 @@
 <body>
   <div id="1" class="con">
     <h2>Setup</h2>
-    <p>Angular is an application-design framework and development platform for creating efficient and sophisticated
-      single-page apps.</p>
+    <p>Angular is a component-based framework for building scalable web applications.</p>
     <ul>
       <li>To install the Angular CLI > <span class="cmd">npm install -g @angular/cli</span></li>
+      <li>Check Angular Version > <span class="cmd">ng version</span></li>
       <li>To create a new workspace > <span class="cmd">ng new my-app</span></li>
       <li>Run the application > <span class="cmd">ng serve</span></li>
+      <li>Check TypeScript version > <span class="cmd">tsc -v</span></li>
     </ul>
+
+    <b>Folder Structure:</b>
+    <ul>
+      <li>- TypeScript > The goal of typescript is to make JavaScript strongly typed, it give you object oriented
+        feeling
+        when you write code using typescript, and it increases productivity.</li>
+      <li>- package.json > It has all the dependencies of Angular. You can also see the versions in which these
+        angular dependencies are installed.</li>
+      <li>- package-lock.json > It is a auto-generated file which locks down the versions of every insatlled packages,
+        prevent unintended updates. '<b>package-lock.json</b>' is crucial for locking dependencies to specific versions,
+        ensuring consistent installations across different environments. Without it, variations in installed versions
+        may occur. This file guarantees reproducibility by specifying exact versions, preventing discrepancies.
+        Including both `package.json` and `package-lock.json` in source control ensures that collaborators install the
+        exact dependencies, maintaining uniformity. </li>
+    </ul>
+    <br>
+    <p><b>Angular Flow:</b>
+      First UI to run is the index.html, The Index.html call the main.ts, The main.ts calls the AppModule. Bootstrap in
+      AppModule load the first component in the application, ie. the App.Component.ts, inside the selector, app-root in
+      index.html.
+    </p>
 
   </div>
 
   <div id="2" class="con">
     <h2>Components</h2>
-    <p>Components are the main building blocks for Angular applications. Each component consists of:</p>
+    <p>Angular is a component-based framework for building scalable web applications. Components are the main building
+      blocks for Angular applications. Each component consists of:</p>
     <ul>
-      <li>An HTML template that declares what renders on the page</li>
-      <li>A TypeScript class that defines behavior</li>
-      <li>A CSS selector that defines how the component is used in a template</li>
+      <li>- An HTML template that declares what renders on the page</li>
+      <li>- A TypeScript class that defines behavior</li>
+      <li>- A CSS selector that defines how the component is used in a template</li>
     </ul>
-    <p>Generate component</p>
+    <b>Generate component</b>
     <ul>
       <li><span class="cmd">ng generate component [name]</span></li>
     </ul>
-    <p>Component Lifecycle</p>
+    <p><b>Decorator</b><br>
+      A decorator is a special kind of declaration that can be attached to classes, methods, accessors, properties, or
+      parameters. Decorators are used to provide metadata about the element they decorate.
+    </p>
+    <p>Angular decorators typically start with the '@' symbol followed by the name of the decorator function. <br>
+      For example, in Angular, @Component, @NgModule, @Directive, @Pipe, etc., are all decorators. They are used to
+      annotate and configure various elements of an Angular application </p>
+    <p><br>
+    <ul>
+      <li><u>@Component</u>: Decorates a class as an Angular component, providing metadata such as selector, template
+        URL, style URLs, etc.</li>
+      <li><u>@NgModule</u>: Decorates a class as an Angular module, providing metadata such as declarations, imports,
+        providers, etc.</li>
+      <li><u>@Directive</u>: Decorates a class as an Angular directive, providing metadata such as selector, inputs,
+        outputs, etc.</li>
+      <li><u>@Pipe</u>: Decorates a class as an Angular pipe, providing metadata such as name, pure, etc.</li>
+    </ul>
+
+    </p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-typescript">
+      <span class="hljs-meta">@Component</span>({
+      <span class="hljs-attr">selector</span>: <span class="hljs-string">'app-root'</span>,
+      <span class="hljs-attr">templateUrl</span>: <span class="hljs-string">'./app.component.html'</span>,
+      <span class="hljs-attr">styleUrls</span>: [<span class="hljs-string">'./app.component.css'</span>]
+      })
+      </code>
+    </div>
+
+    <b>Component Lifecycle</b>
     <ul>
       <li>The component's lifecycle starts when Angular initializes the component, Then the component changes as per
         change detection, and the lifecycle ends when Angular destroys the component instance and removes its from the
@@ -109,15 +161,17 @@
       <li><u>ngDoCheck</u> - Developer's custom change detection.</li>
       <li><u>ngOnDestroy</u> - Just before the directive is destroyed.</li>
     </ul>
-    <p>Sharing data between child and parent directives and components</p>
+    <br>
+    <p><u>Sharing data between child and parent directives and components</u></p>
     <ul>
-      <li>'@'Input() and Output() decorators give a child component a way to communicate with its parent component.</li>
-      <li>'@'Input() decorator, data flows from parent to child, To use Input() decorator, you must configure both
+      <li>- '@'Input() and Output() decorators give a child component a way to communicate with its parent component.
+      </li>
+      <li>- '@'Input() decorator, data flows from parent to child, To use Input() decorator, you must configure both
         parent and child.</li>
-      <li>'@'Output() decorator, the data flow from the child to the parent component.</li>
-      <li>Use EventEmitter class to while using '@'Output() decorator</li>
-      <li><span class="cmd">'@'Output() newItemEvent = new EventEmitter<string>();</span></li>
-      <li><span class="cmd">this.newItemEvent.emit(value);</span></li>
+      <li>- '@'Output() decorator, the data flow from the child to the parent component.</li>
+      <li>- Use EventEmitter class to while using '@'Output() decorator</li>
+      <li>- <span class="cmd">'@'Output() newItemEvent = new EventEmitter<string>();</span></li>
+      <li>- <span class="cmd">this.newItemEvent.emit(value);</span></li>
     </ul>
 
     <p>Use '@'Input() and '@'Output() on the same child component as follows:</p>
@@ -223,17 +277,54 @@
     <h2>Directives</h2>
     <p>Directives are classes that add additional behavior to the elements in your Angular applications.</p>
     <ul>
-      <li>Components - </li>
-      <li>Attribute directives - Change the appearance or behavior of DOM elements<br>
+      <li><b>Component Directives</b> - Components are directives with a template. They are the most common type of
+        directive
+        used in Angular applications. Components encapsulate HTML templates along with their associated logic into
+        reusable, self-contained units. They are the building blocks of Angular applications and are used to create UI
+        elements.</li>
+      <li><b>Attribute directives</b> - Change the appearance or behavior of DOM elements<br>
         - <u>NgClass</u>: Adds and removes a set of CSS classes.<br>
         - <u>NgStyle</u>: Adds and removes a set of HTML styles.<br>
         - <u>NgModel</u>: Adds two-way data binding to an HTML form element.<br>
       </li>
-      <li>Structural directives - Change the DOM layout by adding and removing DOM elements.<br>
+      <li><b>Structural directives</b> - Change the DOM layout by adding and removing DOM elements.<br>
         - <u>NgIf</u>: Adds and removes a set of CSS classes.<br>
         - <u>NgFor</u>: Adds and removes a set of HTML styles.<br>
       </li>
     </ul>
+
+    <p>Here's an example of an attribute directive that changes the background color of an element based on a condition:
+    </p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-typescript">
+      <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Directive</span>, <span class="hljs-title class_">ElementRef</span>, <span class="hljs-title class_">Input</span>, <span class="hljs-title class_">Renderer2</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+
+      <span class="hljs-meta">@Directive</span>({
+        <span class="hljs-attr">selector</span>: <span class="hljs-string">'[appHighlight]'</span>
+      })
+      <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HighlightDirective</span> {
+        <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> el: ElementRef, <span class="hljs-keyword">private</span> renderer: Renderer2</span>) {}
+        
+        <span class="hljs-meta">@Input</span>(<span class="hljs-string">'appHighlight'</span>) <span class="hljs-attr">highlightColor</span>: <span class="hljs-built_in">string</span>;
+        
+        <span class="hljs-title function_">ngOnInit</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">highlight</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">highlightColor</span> || <span class="hljs-string">'yellow'</span>);
+        }
+        
+        <span class="hljs-keyword">private</span> <span class="hljs-title function_">highlight</span>(<span class="hljs-params">color: <span class="hljs-built_in">string</span></span>) {
+          <span class="hljs-variable language_">this</span>.<span class="hljs-property">renderer</span>.<span class="hljs-title function_">setStyle</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">el</span>.<span class="hljs-property">nativeElement</span>, <span class="hljs-string">'backgroundColor'</span>, color);
+        }
+      }
+    </code>
+    </div>
+    <p>And here's how you would use this directive in your HTML template:</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-html">
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">appHighlight</span> [<span class="hljs-attr">highlightColor</span>]=<span class="hljs-string">"'lightblue'"</span>&gt;</span>Highlighted text<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    </code>
+    </div>
+    <p>In this example, the "<u>appHighlight</u>" directive changes the background color of the div element to light
+      blue.</p>
 
   </div>
 
@@ -392,9 +483,10 @@
         observables and detach event handlers to avoid memory leaks.</li>
       <li><u>ngAfterViewChecked</u>: ngAfterViewChecked is useful when you want to call a lifecycle hook after all child
         components have been initialized and checked.</li>
-    </uL>
-
-
+      <li><u>ngAfterViewInit</u>: If you need to access the child component after it's initialized, you can use the
+        ngAfterViewInit lifecycle hook. This ensures that the child component is available for interaction. (Refer,
+        @ViewChild).</li>
+    </ul>
   </div>
 
   <div id="12" class="con">
@@ -464,28 +556,12 @@
     TypeScript is a typed language, it is a superset of JavaScript. TypeScript simplifies JavaScript code, making it
     easier to read and debug. <br>
     Current version: 5.3.3
-
-
     <br>
-
   </div>
-
 
   <div id="16" class="con">
-    <h2>Data binding in Angular</h2>
-    Interpolation, Property binding, Class binding, Style binding, Attribute binding, Event binding, Two-way binding.
-
-    <p>Types of Style binding<br>
-      Style binding is used to set a style of a view element. There are 2 types of style bindings.
-    </p>
-    <ul>
-      <li><u>Inline Style binding</u> eg: [style.width]="width"</li>
-      <li><u>Expression style binding</u> eg: [style]="styleExpression" (Expression can be string or an object) <br>eg:
-        {width: '100px', height: '100px', backgroundColor: 'cornflowerblue'}.
-      </li>
-    </ul>
+    <h2>...</h2>
   </div>
-
 
   <div id="17" class="con">
     <h2>This keyword</h2>
@@ -667,25 +743,141 @@
 
     <div id="24" class="con">
       <h2>View Child</h2>
-      <ul>
-        <li>In Javascript we use document.getElementById('con'), to get a reference of our HTML element, and then with
-          DOM
-          methods, we manipulate it.
-        </li>
-        <li>In Angular, if you want to get a reference of the element of your template file into the component class, in
-          that case, you can use ViewChild or ViewChildern.
-        </li>
-        <li>If you need to access references of multiple components then use ViewChildren.</li>
-      </ul>
+      <p>
+        In Angular, @ViewChild is a decorator used to access child components, directives, or elements within a parent
+        component. It allows the parent component to query and interact with its child components programmatically.<br>
+        @ViewChild is particularly useful when you need to access properties or methods of child components from the
+        parent component.</p>
+
+      <p>Here's how @ViewChild works:</p>
+      <p>1. <b>Import ViewChild</b> :First, import ViewChild from @angular/core in your parent component file.</p>
+      <div class="code">
+        <code class="!whitespace-pre hljs language-typescript">
+        <span class="hljs-keyword">import</span> { <span class="hljs-title class_">ViewChild</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+      </code>
+      </div>
+
+      <p>2. <b>Decorate the Property</b>: Next, decorate a property in the parent component with @ViewChild. </p>
+      <div class="code">
+        <code class="!whitespace-pre hljs language-typescript">
+        <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span>, <span class="hljs-title class_">ViewChild</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+        <span class="hljs-keyword">import</span> { <span class="hljs-title class_">ChildComponent</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./child.component'</span>;
+          
+        <span class="hljs-meta">@Component</span>({
+          <span class="hljs-attr">selector</span>: <span class="hljs-string">'app-parent'</span>,
+          <span class="hljs-attr">template</span>: <span class="hljs-string">`
+            &lt;app-child&gt;&lt;/app-child&gt;
+          `</span>
+        })
+        <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ParentComponent</span> {
+          <span class="hljs-meta">@ViewChild</span>(<span class="hljs-title class_">ChildComponent</span>) <span class="hljs-attr">childComponent</span>: <span class="hljs-title class_">ChildComponent</span>;
+        }
+        </code>
+      </div>
+      <p>3. <b>Access Child Properties and Methods</b>: Now, you can access properties and methods of the child
+        component through the childComponent property in the parent component.</p>
+      <div class="code">
+        <code class="!whitespace-pre hljs language-typescript">
+        <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+
+        <span class="hljs-meta">@Component</span>({
+          <span class="hljs-attr">selector</span>: <span class="hljs-string">'app-child'</span>,
+          <span class="hljs-attr">template</span>: <span class="hljs-string">`
+            &lt;p&gt;Child Component&lt;/p&gt;
+          `</span>
+        })
+        <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ChildComponent</span> {
+          <span class="hljs-attr">childProperty</span>: <span class="hljs-built_in">string</span> = <span class="hljs-string">'Hello from child'</span>;
+          
+          <span class="hljs-title function_">childMethod</span>(<span class="hljs-params"></span>) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Method called from child'</span>);
+          }
+        }
+        </code>
+      </div>
+      <p>In the parent component:</p>
+      <div class="code">
+        <code class="!whitespace-pre hljs language-typescript">
+        <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ParentComponent</span> {
+        <span class="hljs-meta">@ViewChild</span>(<span class="hljs-title class_">ChildComponent</span>) <span class="hljs-attr">childComponent</span>: <span class="hljs-title class_">ChildComponent</span>;
+        
+        <span class="hljs-title function_">ngAfterViewInit</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">childComponent</span>.<span class="hljs-property">childProperty</span>); <span class="hljs-comment">// Output: Hello from child</span>
+          <span class="hljs-variable language_">this</span>.<span class="hljs-property">childComponent</span>.<span class="hljs-title function_">childMethod</span>(); <span class="hljs-comment">// Output: Method called from child</span>
+        }
+      }
+      </code>
+      </div>
+      <p>4. <b>Lifecycle Hook</b>: If you need to access the child component after it's initialized, you can use the
+        "<u>ngAfterViewInit</u>" lifecycle hook. This ensures that the child component is available for interaction.</p>
+      <div class="code">
+        <code class="!whitespace-pre hljs language-typescript">
+        <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ParentComponent</span> {
+        <span class="hljs-meta">@ViewChild</span>(<span class="hljs-title class_">ChildComponent</span>) <span class="hljs-attr">childComponent</span>: <span class="hljs-title class_">ChildComponent</span>;
+          
+        <span class="hljs-title function_">ngAfterViewInit</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-comment">// Access child component here</span>
+        }
+      }
+      </code>
+      </div>
+      <br>
+      <p>"@ViewChild" allows you to establish communication between parent and child components in Angular, enabling you
+        to build more dynamic and interactive applications.</p>
+
+
+
+
+
 
     </div>
 
     <div id="25" class="con">
       <h2>Modules</h2>
       <p> Angular modules (NgModule) are containers for a group of related components, directives, pipes, and services.
-        They help organize an application into cohesive blocks of functionality and enable lazy loading for better
-        performance.</p>
-
+        They help organize an application into cohesive blocks of functionality. Modules help to keep the codebase
+        organized, maintainable, and scalable by promoting modularity and encapsulation.</p>
+      <br>
+      <p>Angular applications typically have at least one root module, called the AppModule, which serves as the entry
+        point for the application. Additionally, Angular applications can have multiple feature modules, each focusing
+        on a specific feature or aspect of the application.</p>
+      <br>
+      <p>Key concepts related to Angular modules:</p>
+      <ul>
+        <li><b>NgModule Decorator</b>: Modules are defined using the @NgModule decorator. This decorator provides
+          metadata about the module, such as its declarations, imports, exports, and providers.</li>
+        <li><b>Declarations</b>: Components, directives, and pipes that belong to the module are listed here in
+          Declarations.</li>
+        <li><b>Imports</b>: Imports specify other modules whose exported members should be available within the current
+          module. This allows you to reuse functionality from other modules.</li>
+        <li><b>Exports</b>: Exports specify which declarations of the module should be accessible to other modules that
+          import it.</li>
+        <li><b>Providers</b>: Providers are used to register services within the module. Services provided at the module
+          level are typically singletons, meaning there is only one instance of the service throughout the application.
+        </li>
+      </ul>
+      <div class="code">
+        <code class="!whitespace-pre hljs language-typescript">
+        <span class="hljs-keyword">import</span> { <span class="hljs-title class_">NgModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+        <span class="hljs-keyword">import</span> { <span class="hljs-title class_">BrowserModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/platform-browser'</span>;
+        <span class="hljs-keyword">import</span> { <span class="hljs-title class_">AppComponent</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./app.component'</span>;
+          
+        <span class="hljs-meta">@NgModule</span>({
+          <span class="hljs-attr">declarations</span>: [
+            <span class="hljs-title class_">AppComponent</span>
+          ],
+          <span class="hljs-attr">imports</span>: [
+            <span class="hljs-title class_">BrowserModule</span>
+          ],
+          <span class="hljs-attr">providers</span>: [],
+          <span class="hljs-attr">bootstrap</span>: [<span class="hljs-title class_">AppComponent</span>]
+        })
+        <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AppModule</span> { }
+        </code>
+      </div>
+      <p>In this example, AppModule is the root module of the application. It declares the AppComponent and imports the
+        BrowserModule, which is required for running the application in a web browser. The bootstrap property specifies
+        the root component of the application.</p>
     </div>
 
     <div id="26" class="con">
@@ -695,14 +887,58 @@
 
       <ul>
         <li><b>Interpolation</b>: Interpolation is denoted by double curly braces ({{ }}). It allows you to render
-          component data in the HTML template.</li>
+          component data in the HTML template.
+          <div class="code">
+            <code class="!whitespace-pre hljs language-html">
+            <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>{{ title }}<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+            </code>
+          </div>
+        </li>
         <li><b>Property Binding</b>: It allows you to set the value of an HTML element property by using square brackets
-          [].</li>
-        <li><b>Event Binding</b>: It allows you to listen to events raised by the user in the view, Eg: Click event</li>
+          [].
+
+          <div class="code">
+            <code class="!whitespace-pre hljs language-html">
+            <span class="hljs-tag">&lt;<span class="hljs-name">img</span> [<span class="hljs-attr">src</span>]=<span class="hljs-string">"imageUrl"</span>&gt;</span>
+          </code>
+          </div>
+        </li>
+        <li><b>Event Binding</b>: It allows you to listen to events raised by the user in the view, Eg: Click event.
+          <div class="code">
+            <code class="!whitespace-pre hljs language-html">
+            <span class="hljs-tag">&lt;<span class="hljs-name">button</span> (<span class="hljs-attr">click</span>)=<span class="hljs-string">"onButtonClick()"</span>&gt;</span>Click me<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+          </code>
+          </div>
+        </li>
         <li><b>Two-way Binding</b>: It combines property binding and event binding, allowing data to flow both ways
           between the component and the view. Two-way binding syntax is a combination of square brackets and parentheses
-          [()].<br>
+          [()].
+          <div class="code">
+            <code class="!whitespace-pre hljs language-html">
+            <span class="hljs-tag">&lt;<span class="hljs-name">input</span> [(<span class="hljs-attr">ngModel</span>)]=<span class="hljs-string">"name"</span>&gt;</span>
+            </code>
+
+          </div>
+          <br>
           Eg: app-sizer [(size)]="fontSizePx">/app-sizer>
+        </li>
+        <li>
+          <b>Attribute Binding</b>: Attribute binding allows you to dynamically set an element's attribute value based
+          on the component's data. It is denoted by the attr. prefix.
+          <div class="code">
+            <code class="!whitespace-pre hljs language-html">
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> [<span class="hljs-attr">attr.role</span>]=<span class="hljs-string">"isAdmin ? 'admin' : 'user'"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+          </code>
+          </div>
+        </li>
+        <li>
+          <b>Class Binding</b>: Class binding allows you to add or remove CSS classes dynamically based on the
+          component's data. It is denoted by the class. prefix.
+          <div class="code">
+            <code class="!whitespace-pre hljs language-html">
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> [<span class="hljs-attr">class.error</span>]=<span class="hljs-string">"isError"</span>&gt;</span>Error message<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            </code>
+          </div>
         </li>
       </ul>
 
@@ -757,8 +993,48 @@
             for (const num of numbers) {<br>
             console.log(num); <span class="comment">// Output: 0, 1, 2, 3, 4, 5</span><br>
             }<br>
-
           </div>
+      </div>
+
+      <div id="30" class="con">
+        <h2>Tricky Questions</h2>
+        <ul>
+          <li>Number(" 123 ") // 123</li>
+          <li>Number("123z") // NaN (error reading a number at "z") </li>
+          <li>Number(true) // 1</li>
+          <li>Number(false) // 0</li>
+          <li>Boolean(1) // true</li>
+          <li>Boolean(0) // false</li>
+          <li>Boolean("hello") // true</li>
+          <li>Boolean("") // false</li>
+          <li>Boolean("0") // true</li>
+          <li>Boolean(" ") // true </li>
+          <li>6 - '2' // 4</li>
+          <li>'6' / '2' // 3</li>
+          <li>let a = 1, b = 1;<br>
+            let c = ++a;<br>
+            let d = b++;<br>
+            console.log(c, d, b) // 2 1 2
+          </li>
+          <li>"" + 1 + 0 = "10" // The addition with a string "" + 1 converts 1 to a string: "" + 1 = "1", and then we
+            have "1" + 0, the same rule is applied.</li>
+          <li>"" - 1 + 0 = -1 // The subtraction - (like most math operations) only works with numbers, it converts an
+            empty string "" to 0.</li>
+          <li>true + false = 1</li>
+          <li>6 / "3" = 2</li>
+          <li>"2" * "3" = 6</li>
+          <li>4 + 5 + "px" = "9px"</li>
+          <li>"$" + 4 + 5 = "$45"</li>
+          <li>"4" - 2 = 2</li>
+          <li>"4px" - 2 = NaN</li>
+          <li>" -9 " + 5 = " -9 5" // The addition with a string appends the number 5 to the string.</li>
+          <li>" -9 " - 5 = -14 // The subtraction always converts to numbers, so it makes " -9 " a number -9</li>
+          <li>null + 1 = 1 // null becomes 0 after the numeric conversion.</li>
+          <li>undefined + 1 = NaN // undefined becomes NaN after the numeric conversion.</li>
+          <li>" \t \n" - 2 = -2 // Space characters are trimmed off string start and end when a string is converted to a
+            number. Here the whole string consists of space characters, such as \t, \n and a “regular” space between
+            them. So, similarly to an empty string, it becomes 0.</li>
+        </ul>
 
 
 

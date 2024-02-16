@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 
 <head>
+  <link rel="stylesheet" href="./../notes_style.css">
   <style>
     body {
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-      font-size: large;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 17px;
       background-color: rgb(28, 28, 28);
       color: rgb(226, 234, 241);
     }
 
     .code {
       font-family: "Consolas";
-      font-style: italic;
-      color: rgb(132, 219, 2);
+      color: rgb(236, 255, 209);
       border: 1px;
       border-style: inset;
-      padding: 2px;
-      margin: 5px;
       width: 98%;
+      margin: 0;
     }
 
     .con {
+      background-color: black;
       border: 2px;
       border-style: double;
-      padding: 5px;
-      margin: 5px;
+      padding: 3px;
+      margin: 3px;
       width: 98%;
     }
 
@@ -36,6 +36,10 @@
 
     h2 {
       color: rgb(72, 176, 245);
+    }
+
+    h3 {
+      color: rgb(255, 163, 109);
     }
 
     h4 {
@@ -73,79 +77,206 @@
 
 <body>
   <div id="1" class="con">
-    <h2>Indexing</h2>
-    <p>MongoDB utilizes indexing to enhance query processing efficiency. <br>
-      Without indexing, MongoDB would need to scan every document in the collection and retrieve only those matching the
-      query. So Indexing limits how MongoDB scans the document.
-      <br>
-    <p>Negative performance impact: For collection with a high write-to-read ratio, indexes are expensive because each
-      insert must also update any indexes. </p>
+    <h2>mongoosejs Ver: 8.1.2</h2>
+    <p>Mongoose provides a straight-forward, schema-based solution to model your application data. It includes built-in
+      type casting, validation, query building, business logic hooks and more, out of the box.</p>
+    <br>
+    <p>To handle initial connection errors, you should use .catch() or try/catch with async/await.</p>
 
+    <b>Mongoose connection</b>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      mongoose.<span class="hljs-title function_">connect</span>(<span class="hljs-string">'mongodb://127.0.0.1:27017/test'</span>)
+        .<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> <span class="hljs-title function_">handleError</span>(error));
+      
+      <span class="hljs-comment">// Or:</span>
+      <span class="hljs-keyword">try</span> {
+        <span class="hljs-keyword">await</span> mongoose.<span class="hljs-title function_">connect</span>(<span class="hljs-string">'mongodb://127.0.0.1:27017/test'</span>);
+      } <span class="hljs-keyword">catch</span> (error) {
+        <span class="hljs-title function_">handleError</span>(error);
+      }
+      </code>
+    </div>
+    <br>
+    <p>To handle errors after initial connection is established, you should listen for error events on the connection.
     </p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+        mongoose.<span class="hljs-property">connection</span>.<span class="hljs-title function_">on</span>(<span class="hljs-string">'error'</span>, <span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {
+        <span class="hljs-title function_">logError</span>(err);
+        });
+      </code>
+      <p>Note that Mongoose does not necessarily emit an 'error' event if it loses connectivity to MongoDB. You should
+        listen to the disconnected event to report when Mongoose is disconnected from MongoDB.</p>
+    </div>
+    <br>
+    <b>Connection events</b>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+        mongoose.<span class="hljs-property">connection</span>.<span class="hljs-title function_">on</span>(<span class="hljs-string">'connected'</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'connected'</span>));
+        mongoose.<span class="hljs-property">connection</span>.<span class="hljs-title function_">on</span>(<span class="hljs-string">'open'</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'open'</span>));
+        mongoose.<span class="hljs-property">connection</span>.<span class="hljs-title function_">on</span>(<span class="hljs-string">'disconnected'</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'disconnected'</span>));
+        mongoose.<span class="hljs-property">connection</span>.<span class="hljs-title function_">on</span>(<span class="hljs-string">'reconnected'</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'reconnected'</span>));
+        mongoose.<span class="hljs-property">connection</span>.<span class="hljs-title function_">on</span>(<span class="hljs-string">'disconnecting'</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'disconnecting'</span>));
+        mongoose.<span class="hljs-property">connection</span>.<span class="hljs-title function_">on</span>(<span class="hljs-string">'close'</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'close'</span>));
+        
+        mongoose.<span class="hljs-title function_">connect</span>(<span class="hljs-string">'mongodb://127.0.0.1:27017/mongoose_test'</span>);
+        </code>
+    </div>
+    <br>
+    <p>With mongoose.createConnection(), use the following instead:</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+        <span class="hljs-keyword">const</span> conn = mongoose.<span class="hljs-title function_">createConnection</span>(<span class="hljs-string">'mongodb://127.0.0.1:27017/mongoose_test'</span>);
 
-    <p>Types of Indexes:</p>
-    <ul>
-      <li>Single Field Indexes - Single field indexes store information from a single field in a collection. </li>
-      <li>Compound Indexes - Compound indexes are indexes that contain references to multiple fields.</li>
-      <li>Multikey Indexes</li>
-      <li>Text Indexes</li>
-      <li>Wildcard Indexes</li>
-      <li>Geospatial Indexes</li>
-      <li>Hashed Indexes</li>
-    </ul>
-
-    <ul>
-      <p><b>Single Field Indexes</b> - Single field indexes store information from a single field in a collection. </p>
-      <li><u>Create an Index on a Single Field</u>: <span class="comment">db.students.createIndex( { gpa: 1 } )</span>
-      </li>
-      <li><u>Create an Index on an Embedded Document</u>: Eg, Student location is stored in an embedded document called
-        location.
-        The location document contains the fields city and state. You can create an index on the location field to
-        improve
-        performance for queries on the location document: <span class="comment">db.students.createIndex( { location: 1 }
-          )</span>
-        <p>The following query uses the index on the location field:<br>
-          <span class="comment">db.students.find( { location: { city: "Sacramento", state: "California" } } )</span>
-        </p>
-      </li>
-      <li><u>Create an Index on an Embedded Field</u>: You can create indexes on fields within embedded documents. <span
-          class="comment">db.students.createIndex( { "location.state": 1 } )</span></li>
-
-      <p><b>Compound Indexes</b> - Compound indexes are indexes that contain references to multiple fields.</p>
-      <li><u>Create a Compound Index</u>
-        <br>
-        <span class="comment">
-          db.students.createIndex( {<br>
-          name: 1,<br>
-          gpa: -1<br>
-          } )<br>
-          <p>In this example:<br>
-            - The index on name is ascending (1).<br>
-            - The index on gpa is descending (-1).</p>
-        </span>
-      </li>
-      <li><u>Compound Index Sort Order</u></li>
-    </ul>
-
-    <p></p>
-    <p></p>
-
-
+        conn.<span class="hljs-title function_">on</span>(<span class="hljs-string">'connected'</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'connected'</span>));
+        conn.<span class="hljs-title function_">on</span>(<span class="hljs-string">'open'</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'open'</span>));
+        conn.<span class="hljs-title function_">on</span>(<span class="hljs-string">'disconnected'</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'disconnected'</span>));
+        conn.<span class="hljs-title function_">on</span>(<span class="hljs-string">'reconnected'</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'reconnected'</span>));
+        conn.<span class="hljs-title function_">on</span>(<span class="hljs-string">'disconnecting'</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'disconnecting'</span>));
+        conn.<span class="hljs-title function_">on</span>(<span class="hljs-string">'close'</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'close'</span>));
+        </code>
+    </div>
+    <br>
+    <b>TLS/SSL Connections - TLS/SSL Validation</b>
+    <p>Mongoose supports connecting to MongoDB clusters that require TLS/SSL connections. Setting the tls option to true
+      in mongoose.connect() or your connection string is enough to connect to a MongoDB cluster using TLS/SSL:</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+        mongoose.<span class="hljs-title function_">connect</span>(<span class="hljs-string">'mongodb://127.0.0.1:27017/test'</span>, {
+        <span class="hljs-attr">tls</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">tlsAllowInvalidCertificates</span>: <span class="hljs-literal">true</span>,
+        });
+      </code>
+    </div>
+    <br>
+    <b>Connection Pools</b>
+    <p>The connection pool size is important because MongoDB currently can only process one operation per socket. So
+      maxPoolSize functions as a cap on the number of concurrent operations.</p>
+    <br>
+    <p>Each connection, is backed by an internal configurable connection pool defaulting to a maximum size of 100.
+      Adjust the pool size using your connection options:</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+        <span class="hljs-comment">// With object options</span>
+        mongoose.<span class="hljs-title function_">createConnection</span>(uri, { <span class="hljs-attr">maxPoolSize</span>: <span class="hljs-number">10</span> });
+          
+        <span class="hljs-comment">// With connection string options</span>
+        <span class="hljs-keyword">const</span> uri = <span class="hljs-string">'mongodb://127.0.0.1:27017/test?maxPoolSize=10'</span>;
+        mongoose.<span class="hljs-title function_">createConnection</span>(uri);
+      </code>
+    </div>
   </div>
 
   <div id="2" class="con">
-    <h2></h2>
-
-
+    <h2>Models</h2>
+    <p>An instance of a model is called a document. Models are responsible for creating and reading documents from the
+      MongoDB database.</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      <span class="hljs-keyword">const</span> schema = <span class="hljs-keyword">new</span> mongoose.<span class="hljs-title class_">Schema</span>({ <span class="hljs-attr">name</span>: <span class="hljs-title class_">String</span>, <span class="hljs-attr">size</span>: <span class="hljs-title class_">String</span> });
+      <span class="hljs-keyword">const</span> <span class="hljs-title class_">Tank</span> = mongoose.<span class="hljs-title function_">model</span>(<span class="hljs-string">'Tank'</span>, schema);
+          
+      <span class="hljs-keyword">const</span> small = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Tank</span>({ <span class="hljs-attr">size</span>: <span class="hljs-string">'small'</span> });
+      <span class="hljs-keyword">await</span> small.<span class="hljs-title function_">save</span>();
+          
+      <span class="hljs-comment">// or</span>
+      <span class="hljs-keyword">await</span> <span class="hljs-title class_">Tank</span>.<span class="hljs-title function_">create</span>({ <span class="hljs-attr">size</span>: <span class="hljs-string">'small'</span> });
+          
+      <span class="hljs-comment">// or, for inserting large batches of documents</span>
+      <span class="hljs-keyword">await</span> <span class="hljs-title class_">Tank</span>.<span class="hljs-title function_">insertMany</span>([{ <span class="hljs-attr">size</span>: <span class="hljs-string">'small'</span> }]);
+    </code>
+    </div>
+    <p>Mongoose automatically looks for the plural, lowercased version of your model name. Thus, the model Tank is for
+      the "tanks" collection in the database.
+    </p>
   </div>
 
   <div id="3" class="con">
-    <h2></h2>
+    <h2>CRUD</h2>
+    <h3>Find, Update, Delete</h3>
+    <p>Finding documents is easy with Mongoose, which supports the rich query syntax of MongoDB. Documents can be
+      retrieved using a model's "find", "findById", "findOne", or "where" static functions.</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      <span class="hljs-comment">// Find document</span>
+      <span class="hljs-keyword">await</span> <span class="hljs-title class_">Tank</span>.<span class="hljs-title function_">find</span>({ <span class="hljs-attr">size</span>: <span class="hljs-string">'small'</span> }).<span class="hljs-title function_">where</span>(<span class="hljs-string">'createdDate'</span>).<span class="hljs-title function_">gt</span>(oneYearAgo).<span class="hljs-title function_">exec</span>();
+          
+      <span class="hljs-comment">// Delete document</span>
+      <span class="hljs-keyword">await</span> <span class="hljs-title class_">Tank</span>.<span class="hljs-title function_">deleteOne</span>({ <span class="hljs-attr">size</span>: <span class="hljs-string">'large'</span> });
+          
+      <span class="hljs-comment">/* Models have static deleteOne() and deleteMany() functions for removing all documents matching the given filter. */</span>
+          
+      <span class="hljs-comment">// Update document</span>
+      <span class="hljs-keyword">await</span> <span class="hljs-title class_">Tank</span>.<span class="hljs-title function_">updateOne</span>({ <span class="hljs-attr">size</span>: <span class="hljs-string">'large'</span> }, { <span class="hljs-attr">name</span>: <span class="hljs-string">'T-90'</span> });
+    </code>
+    </div>
+    <i>If you want to update a single document in the db and return it to your application, use
+      "<b>findOneAndUpdate</b>"
+      instead.</i>
 
+    <br><br>
+    <h3>Change Streams</h3>
+    <p>Change streams provide a way for you to listen to all inserts and updates going through your MongoDB database.
+      Note that change streams works with MongoDB replica set.</p>
+    <br>
+    <p>
+      If you try to call watch() when connected to a standalone MongoDB server, you'll get error: <i>MongoServerError:
+        The $changeStream stage is only supported on replica sets</i>.
+    </p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      <span class="hljs-keyword">const</span> <span class="hljs-title class_">Person</span> = mongoose.<span class="hljs-title function_">model</span>(<span class="hljs-string">'Person'</span>, <span class="hljs-keyword">new</span> mongoose.<span class="hljs-title class_">Schema</span>({ <span class="hljs-attr">name</span>: <span class="hljs-title class_">String</span> }));
+
+      <span class="hljs-comment">// Create a change stream. The 'change' event gets emitted when there's a</span>
+      <span class="hljs-comment">// change in the database. Print what the change stream emits.</span>
+      <span class="hljs-title class_">Person</span>.<span class="hljs-title function_">watch</span>().<span class="hljs-title function_">on</span>(<span class="hljs-string">'change'</span>, <span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data));
+        
+      <span class="hljs-comment">// Insert a doc, will trigger the change stream handler above</span>
+      <span class="hljs-keyword">await</span> <span class="hljs-title class_">Person</span>.<span class="hljs-title function_">create</span>({ <span class="hljs-attr">name</span>: <span class="hljs-string">'Axl Rose'</span> });
+    </code>
+    </div>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      <span class="hljs-comment">// Output:</span>
+      {
+        <span class="hljs-attr">_id</span>: {
+        <span class="hljs-attr">_data</span>: <span class="hljs-string">'8262408DAC000000012B022C0100296E5A10042890851837DB47'</span>
+        },
+        <span class="hljs-attr">operationType</span>: <span class="hljs-string">'insert'</span>,
+        <span class="hljs-attr">clusterTime</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Timestamp</span>({ <span class="hljs-attr">t</span>: <span class="hljs-number">1648397740</span>, <span class="hljs-attr">i</span>: <span class="hljs-number">1</span> }),
+        <span class="hljs-attr">fullDocument</span>: {
+        <span class="hljs-attr">_id</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectId</span>(<span class="hljs-string">"62408dac6f5c42ff5ee087a2"</span>),
+        <span class="hljs-attr">name</span>: <span class="hljs-string">'Axl Rose'</span>,
+        <span class="hljs-attr">__v</span>: <span class="hljs-number">0</span>
+        },
+        <span class="hljs-attr">ns</span>: { <span class="hljs-attr">db</span>: <span class="hljs-string">'test'</span>, <span class="hljs-attr">coll</span>: <span class="hljs-string">'people'</span> },
+        <span class="hljs-attr">documentKey</span>: { <span class="hljs-attr">_id</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectId</span>(<span class="hljs-string">"62408dac6f5c42ff5ee087a2"</span>) }
+      }
+      </code>
+    </div>
   </div>
 
   <div id="4" class="con">
-    <h2></h2>
+    <h2>Documents</h2>
+    <p>Mongoose documents represent a one-to-one mapping to documents as stored in MongoDB. Each document is an instance
+      of its Model.</p>
+
+    <h3>Documents vs Models</h3>
+    <p>Document and Model are distinct classes in Mongoose. The Model class is a subclass of the Document class. When
+      you use the Model constructor, you create a new document.</p>
+
+
+
+
+
+
+
+
+
+
+
+
 
   </div>
 
@@ -202,7 +333,69 @@
   </div>
 
   <div id="15" class="con">
-    <h2></h2>
+    <h2>Indexes</h2>
+    <p>Indexes are data structures that store a small portion of the collection's data to quickly locate documents
+      within the colllection based on the indexed fields.</p>
+    <p>MongoDB utilizes indexing to enhance query processing efficiency. <br>
+      Without indexing, MongoDB would need to scan every document in the collection and retrieve only those matching the
+      query. So Indexing limits how MongoDB scans the document.</p>
+    <br>
+    <p>Negative performance impact: For collection with a high write-to-read ratio, indexes are expensive because each
+      insert must also update any indexes. </p>
+    </p>
+
+    <h3>Create an Index</h3>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      db.<span class="hljs-property">collection</span>.<span class="hljs-title function_">createIndex</span>({ <span class="hljs-attr">name</span>: -<span class="hljs-number">1</span> })
+      </code>
+    </div>
+    <h3>Index Types</h3>
+    <ul>
+      <li>Single Field Indexes - Single field indexes store information from a single field in a collection. </li>
+      <li>Compound Indexes - Compound indexes are indexes that contain references to multiple fields.</li>
+      <li>Multikey Indexes</li>
+      <li>Text Indexes</li>
+      <li>Wildcard Indexes</li>
+      <li>Geospatial Indexes</li>
+      <li>Hashed Indexes</li>
+    </ul>
+
+    <ul>
+      <p><b>Single Field Indexes</b> - Single field indexes store information from a single field in a collection. </p>
+      <li><u>Create an Index on a Single Field</u>: <span class="comment">db.students.createIndex( { gpa: 1 } )</span>
+      </li>
+      <li><u>Create an Index on an Embedded Document</u>: Eg, Student location is stored in an embedded document called
+        location.
+        The location document contains the fields city and state. You can create an index on the location field to
+        improve
+        performance for queries on the location document: <span class="comment">db.students.createIndex( { location: 1 }
+          )</span>
+        <p>The following query uses the index on the location field:<br>
+          <span class="comment">db.students.find( { location: { city: "Sacramento", state: "California" } } )</span>
+        </p>
+      </li>
+      <li><u>Create an Index on an Embedded Field</u>: You can create indexes on fields within embedded documents. <span
+          class="comment">db.students.createIndex( { "location.state": 1 } )</span></li>
+
+      <p><b>Compound Indexes</b> - Compound indexes are indexes that contain references to multiple fields.</p>
+      <li><u>Create a Compound Index</u>
+        <br>
+        <span class="comment">
+          db.students.createIndex( {<br>
+          name: 1,<br>
+          gpa: -1<br>
+          } )<br>
+          <p>In this example:<br>
+            - The index on name is ascending (1).<br>
+            - The index on gpa is descending (-1).</p>
+        </span>
+      </li>
+      <li><u>Compound Index Sort Order</u></li>
+    </ul>
+
+    <p></p>
+    <p></p>
 
   </div>
 
