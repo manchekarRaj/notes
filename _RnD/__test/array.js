@@ -19,6 +19,11 @@ Array.prototype.myMap = function (callback) {
   return arr
 }
 
+const newoutput = arr.myMap((num, i, arr) => {
+  return num * 3
+})
+///console.log(newoutput)
+
 //Polyfill of filter
 Array.prototype.myFilter = function (callback) {
   let temp = []
@@ -33,7 +38,6 @@ Array.prototype.myFilter = function (callback) {
 const filteredData = arr.myFilter((num) => {
   return num > 7
 })
-
 //console.log('filteredData', filteredData)
 
 //Polyfill of Reduce
@@ -51,11 +55,7 @@ const mySum = arr.myReduce((acc, curr, i, arr) => {
 
 //console.log('mySum', mySum)
 
-const newoutput = arr.myMap((num, i, arr) => {
-  return num * 3
-})
 
-///console.log(newoutput)
 
 
 

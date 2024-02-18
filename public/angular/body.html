@@ -1517,12 +1517,92 @@
           <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(sum); <span class="hljs-comment">// Output: 15 (1 + 2 + 3 + 4 + 5)</span>
           </code>
         </div>
-
         </p>
-
-
       </div>
 
+
+      <div id="32" class="con">
+        <h2>Unit Testing - Jasmin</h2>
+        <p>
+          <b>Setup</b>
+          : Angular CLI automatically generates a testing setup when you create a new Angular project. You'll find
+          configuration files for Karma (test runner) and Jasmine in the karma.conf.js and src/test.ts files
+          respectively.<br><br>
+
+          <b>Writing Tests</b>: Tests are typically written in .spec.ts files alongside the components, services, or
+          other units
+          being tested. You can place them in the same directory as the file being tested or in a spec
+          directory.<br><br>
+
+          <b>Describe and It</b>: Jasmine provides functions describe() and it() to structure your tests. describe() is
+          used to
+          group related tests, and it() is used to define individual test cases.<br><br>
+
+          <b>Expectations</b>: Jasmine provides a set of functions like expect() to define expectations or assertions.
+          You can
+          use matchers like toEqual(), toBeTruthy(), toContain(), etc., to check the expected behavior of your
+          code.<br><br>
+
+          <b>Setup and Teardown</b>: Jasmine provides beforeEach() and afterEach() functions to set up and tear down
+          test
+          fixtures respectively. You can also use beforeAll() and afterAll() for setup and teardown that should run once
+          for the entire test suite.<br><br>
+
+          <b>Spies and Mocks</b>: Jasmine provides spies for spying on function calls and tracking calls to those
+          functions.
+          Spies can also be used to mock dependencies and control their behavior during tests.<br><br>
+
+          <b>Async Testing</b>: Angular often involves asynchronous operations such as HTTP requests or timeouts.
+          Jasmine
+          provides mechanisms for handling asynchronous code using functions like async(), fakeAsync(), and
+          tick().<br><br>
+
+          <b>Angular Testing Utilities</b>: Angular provides additional utilities for testing Angular-specific features
+          such as
+          TestBed for configuring and creating components with their dependencies, ComponentFixture for interacting with
+          component instances, and so on.
+        </p><br>
+
+
+        <div class="code">
+          <code class="!whitespace-pre hljs language-typescript">
+      <span class="hljs-keyword">import</span> { <span class="hljs-title class_">TestBed</span>, <span class="hljs-title class_">ComponentFixture</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core/testing'</span>;
+      <span class="hljs-keyword">import</span> { <span class="hljs-title class_">AppComponent</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./app.component'</span>;
+            
+      <span class="hljs-title function_">describe</span>(<span class="hljs-string">'AppComponent'</span>, <span class="hljs-function">() =&gt;</span> {
+          <span class="hljs-keyword">let</span> <span class="hljs-attr">component</span>: <span class="hljs-title class_">AppComponent</span>;
+          <span class="hljs-keyword">let</span> <span class="hljs-attr">fixture</span>: <span class="hljs-title class_">ComponentFixture</span>&lt;<span class="hljs-title class_">AppComponent</span>&gt;;
+            
+          <span class="hljs-title function_">beforeEach</span>(<span class="hljs-keyword">async</span> () =&gt; {
+            <span class="hljs-keyword">await</span> <span class="hljs-title class_">TestBed</span>.<span class="hljs-title function_">configureTestingModule</span>({
+                  <span class="hljs-attr">declarations</span>: [
+                    <span class="hljs-title class_">AppComponent</span>
+              ],
+            }).<span class="hljs-title function_">compileComponents</span>();
+          });
+            
+          <span class="hljs-title function_">beforeEach</span>(<span class="hljs-function">() =&gt;</span> {
+                fixture = <span class="hljs-title class_">TestBed</span>.<span class="hljs-title function_">createComponent</span>(<span class="hljs-title class_">AppComponent</span>);
+                component = fixture.<span class="hljs-property">componentInstance</span>;
+                fixture.<span class="hljs-title function_">detectChanges</span>();
+          });
+            
+          <span class="hljs-title function_">it</span>(<span class="hljs-string">'should create the app'</span>, <span class="hljs-function">() =&gt;</span> {
+            <span class="hljs-title function_">expect</span>(component).<span class="hljs-title function_">toBeTruthy</span>();
+          });
+            
+          <span class="hljs-title function_">it</span>(<span class="hljs-string">`should have as title 'my-app'`</span>, <span class="hljs-function">() =&gt;</span> {
+                <span class="hljs-title function_">expect</span>(component.<span class="hljs-property">title</span>).<span class="hljs-title function_">toEqual</span>(<span class="hljs-string">'my-app'</span>);
+          });
+            
+          <span class="hljs-title function_">it</span>(<span class="hljs-string">'should render title'</span>, <span class="hljs-function">() =&gt;</span> {
+                <span class="hljs-keyword">const</span> compiled = fixture.<span class="hljs-property">nativeElement</span>;
+                <span class="hljs-title function_">expect</span>(compiled.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">'.content span'</span>).<span class="hljs-property">textContent</span>).<span class="hljs-title function_">toContain</span>(<span class="hljs-string">'my-app app is running!'</span>);
+          });
+        });
+            </code>
+        </div>
+      </div>
 </body>
 
 </html>
