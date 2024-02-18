@@ -20,10 +20,10 @@ Array.prototype.myMap = function (callback) {
 }
 
 //Polyfill of filter
-Array.prototype.myFilter = function (cb) {
+Array.prototype.myFilter = function (callback) {
   let temp = []
   for (let i = 0; i < this.length; i++) {
-    if (cb(this[i], i, this)) {
+    if (callback(this[i], i, this)) {
       temp.push(this[i])
     }
   }
@@ -77,7 +77,7 @@ let students = [{ name: "Piyush", rollno: 31, marks: 80 },
 { name: "Geeta", rollno: 11, marks: 62 }]
 
 
-// Return only names of students who scored for than 60
+// Return only names of students who scored more than 60
 const result = students.filter((person) => person.marks > 60).map((stu) => stu.name)
 
 //console.log(result)

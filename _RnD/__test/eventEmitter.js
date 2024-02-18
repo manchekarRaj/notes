@@ -7,9 +7,7 @@ function createEmitter(onOpen, onClose) {
     if (!!onOpen && (onOpen() === 'Opened!')) {
         myEmitter.on('onOpen', () => {
             console.log('Opened!')
-
         })
-
         myEmitter.emit('Opened!')
     }
 
@@ -17,16 +15,15 @@ function createEmitter(onOpen, onClose) {
         myEmitter.off('onClose', () => {
             console.log('Closed!')
         })
-
         myEmitter.emit('Closed!')
     }
 }
 
 function opened(emitter) {
-   console.log(emitter)
+    console.log(emitter)
 }
 function closed(emitter) {
-   console.log(emitter)
+    console.log(emitter)
 
 }
 

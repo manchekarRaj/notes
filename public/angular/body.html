@@ -424,19 +424,77 @@
 
   <div id="9" class="con">
     <h2>Route Guard</h2>
-    <p>
-      Route guards control the navigation to and from components, it can return true in which case the normal execution
-      continues or returns false in which case the navigation is stopped. For routes which needs authentication the
-      route guard will return true if the token is present in the browser and return false if the token is absent.<br>
+    <p>Route guards are used to control access to routes in an application. They provide a way to prevent unauthorized
+      access to certain routes based on specific conditions, such as authentication status, user roles, or other
+      criteria.
+      Angular provides several types of route guards out of the box:</p><br>
 
-      Just the existence of the token is not important, the token has to be verified through the backend to make sure it
-      is valid. To achieve that we can use Angular Interceptor
+    <p><b>CanActivate</b>: The CanActivate interface is used to determine if a route can be activated. It's commonly
+      used to protect routes
+      based on authentication status. If the CanActivate guard returns true, the navigation is allowed; if it returns
+      false or a UrlTree, the navigation is canceled.</p><br>
 
+    <p><b>CanActivateChild</b>: Similar to CanActivate, but specifically for protecting child routes of a route. It's
+      used to guard against
+      unauthorized access to child routes while allowing access to the parent route.</p><br>
+
+    <p><b>CanDeactivate</b>: The CanDeactivate interface is used to determine if a route can be deactivated. It's
+      commonly used to prompt the
+      user for confirmation before leaving a page with unsaved changes.</p><br>
+
+    <p><b>Resolve</b>: The Resolve interface is used to pre-fetch data before activating a route. It ensures that the
+      route data is
+      available before the route is rendered, which can be useful for resolving dependencies asynchronously.</p><br>
+
+    <p><b>CanLoad</b>: The CanLoad interface is used to prevent the asynchronous loading of feature modules. It's
+      commonly used for
+      lazy-loaded modules to guard against unauthorized access to the module's contents.</p>
+    <p>To implement route guards, you need to create classes that implement these interfaces and provide logic to
+      determine
+      whether navigation should be allowed or not. Then, you can attach these guards to routes in your routing
+      configuration.
+      <br><br>
+      Here's an example of how to use route guards:
     </p>
+
+
     <div class="code">
+      <code class="!whitespace-pre hljs language-typescript">
+    <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Injectable</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+    <span class="hljs-keyword">import</span> { <span class="hljs-title class_">CanActivate</span>, <span class="hljs-title class_">Router</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/router'</span>;
+    <span class="hljs-keyword">import</span> { <span class="hljs-title class_">AuthService</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./auth.service'</span>;
+        
+    <span class="hljs-meta">@Injectable</span>({
+      <span class="hljs-attr">providedIn</span>: <span class="hljs-string">'root'</span>
+    })
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AuthGuard</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">CanActivate</span> {
+        
+      <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> authService: AuthService, <span class="hljs-keyword">private</span> router: Router</span>) {}
+        
+      <span class="hljs-title function_">canActivate</span>(): <span class="hljs-built_in">boolean</span> {
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">authService</span>.<span class="hljs-title function_">isLoggedIn</span>()) {
+          <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        } <span class="hljs-keyword">else</span> {
+          <span class="hljs-variable language_">this</span>.<span class="hljs-property">router</span>.<span class="hljs-title function_">navigate</span>([<span class="hljs-string">'/login'</span>]);
+          <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        }
+      }
+    }
+        </code>
+    </div><br>
+    <p>In this example, AuthGuard implements the CanActivate interface. It checks if the user is logged in using an
+      AuthService. If the user is logged in, canActivate() returns true, allowing navigation. Otherwise, it redirects
+      the user to the login page and returns false.<br><br>
+      You can then use this guard in your routing configuration:</p>
 
-    </div>
-
+    <div class="code">
+      <code class="!whitespace-pre hljs language-typescript">
+  <span class="hljs-keyword">const</span> <span class="hljs-attr">routes</span>: <span class="hljs-title class_">Routes</span> = [
+      { <span class="hljs-attr">path</span>: <span class="hljs-string">'profile'</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">ProfileComponent</span>, <span class="hljs-attr">canActivate</span>: [<span class="hljs-title class_">AuthGuard</span>] }
+  ];
+      </code>
+    </div><br>
+    <p>This ensures that the AuthGuard is executed before allowing access to the /profile route.</p>
   </div>
 
   <div id="10" class="con">
@@ -491,21 +549,59 @@
 
   <div id="12" class="con">
     <h2>Async Pipe</h2>
-    <ul>
-      <li>The async pipe returns the latest value from a stream of data and continues to do so for the life of a given
-        component. When Angular destroys that component, the async pipe automatically stops.</li>
-      <li>We are directly using the Observables with the async pipe on the template.</li>
-      <li>With an async pipe you can handle asynchronous data in an Angular template.</li>
-      <li>Any time you subscribe to an Observable, you need to unsubscribe, otherwise your code would leak and you might
-        face unexpected behavior in your application.</li>
-      <li>Async pipe handles unsubscription for you.</li>
-      <li>The async pipe will trigger change detection when a new value is emitted.</li>
-    </ul>
+    <p>In Angular, the AsyncPipe is a built-in pipe that allows you to easily work with asynchronous data streams
+      directly in your templates. It subscribes to an observable or a promise and automatically handles the subscription
+      and unsubscription, as well as the rendering of the emitted values. This is particularly useful for handling data
+      that arrives asynchronously, such as data fetched from an HTTP request.<br><br>
+      Here's how you can use the AsyncPipe in your Angular templates:
+    </p>
+    <p><b>Observables</b>: If you have an observable in your component class, you can use the AsyncPipe in the template
+      to subscribe to it and render the emitted values.</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-typescript">
+      <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+      <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Observable</span>, <span class="hljs-keyword">of</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'rxjs'</span>;
+        
+      <span class="hljs-meta">@Component</span>({
+        <span class="hljs-attr">selector</span>: <span class="hljs-string">'app-example'</span>,
+        <span class="hljs-attr">template</span>: <span class="hljs-string">`
+            &lt;div&gt;{{ data$ | async }}&lt;/div&gt;
+          `</span>
+      })
+      <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ExampleComponent</span> {
+        <span class="hljs-attr">data$</span>: <span class="hljs-title class_">Observable</span>&lt;<span class="hljs-built_in">any</span>&gt;;
+        
+        <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">this</span>.<span class="hljs-property">data$</span> = <span class="hljs-title function_">of</span>(<span class="hljs-string">'Hello World'</span>).<span class="hljs-title function_">pipe</span>(
+              <span class="hljs-comment">// Simulating async operation</span>
+              <span class="hljs-title function_">delay</span>(<span class="hljs-number">1000</span>)
+          );
+        }
+      }
+        </code>
+    </div>
+    <p><b>Promises</b>: Similarly, you can use the AsyncPipe with promises.</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-typescript">
+      <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
 
-    <span class="cmd">
-      {{ greeting | async }} // in template
-
-    </span>
+      <span class="hljs-meta">@Component</span>({
+        <span class="hljs-attr">selector</span>: <span class="hljs-string">'app-example'</span>,
+        <span class="hljs-attr">template</span>: <span class="hljs-string">`
+                &lt;div&gt;{{ dataPromise | async }}&lt;/div&gt;
+              `</span>
+      })
+      <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ExampleComponent</span> {
+          <span class="hljs-attr">dataPromise</span>: <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">any</span>&gt;;
+            
+          <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">dataPromise</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function"><span class="hljs-params">resolve</span> =&gt;</span> {
+                  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">resolve</span>(<span class="hljs-string">'Hello World'</span>), <span class="hljs-number">1000</span>); <span class="hljs-comment">// Simulating async operation</span>
+              });
+            }
+          }
+            </code>
+    </div>
   </div>
   <div id="13" class="con">
     <h2>ViewChild Decorator</h2>
@@ -530,9 +626,6 @@
       this.selectedPane = v.id; <br>
       }, 0); <br>
       } <br>
-
-
-
     </span>
 
 
@@ -560,7 +653,100 @@
   </div>
 
   <div id="16" class="con">
-    <h2>...</h2>
+    <h2>Child Routes</h2>
+    <p>Child routes are routes that are nested within another route. This allows you to create hierarchical navigation
+      structures in your application. Child routes are often used to organize and modularize your application's routing
+      configuration, making it easier to manage and maintain.</p><br>
+    <p>Here's how you can define child routes in Angular:</p><br>
+    <p>1. <b>Define Parent Route</b>: First, define a parent route in your routing configuration. This is the route that
+      will have child routes nested within it.</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-typescript">
+    <span class="hljs-keyword">const</span> <span class="hljs-attr">routes</span>: <span class="hljs-title class_">Routes</span> = [
+      {
+        <span class="hljs-attr">path</span>: <span class="hljs-string">'parent'</span>,
+        <span class="hljs-attr">component</span>: <span class="hljs-title class_">ParentComponent</span>,
+        <span class="hljs-attr">children</span>: [
+          { <span class="hljs-attr">path</span>: <span class="hljs-string">'child1'</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">Child1Component</span> },
+          { <span class="hljs-attr">path</span>: <span class="hljs-string">'child2'</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">Child2Component</span> }
+        ]
+      }
+    ];
+        </code>
+    </div><br>
+    <p>2. <b>Parent Component Template</b>: In the parent component's template, you need to include a "router-outlet>
+      /router-outlet> directive. This acts as a placeholder where Angular will render the child components associated
+      with their respective routes.</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-html">
+    <span class="hljs-comment">&lt;!-- parent.component.html --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Parent Component<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">router-outlet</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">router-outlet</span>&gt;</span>
+        </code>
+    </div><br>
+    <p>3. <b>Navigate to Child Routes</b>: You can navigate to child routes using relative paths. For example, to
+      navigate to child1 from parent, you would use a link like this: </p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-html">
+      <span class="hljs-comment">//html</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">routerLink</span>=<span class="hljs-string">"child1"</span>&gt;</span>Child 1<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+        </code>
+    </div><br>
+    <p>Alternatively, you can use absolute paths by starting the path with a forward slash:</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-html">
+    <span class="hljs-comment">//html</span>  
+    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">routerLink</span>=<span class="hljs-string">"/parent/child1"</span>&gt;</span>Child 1<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+      </code>
+    </div><br>
+    <p>4. <b>Accessing Child Route Parameters</b>: Child routes can also have their own parameters, and you can access
+      these parameters using the ActivatedRoute service within the child component.</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-typescript">
+    <span class="hljs-keyword">import</span> { <span class="hljs-title class_">ActivatedRoute</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/router'</span>;
+
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> route: ActivatedRoute</span>) {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">route</span>.<span class="hljs-property">params</span>.<span class="hljs-title function_">subscribe</span>(<span class="hljs-function"><span class="hljs-params">params</span> =&gt;</span> {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(params[<span class="hljs-string">'id'</span>]); <span class="hljs-comment">// Accessing parameter from child route</span>
+      });
+    }
+        </code>
+    </div><br>
+    <p>5. <b>Lazy Loading with Child Routes</b>: You can also lazy load modules with child routes using the loadChildren
+      property in the route configuration. This can improve the performance of your application by loading modules on
+      demand.</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-typescript">
+    <span class="hljs-keyword">const</span> <span class="hljs-attr">routes</span>: <span class="hljs-title class_">Routes</span> = [
+      {
+        <span class="hljs-attr">path</span>: <span class="hljs-string">'parent'</span>,
+        <span class="hljs-attr">loadChildren</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">'./parent.module'</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">m</span> =&gt;</span> m.<span class="hljs-property">ParentModule</span>)
+      }
+    ];
+      </code>
+    </div><br>
+    <p>Child routes provide a powerful way to organize and structure your application's navigation, especially for
+      larger applications with complex routing requirements. They help keep your routing configuration clean and
+      maintainable by breaking it down into smaller, manageable pieces.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   </div>
 
   <div id="17" class="con">
@@ -576,13 +762,6 @@
     <span class="cmd">If you use 'use strict' then you will get 'undefined', if there is no reference to 'this' keyword.
     </span>
     <br>
-
-    <ul>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
   </div>
 
 
@@ -631,11 +810,7 @@
 
 
   <div id="19" class="con">
-    <h2>Map, Filter, Reduce</h2>
-    <p>The Map() methods is used to create a new array from an existing array, applying a function to each element of
-      the existing array. </p>
-
-    <p>The Reduce() methods, reduces tahe array into a single value.</p>
+    <h2>...</h2>
     <div class="code">
 
     </div>
@@ -652,6 +827,24 @@
     <b>Lexical scope</b> is the ability for a function scope to access variable from the parent scope.
 
     <p>We call the child function to be Lexical bound by that of the parent function.</p>
+
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">outerFunction</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">let</span> outerVariable = <span class="hljs-string">'I am from the outer function'</span>;
+      
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">innerFunction</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(outerVariable); <span class="hljs-comment">// Accessing outerVariable from the outer scope</span>
+    }
+      
+    <span class="hljs-keyword">return</span> innerFunction; <span class="hljs-comment">// returning innerFunction</span>
+    }
+      
+    <span class="hljs-keyword">const</span> myInnerFunction = <span class="hljs-title function_">outerFunction</span>(); <span class="hljs-comment">// Execute outerFunction and store the returned innerFunction</span>
+      
+    <span class="hljs-title function_">myInnerFunction</span>(); <span class="hljs-comment">// Execute innerFunction which still has access to outerVariable</span>
+      </code>
+    </div>
 
 
 
@@ -735,10 +928,66 @@
 
     <div id="23" class="con">
       <h2>View Encapsulation</h2>
-      <p>
-        The view encapsulation is a concept where the component's CSS styles are encapsulated into the components view
-        and
-        do not effect the rest of the application.</p>
+      <p>In Angular, view encapsulation is a mechanism that ensures the styles defined in a component's CSS file only
+        affect the component's template and don't leak out to other parts of the application. <br> By default, Angular
+        provides three view encapsulation strategies:</p><br>
+
+      <p><b>Emulated (default)</b>: This is the default view encapsulation strategy in Angular. It emulates the Shadow
+        DOM behavior by appending a unique attribute to each element in the component's template, and then scoped CSS
+        styles are applied using this attribute as a selector. This way, styles defined in the component's CSS file only
+        affect the component's template and don't bleed out to other parts of the application.</p>
+      <div class="code">
+        <code class="!whitespace-pre hljs language-typescript">
+  <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span>, <span class="hljs-title class_">ViewEncapsulation</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+
+  <span class="hljs-meta">@Component</span>({
+      <span class="hljs-attr">selector</span>: <span class="hljs-string">'app-example'</span>,
+      <span class="hljs-attr">templateUrl</span>: <span class="hljs-string">'./example.component.html'</span>,
+      <span class="hljs-attr">styleUrls</span>: [<span class="hljs-string">'./example.component.css'</span>],
+      <span class="hljs-attr">encapsulation</span>: <span class="hljs-title class_">ViewEncapsulation</span>.<span class="hljs-property">Emulated</span>
+          })
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ExampleComponent</span> {
+      <span class="hljs-comment">// Component logic here</span>
+  }
+          </code>
+      </div><br>
+      <p><b>None</b>: With this strategy, Angular doesn't apply any view encapsulation. The component's styles are
+        globally available and can potentially affect other components or elements in the application. Use this strategy
+        with caution, especially in large applications where styles may unintentionally clash.</p>
+      <div class="code">
+        <code class="!whitespace-pre hljs language-typescript">
+    <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span>, <span class="hljs-title class_">ViewEncapsulation</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+
+    <span class="hljs-meta">@Component</span>({
+        <span class="hljs-attr">selector</span>: <span class="hljs-string">'app-example'</span>,
+        <span class="hljs-attr">templateUrl</span>: <span class="hljs-string">'./example.component.html'</span>,
+        <span class="hljs-attr">styleUrls</span>: [<span class="hljs-string">'./example.component.css'</span>],
+        <span class="hljs-attr">encapsulation</span>: <span class="hljs-title class_">ViewEncapsulation</span>.<span class="hljs-property">None</span>
+    })
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ExampleComponent</span> {
+        <span class="hljs-comment">// Component logic here</span>
+    }
+          </code>
+      </div><br>
+      <p><b>Shadow DOM</b>: This strategy utilizes the native Shadow DOM to encapsulate the component's styles. Shadow
+        DOM provides true encapsulation, as styles defined in the component's CSS file are scoped to the component's
+        template and don't affect other parts of the application. However, this strategy requires browser support for
+        Shadow DOM.</p>
+      <div class="code">
+        <code class="!whitespace-pre hljs language-typescript">
+      <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span>, <span class="hljs-title class_">ViewEncapsulation</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+
+      <span class="hljs-meta">@Component</span>({
+          <span class="hljs-attr">selector</span>: <span class="hljs-string">'app-example'</span>,
+          <span class="hljs-attr">templateUrl</span>: <span class="hljs-string">'./example.component.html'</span>,
+          <span class="hljs-attr">styleUrls</span>: [<span class="hljs-string">'./example.component.css'</span>],
+          <span class="hljs-attr">encapsulation</span>: <span class="hljs-title class_">ViewEncapsulation</span>.<span class="hljs-property">ShadowDom</span>
+      })
+      <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ExampleComponent</span> {
+          <span class="hljs-comment">// Component logic here</span>
+      }
+            </code>
+      </div>
     </div>
 
     <div id="24" class="con">
@@ -824,12 +1073,6 @@
       <br>
       <p>"@ViewChild" allows you to establish communication between parent and child components in Angular, enabling you
         to build more dynamic and interactive applications.</p>
-
-
-
-
-
-
     </div>
 
     <div id="25" class="con">
@@ -946,9 +1189,91 @@
 
     <div id="27" class="con">
       <h2>Routes</h2>
-      <p>Angular's router is responsible for managing the application's navigation flow. Actually it allows you to
-        navigate between different views (components) based on the URL. </p>
-      <p><b>router-outlet</b> Angular will render the components corresponding to the current route.</p>
+      <p>Routes are used to define navigation paths within an application. Angular's Router module provides a
+        powerful way to manage navigation and map URLs to specific components.<br><br>
+        Here's a basic overview of how routes work in Angular:</p><br>
+
+      <p>1. <b>Setting Up Routes</b>: First, you need to set up routes for your application. This is typically done in
+        the AppRoutingModule or directly in the AppModule. You define routes using the RouterModule.forRoot() method in
+        your NgModule imports. Each route consists of a path and the component that should be displayed when that path
+        is matched.</p>
+      <div class="code">
+        <code class="!whitespace-pre hljs language-typescript">
+    <span class="hljs-keyword">import</span> { <span class="hljs-title class_">NgModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+    <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Routes</span>, <span class="hljs-title class_">RouterModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/router'</span>;
+    <span class="hljs-keyword">import</span> { <span class="hljs-title class_">HomeComponent</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./home.component'</span>;
+    <span class="hljs-keyword">import</span> { <span class="hljs-title class_">AboutComponent</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./about.component'</span>;
+          
+    <span class="hljs-keyword">const</span> <span class="hljs-attr">routes</span>: <span class="hljs-title class_">Routes</span> = [
+        { <span class="hljs-attr">path</span>: <span class="hljs-string">''</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">HomeComponent</span> },
+        { <span class="hljs-attr">path</span>: <span class="hljs-string">'about'</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">AboutComponent</span> }
+        ];
+          
+    <span class="hljs-meta">@NgModule</span>({
+        <span class="hljs-attr">imports</span>: [<span class="hljs-title class_">RouterModule</span>.<span class="hljs-title function_">forRoot</span>(routes)],
+            <span class="hljs-attr">exports</span>: [<span class="hljs-title class_">RouterModule</span>]
+        })
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AppRoutingModule</span> { }
+          </code>
+      </div>
+      <br>
+      <p>2. <b>Router Outlet</b>: In your main template file (app.component.html by default), you'll use the
+        "router-outlet> /router-outlet>"
+        directive. This acts as a placeholder where Angular will render the component associated with the current route.
+      </p>
+      <div class="code">
+        <code class="!whitespace-pre hljs language-html">
+          <span class="hljs-tag">&lt;<span class="hljs-name">router-outlet</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">router-outlet</span>&gt;</span>
+        </code>
+      </div><br>
+
+      <p>3. <b>Navigation</b>: You can navigate between routes using the RouterLink directive in your templates or
+        programmatically using the Router service.</p>
+      <div class="code">
+        <code class="!whitespace-pre hljs language-html">
+        <span class="hljs-comment">&lt;!-- Using RouterLink directive -- In HTML&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">routerLink</span>=<span class="hljs-string">"/"</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">routerLink</span>=<span class="hljs-string">"/about"</span>&gt;</span>About<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+            </code>
+      </div>
+      <div class="code">
+        <code class="!whitespace-pre hljs language-typescript">
+      <span class="hljs-comment">// Using Router service programmatically</span>
+      <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Router</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/router'</span>;
+          
+      <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> router: Router</span>) {}
+          
+      <span class="hljs-title function_">goToAboutPage</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">router</span>.<span class="hljs-title function_">navigate</span>([<span class="hljs-string">'/about'</span>]);
+      }
+          </code>
+      </div>
+      <p><b>Route Parameters</b>: Routes can also contain parameters which allow you to pass data between different
+        components. Parameters are defined in the route path using the : prefix.</p>
+      <div class="code">
+        <code class="!whitespace-pre hljs language-typescript">
+      <span class="hljs-keyword">const</span> <span class="hljs-attr">routes</span>: <span class="hljs-title class_">Routes</span> = [
+          { <span class="hljs-attr">path</span>: <span class="hljs-string">'product/:id'</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">ProductComponent</span> }
+      ];
+          </code>
+      </div>
+      <br>
+      <p>You can then access the parameter value in your component using the ActivatedRoute service.</p>
+      <br>
+      <div class="code">
+        <code class="!whitespace-pre hljs language-typescript">
+    <span class="hljs-keyword">import</span> { <span class="hljs-title class_">ActivatedRoute</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/router'</span>;
+
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> route: ActivatedRoute</span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">route</span>.<span class="hljs-property">params</span>.<span class="hljs-title function_">subscribe</span>(<span class="hljs-function"><span class="hljs-params">params</span> =&gt;</span> {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(params[<span class="hljs-string">'id'</span>]);
+        });
+    }
+          </code>
+      </div><br>
+      <p>These are the basic concepts of routing in Angular. As your application grows, you may explore more advanced
+        features such as child routes, route guards, lazy loading, and so on, to manage complex navigation scenarios
+        effectively.</p>
     </div>
 
     <div id="28" class="con">
@@ -998,44 +1323,202 @@
 
       <div id="30" class="con">
         <h2>Tricky Questions</h2>
-        <ul>
-          <li>Number(" 123 ") // 123</li>
-          <li>Number("123z") // NaN (error reading a number at "z") </li>
-          <li>Number(true) // 1</li>
-          <li>Number(false) // 0</li>
-          <li>Boolean(1) // true</li>
-          <li>Boolean(0) // false</li>
-          <li>Boolean("hello") // true</li>
-          <li>Boolean("") // false</li>
-          <li>Boolean("0") // true</li>
-          <li>Boolean(" ") // true </li>
-          <li>6 - '2' // 4</li>
-          <li>'6' / '2' // 3</li>
-          <li>let a = 1, b = 1;<br>
-            let c = ++a;<br>
-            let d = b++;<br>
-            console.log(c, d, b) // 2 1 2
-          </li>
-          <li>"" + 1 + 0 = "10" // The addition with a string "" + 1 converts 1 to a string: "" + 1 = "1", and then we
-            have "1" + 0, the same rule is applied.</li>
-          <li>"" - 1 + 0 = -1 // The subtraction - (like most math operations) only works with numbers, it converts an
-            empty string "" to 0.</li>
-          <li>true + false = 1</li>
-          <li>6 / "3" = 2</li>
-          <li>"2" * "3" = 6</li>
-          <li>4 + 5 + "px" = "9px"</li>
-          <li>"$" + 4 + 5 = "$45"</li>
-          <li>"4" - 2 = 2</li>
-          <li>"4px" - 2 = NaN</li>
-          <li>" -9 " + 5 = " -9 5" // The addition with a string appends the number 5 to the string.</li>
-          <li>" -9 " - 5 = -14 // The subtraction always converts to numbers, so it makes " -9 " a number -9</li>
-          <li>null + 1 = 1 // null becomes 0 after the numeric conversion.</li>
-          <li>undefined + 1 = NaN // undefined becomes NaN after the numeric conversion.</li>
-          <li>" \t \n" - 2 = -2 // Space characters are trimmed off string start and end when a string is converted to a
-            number. Here the whole string consists of space characters, such as \t, \n and a “regular” space between
-            them. So, similarly to an empty string, it becomes 0.</li>
-        </ul>
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-title class_">Number</span>(<span class="hljs-string">" 123 "</span>); <span class="hljs-comment">// 123;</span>
+    <span class="hljs-title class_">Number</span>(<span class="hljs-string">"123z"</span>); <span class="hljs-comment">// NaN (error reading a number at "z");</span>
+    <span class="hljs-title class_">Number</span>(<span class="hljs-literal">true</span>); <span class="hljs-comment">// 1;</span>
+    <span class="hljs-title class_">Number</span>(<span class="hljs-literal">false</span>); <span class="hljs-comment">// 0;</span>
+    <span class="hljs-title class_">Boolean</span>(<span class="hljs-number">1</span>); <span class="hljs-comment">// true;</span>
+    <span class="hljs-title class_">Boolean</span>(<span class="hljs-number">0</span>); <span class="hljs-comment">// false;</span>
+    <span class="hljs-title class_">Boolean</span>(<span class="hljs-string">"hello"</span>); <span class="hljs-comment">// true;</span>
+    <span class="hljs-title class_">Boolean</span>(<span class="hljs-string">""</span>); <span class="hljs-comment">// false;</span>
+    <span class="hljs-title class_">Boolean</span>(<span class="hljs-string">"0"</span>); <span class="hljs-comment">// true;</span>
+    <span class="hljs-title class_">Boolean</span>(<span class="hljs-string">" "</span>); <span class="hljs-comment">// true;</span>
+    
+    <span class="hljs-number">6</span> - <span class="hljs-string">'2'</span>; <span class="hljs-comment">// 4;</span>
+    <span class="hljs-string">'6'</span> / <span class="hljs-string">'2'</span>; <span class="hljs-comment">// 3;</span>
+    
+    <span class="hljs-keyword">let</span> a = <span class="hljs-number">1</span>, b = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">let</span> c = ++a;
+    <span class="hljs-keyword">let</span> d = b++;
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(c, d, b); <span class="hljs-comment">// 2 1 2;</span>
+            
+    <span class="hljs-string">""</span> + <span class="hljs-number">1</span> + <span class="hljs-number">0</span>; 
+    <span class="hljs-comment">// "10" // The addition with a string "" + 1 converts 1 to a string: "" + 1 = "1", 
+      and then we have "1" + 0, the same rule is applied;</span>
+    <span class="hljs-string">""</span> - <span class="hljs-number">1</span> + <span class="hljs-number">0</span>; <span class="hljs-comment">// -1 
+      // The subtraction - (like most math operations) only works with numbers, it converts an</span>
+    <span class="hljs-comment">// empty string "" to 0;</span>
+    
+    <span class="hljs-literal">true</span> + <span class="hljs-literal">false</span>; <span class="hljs-comment">// 1;</span>
+    <span class="hljs-number">6</span> / <span class="hljs-string">"3"</span>; <span class="hljs-comment">// 2;</span>
+    <span class="hljs-string">"2"</span> * <span class="hljs-string">"3"</span>; <span class="hljs-comment">// 6;</span>
+    <span class="hljs-number">4</span> + <span class="hljs-number">5</span> + <span class="hljs-string">"px"</span>; <span class="hljs-comment">// "9px";</span>
+    <span class="hljs-string">"$"</span> + <span class="hljs-number">4</span> + <span class="hljs-number">5</span>; <span class="hljs-comment">// "$45";</span>
+    <span class="hljs-string">"4"</span> - <span class="hljs-number">2</span>; <span class="hljs-comment">// 2;</span>
+    <span class="hljs-string">"4px"</span> - <span class="hljs-number">2</span>; <span class="hljs-comment">// NaN;</span>
+    
+    <span class="hljs-string">" -9 "</span> + <span class="hljs-number">5</span>; <span class="hljs-comment">// " -9 5" </span> 
+    <span class="hljs-comment">// The addition with a string appends the number 5 to the string.</span>
+    
+    <span class="hljs-string">" -9 "</span> - <span class="hljs-number">5</span>; <span class="hljs-comment">// -14 </span>
+    <span class="hljs-comment">// The subtraction always converts to numbers, so it makes " -9 " a number -9</span>
+    
+    <span class="hljs-literal">null</span> + <span class="hljs-number">1</span>; <span class="hljs-comment">// 1 </span>
+    <span class="hljs-comment">// null becomes 0 after the numeric conversion.</span>
+    
+    <span class="hljs-literal">undefined</span> + <span class="hljs-number">1</span>; <span class="hljs-comment">// NaN </span>
+    <span class="hljs-comment">// undefined becomes NaN after the numeric conversion.</span>
+    
+    <span class="hljs-string">" \t \n"</span> - <span class="hljs-number">2</span>; <span class="hljs-comment">// -2 </span>
+    <span class="hljs-comment">// Space characters are trimmed off string start and end when a string is converted to a</span>
+    <span class="hljs-comment">// number. Here the whole string consists of space characters, such as \t, \n and a “regular” space between</span>
+    <span class="hljs-comment">// them. So, similarly to an empty string, it becomes 0.</span>
+      </code>
+        </div>
 
+      </div>
+      <div id="31" class="con">
+        <h2>Array Methods</h2>
+        <p>1. <b>push()</b>: Adds one or more elements to the end of an array and returns the new length of the array.
+
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript">
+            <span class="hljs-keyword">let</span> fruits = [<span class="hljs-string">'apple'</span>, <span class="hljs-string">'banana'</span>];
+              fruits.<span class="hljs-title function_">push</span>(<span class="hljs-string">'orange'</span>);
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(fruits); <span class="hljs-comment">// Output: ['apple', 'banana', 'orange']</span>
+            </code>
+        </div>
+        </p><br>
+        <p>2. <b>pop()</b>: Removes the last element from an array and returns that element.
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript">
+          <span class="hljs-keyword">let</span> fruits = [<span class="hljs-string">'apple'</span>, <span class="hljs-string">'banana'</span>, <span class="hljs-string">'orange'</span>];
+          <span class="hljs-keyword">let</span> lastFruit = fruits.<span class="hljs-title function_">pop</span>();
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(lastFruit); <span class="hljs-comment">// Output: 'orange'</span>
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(fruits); <span class="hljs-comment">// Output: ['apple', 'banana']</span>
+          </code>
+        </div>
+        </p><br>
+        <p>3. <b>unshift()</b>: Adds one or more elements to the beginning of an array and returns the new length of the
+          array.
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript">
+          <span class="hljs-keyword">let</span> fruits = [<span class="hljs-string">'banana'</span>, <span class="hljs-string">'orange'</span>];
+            fruits.<span class="hljs-title function_">unshift</span>(<span class="hljs-string">'apple'</span>);
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(fruits); <span class="hljs-comment">// Output: ['apple', 'banana', 'orange']</span>
+          </code>
+        </div>
+        </p><br>
+        <p>4. <b>forEach()</b>: Executes a provided function once for each array element.
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript">
+          <span class="hljs-keyword">let</span> numbers = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>];
+            numbers.<span class="hljs-title function_">forEach</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">number</span>) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(number * <span class="hljs-number">2</span>);
+            });
+          <span class="hljs-comment">// Output:</span>
+          <span class="hljs-comment">// 2</span>
+          <span class="hljs-comment">// 4</span>
+          <span class="hljs-comment">// 6</span>
+          <span class="hljs-comment">// 8</span>
+          </code>
+        </div>
+        </p><br>
+        <p>5. <b>map()</b>: Creates a new array populated with the results of calling a provided function on every
+          element in the calling array.
+
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript">
+          <span class="hljs-keyword">let</span> numbers = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>];
+          <span class="hljs-keyword">let</span> doubledNumbers = numbers.<span class="hljs-title function_">map</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">number</span>) {
+              <span class="hljs-keyword">return</span> number * <span class="hljs-number">2</span>;
+            });
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(doubledNumbers); <span class="hljs-comment">// Output: [2, 4, 6, 8]</span>
+          </code>
+        </div>
+        </p><br>
+        <p>6. <b>filter()</b>: Creates a new array with all elements that pass the test implemented by the provided
+          function.
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript">
+          <span class="hljs-keyword">let</span> numbers = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>];
+          <span class="hljs-keyword">let</span> evenNumbers = numbers.<span class="hljs-title function_">filter</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">number</span>) {
+            <span class="hljs-keyword">return</span> number % <span class="hljs-number">2</span> === <span class="hljs-number">0</span>;
+          });
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(evenNumbers); <span class="hljs-comment">// Output: [2, 4]</span>
+          </code>
+        </div>
+        </p><br>
+        <p>7. <b>shift()</b>: Removes the first element from an array and returns that element.
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript"><span class="hljs-keyword">let</span> fruits = [<span class="hljs-string">'apple'</span>, <span class="hljs-string">'banana'</span>, <span class="hljs-string">'orange'</span>];
+          <span class="hljs-keyword">let</span> firstFruit = fruits.<span class="hljs-title function_">shift</span>();
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(firstFruit); <span class="hljs-comment">// Output: 'apple'</span>
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(fruits); <span class="hljs-comment">// Output: ['banana', 'orange']</span>
+          </code>
+        </div>
+        </p><br>
+        <p>8. <b>slice()</b>: The slice() method is used to extract a section of an array and return a new array without
+          modifying the original array. It takes two optional parameters: start and end, which specify the beginning and
+          end of the extracted portion of the array.
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript">
+          <span class="hljs-keyword">let</span> fruits = [<span class="hljs-string">'apple'</span>, <span class="hljs-string">'banana'</span>, <span class="hljs-string">'orange'</span>, <span class="hljs-string">'grape'</span>, <span class="hljs-string">'kiwi'</span>];
+
+          <span class="hljs-comment">// Extract elements from index 1 to index 3 (not including 3)</span>
+          <span class="hljs-keyword">let</span> slicedFruits = fruits.<span class="hljs-title function_">slice</span>(<span class="hljs-number">1</span>, <span class="hljs-number">3</span>);
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(slicedFruits); <span class="hljs-comment">// Output: ['banana', 'orange']</span>
+            
+          <span class="hljs-comment">// Extract elements from index 2 to the end of the array</span>
+          <span class="hljs-keyword">let</span> slicedFruits2 = fruits.<span class="hljs-title function_">slice</span>(<span class="hljs-number">2</span>);
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(slicedFruits2); <span class="hljs-comment">// Output: ['orange', 'grape', 'kiwi']</span>
+            
+          <span class="hljs-comment">// Original array remains unchanged</span>
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(fruits); <span class="hljs-comment">// Output: ['apple', 'banana', 'orange', 'grape', 'kiwi']</span>
+          </code>
+        </div>
+        </p><br>
+        <p><b>splice()</b>: The splice() method in JavaScript is used to change the contents of an array by removing or
+          replacing existing elements and/or adding new elements in place. It modifies the original array.
+
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript">
+          <span class="hljs-keyword">let</span> fruits = [<span class="hljs-string">'apple'</span>, <span class="hljs-string">'banana'</span>, <span class="hljs-string">'orange'</span>, <span class="hljs-string">'grape'</span>, <span class="hljs-string">'kiwi'</span>];
+
+          <span class="hljs-comment">// Remove 'orange' from the array</span>
+            fruits.<span class="hljs-title function_">splice</span>(<span class="hljs-number">2</span>, <span class="hljs-number">1</span>);
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(fruits); <span class="hljs-comment">// Output: ['apple', 'banana', 'grape', 'kiwi']</span>
+            
+          <span class="hljs-comment">// Remove 'banana' and 'grape', and add 'lemon' and 'peach' starting from index 1</span>
+            fruits.<span class="hljs-title function_">splice</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-string">'lemon'</span>, <span class="hljs-string">'peach'</span>);
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(fruits); <span class="hljs-comment">// Output: ['apple', 'lemon', 'peach', 'kiwi']</span>
+            
+          <span class="hljs-comment">// Add 'pear' and 'orange' starting from index 2 without removing any elements</span>
+            fruits.<span class="hljs-title function_">splice</span>(<span class="hljs-number">2</span>, <span class="hljs-number">0</span>, <span class="hljs-string">'pear'</span>, <span class="hljs-string">'orange'</span>);
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(fruits); <span class="hljs-comment">// Output: ['apple', 'lemon', 'pear', 'orange', 'peach', 'kiwi']</span>
+          </code>
+        </div>
+        </p><br>
+        <p><b>reduce()</b>: The reduce() method in JavaScript is used to apply a function to each element in the array
+          to reduce the array to a single value. It iterates through the array from left to right, accumulating a single
+          result by calling the provided function with an accumulator and each element in the array.
+
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript">
+          <span class="hljs-keyword">let</span> numbers = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>];
+
+          <span class="hljs-comment">// Calculate the sum of all numbers in the array</span>
+          <span class="hljs-keyword">let</span> sum = numbers.<span class="hljs-title function_">reduce</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">accumulator, currentValue</span>) {
+            <span class="hljs-keyword">return</span> accumulator + currentValue;
+          }, <span class="hljs-number">0</span>); <span class="hljs-comment">// Initial value of accumulator is 0</span>
+            
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(sum); <span class="hljs-comment">// Output: 15 (1 + 2 + 3 + 4 + 5)</span>
+          </code>
+        </div>
+
+        </p>
 
 
       </div>

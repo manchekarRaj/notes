@@ -1,30 +1,29 @@
 <!DOCTYPE html>
 
 <head>
+  <link rel="stylesheet" href="./../notes_style.css">
   <style>
     body {
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-      font-size: large;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 17px;
       background-color: rgb(28, 28, 28);
       color: rgb(226, 234, 241);
     }
 
     .code {
       font-family: "Consolas";
-      font-style: italic;
-      color: rgb(132, 219, 2);
+      color: rgb(236, 255, 209);
       border: 1px;
       border-style: inset;
-      padding: 2px;
-      margin: 5px;
       width: 98%;
     }
 
     .con {
+      background-color: black;
       border: 2px;
       border-style: double;
-      padding: 5px;
-      margin: 5px;
+      padding: 3px;
+      margin: 3px;
       width: 98%;
 
     }
@@ -46,7 +45,27 @@
 
     li {
       color: rgb(234, 225, 98);
+    }
 
+    u {
+      color: rgb(0, 221, 203);
+    }
+
+    .cmd {
+      color: rgb(124, 255, 141);
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    b {
+      color: rgb(255, 226, 61);
+    }
+
+    .keyword {
+      color: rgb(93, 190, 255);
+    }
+
+    .class {
+      color: rgb(255, 61, 77);
     }
   </style>
 
@@ -54,11 +73,324 @@
 
 <body>
   <div id="1" class="con">
-    <h2>NodeJS</h2>
-    <img src="./images/missing_num.jpg" />
+    <h2>ArmStrong Number</h2>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      <span class="hljs-meta">'use strict'</span>;
+      <span class="hljs-keyword">const</span> <span class="hljs-title class_">Value</span> = <span class="hljs-number">153</span>;
+      <span class="hljs-keyword">let</span> sum = <span class="hljs-number">0</span>;
+      <span class="hljs-keyword">let</span> temp = <span class="hljs-title class_">Value</span>;
+        
+      <span class="hljs-keyword">while</span> (temp &gt; <span class="hljs-number">0</span>) {
+        <span class="hljs-keyword">let</span> numberOrder = temp % <span class="hljs-number">10</span>;
+        <span class="hljs-keyword">let</span> cubeOfNumber = numberOrder ** <span class="hljs-number">3</span>; <span class="hljs-comment">// Corrected variable name to follow camelCase convention</span>
+          sum += cubeOfNumber; <span class="hljs-comment">// Corrected variable name to follow camelCase convention</span>
+          temp = <span class="hljs-built_in">parseInt</span>(temp / <span class="hljs-number">10</span>);
+      }
+        
+      (sum === <span class="hljs-title class_">Value</span>) ? <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'True'</span>) : <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'False'</span>);
+        </code>
 
-
+    </div>
   </div>
+  <div id="2" class="con">
+    <h2>Fetch Even numbers</h2>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      <span class="hljs-keyword">function</span> <span class="hljs-title function_">filterEvenNumbers</span>(<span class="hljs-params">arr</span>) {
+        <span class="hljs-keyword">return</span> arr.<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">value</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> value % <span class="hljs-number">2</span> === <span class="hljs-number">0</span>; <span class="hljs-comment">// module operator divides the value with a number &amp; checks the remainder</span>
+        });
+      }
+      
+    <span class="hljs-keyword">const</span> data = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>];
+    <span class="hljs-comment">//console.log(filterEvenNumbers(data))</span>
+    </code>
+    </div>
+  </div>
+  <div id="3" class="con">
+    <h2>Reverse a given string</h2>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      <span class="hljs-keyword">var</span> originalString = <span class="hljs-string">"Hello, World!"</span>;
+
+      <span class="hljs-keyword">function</span> <span class="hljs-title function_">reverseString</span>(<span class="hljs-params">str</span>) {
+        <span class="hljs-keyword">const</span> arr = str.<span class="hljs-title function_">split</span>(<span class="hljs-string">''</span>); <span class="hljs-comment">// Splits a string into an array of substrings</span>
+        <span class="hljs-keyword">const</span> revArr = arr.<span class="hljs-title function_">reverse</span>(); <span class="hljs-comment">// Reverses the order of the elements in an array</span>
+        <span class="hljs-keyword">const</span> revStr = revArr.<span class="hljs-title function_">join</span>(<span class="hljs-string">''</span>); <span class="hljs-comment">// Returns an array as a string</span>
+        <span class="hljs-keyword">return</span> revStr;
+      }
+      <span class="hljs-comment">//console.log(reverseString(originalString))</span>
+      </code>
+    </div>
+  </div>
+  <div id="4" class="con">
+    <h2>Fetch Prime numbers</h2>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">fetchPrimeNumber</span>(<span class="hljs-params">arr</span>) {
+      <span class="hljs-keyword">return</span> arr.<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">num</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (num &gt; <span class="hljs-number">1</span>) {
+          <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">2</span>; i &lt;= <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">sqrt</span>(num); i++) {
+            <span class="hljs-keyword">if</span> (num % i === <span class="hljs-number">0</span>) {
+              <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+            }
+          }
+          <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        }
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+      });
+    }
+      
+    <span class="hljs-keyword">const</span> list = [-<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">5</span>, <span class="hljs-number">7</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>, <span class="hljs-number">13</span>, <span class="hljs-number">14</span>, <span class="hljs-number">15</span>, <span class="hljs-number">17</span>, <span class="hljs-number">18</span>, <span class="hljs-number">19</span>];
+    <span class="hljs-comment">//const result = fetchPrimeNumber(list);</span>
+    </code>
+    </div>
+  </div>
+  <div id="5" class="con">
+    <h2>Factorial of a given number</h2>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">fact</span>(<span class="hljs-params">num</span>) {
+      <span class="hljs-keyword">if</span> (num === <span class="hljs-number">0</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+      }
+      <span class="hljs-keyword">return</span> num * <span class="hljs-title function_">fact</span>(num - <span class="hljs-number">1</span>);
+    }
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">fact</span>(<span class="hljs-number">5</span>)); <span class="hljs-comment">// 120</span>
+    </code>
+    </div>
+  </div>
+  <div id="6" class="con">
+    <h2>Check if a given number is perfect square</h2>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">const</span> value = <span class="hljs-number">9</span>;
+      <span class="hljs-keyword">const</span> num = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">sqrt</span>(value);
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Number</span>.<span class="hljs-title function_">isInteger</span>(num));
+      </code>
+    </div>
+  </div>
+  <div id="7" class="con">
+    <h2>Find the maximum number in an array</h2>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">findMaxNum</span>(<span class="hljs-params">arr</span>) {
+      <span class="hljs-keyword">let</span> maxNum = arr[<span class="hljs-number">0</span>];
+      
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>; i &lt; arr.<span class="hljs-property">length</span>; i++) {
+        <span class="hljs-keyword">if</span> (maxNum &lt; arr[i]) {
+            maxNum = arr[i];
+        }
+      }
+      <span class="hljs-keyword">return</span> maxNum;
+    }
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">findMaxNum</span>(arr));
+      </code>
+    </div>
+  </div>
+  <div id="8" class="con">
+    <h2>Sum of all elements in an array</h2>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      <span class="hljs-comment">// var sum = 0;</span>
+      <span class="hljs-keyword">function</span> <span class="hljs-title function_">findSum</span>(<span class="hljs-params">arr</span>) {
+        <span class="hljs-keyword">return</span> arr.<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">acc, value</span>) =&gt;</span> {
+          <span class="hljs-keyword">return</span> acc + value;
+        }, <span class="hljs-number">0</span>);
+      }
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">findSum</span>(arr));
+        </code>
+    </div>
+  </div>
+  <div id="9" class="con">
+    <h2>Polyfill - Map, Filter, Reduce</h2>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-comment">// Polyfill of map</span>
+    <span class="hljs-title class_">Array</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">myMap</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params">callback</span>) {
+      <span class="hljs-keyword">let</span> arr = [];
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-variable language_">this</span>.<span class="hljs-property">length</span>; i++) {
+            arr.<span class="hljs-title function_">push</span>(<span class="hljs-title function_">callback</span>(<span class="hljs-variable language_">this</span>[i], i, <span class="hljs-variable language_">this</span>));
+          }
+          <span class="hljs-keyword">return</span> arr;
+      };
+        
+    <span class="hljs-keyword">const</span> newOutput = arr.<span class="hljs-title function_">myMap</span>(<span class="hljs-function">(<span class="hljs-params">num, i, arr</span>) =&gt;</span> {
+      <span class="hljs-keyword">return</span> num * <span class="hljs-number">3</span>;
+    });
+    <span class="hljs-comment">// console.log(newOutput);</span>
+        
+    <span class="hljs-comment">// Polyfill of filter</span>
+    <span class="hljs-title class_">Array</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">myFilter</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params">callback</span>) {
+      <span class="hljs-keyword">let</span> temp = [];
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-variable language_">this</span>.<span class="hljs-property">length</span>; i++) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-title function_">callback</span>(<span class="hljs-variable language_">this</span>[i], i, <span class="hljs-variable language_">this</span>)) {
+              temp.<span class="hljs-title function_">push</span>(<span class="hljs-variable language_">this</span>[i]);
+        }
+      }
+      <span class="hljs-keyword">return</span> temp;
+    };
+        
+    <span class="hljs-keyword">const</span> filteredData = arr.<span class="hljs-title function_">myFilter</span>(<span class="hljs-function">(<span class="hljs-params">num</span>) =&gt;</span> {
+          <span class="hljs-keyword">return</span> num &gt; <span class="hljs-number">7</span>;
+    });
+    <span class="hljs-comment">// console.log('filteredData', filteredData);</span>
+        
+    <span class="hljs-comment">// Polyfill of Reduce</span>
+    <span class="hljs-title class_">Array</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">myReduce</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params">cb, initialValue</span>) {
+      <span class="hljs-keyword">let</span> accumulator = initialValue;
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-variable language_">this</span>.<span class="hljs-property">length</span>; i++) {
+            accumulator = accumulator ? <span class="hljs-title function_">cb</span>(accumulator, <span class="hljs-variable language_">this</span>[i], i, <span class="hljs-variable language_">this</span>) : <span class="hljs-variable language_">this</span>[i];
+      }
+      <span class="hljs-keyword">return</span> accumulator;
+    };
+        
+    <span class="hljs-keyword">const</span> mySum = arr.<span class="hljs-title function_">myReduce</span>(<span class="hljs-function">(<span class="hljs-params">acc, curr, i, arr</span>) =&gt;</span> {
+      <span class="hljs-keyword">return</span> acc + curr;
+    });
+    <span class="hljs-comment">// console.log('mySum', mySum);</span>
+    </code>
+
+    </div>
+  </div>
+  <div id="10" class="con">
+    <h2></h2>
+    <div class="code">
+
+    </div>
+  </div>
+  <div id="11" class="con">
+    <h2></h2>
+    <div class="code">
+
+    </div>
+  </div>
+  <div id="12" class="con">
+    <h2></h2>
+    <div class="code">
+
+    </div>
+  </div>
+  <div id="13" class="con">
+    <h2></h2>
+    <div class="code">
+
+    </div>
+  </div>
+  <div id="14" class="con">
+    <h2></h2>
+    <div class="code">
+
+    </div>
+  </div>
+  <div id="15" class="con">
+    <h2></h2>
+    <div class="code">
+
+    </div>
+  </div>
+  <div id="16" class="con">
+    <h2></h2>
+    <div class="code">
+
+    </div>
+  </div>
+  <div id="17" class="con">
+    <h2></h2>
+    <div class="code">
+
+    </div>
+  </div>
+  <div id="18" class="con">
+    <h2></h2>
+    <div class="code">
+
+    </div>
+  </div>
+  <div id="19" class="con">
+    <h2></h2>
+    <div class="code">
+
+    </div>
+  </div>
+  <div id="20" class="con">
+    <h2></h2>
+    <div class="code">
+
+    </div>
+  </div>
+  <div id="21" class="con">
+    <h2></h2>
+    <div class="code">
+
+    </div>
+  </div>
+  <div id="22" class="con">
+    <h2></h2>
+    <div class="code">
+
+    </div>
+  </div>
+  <div id="23" class="con">
+    <h2></h2>
+    <div class="code">
+
+    </div>
+  </div>
+  <div id="24" class="con">
+    <h2></h2>
+    <div class="code">
+
+    </div>
+  </div>
+  <div id="25" class="con">
+    <h2></h2>
+    <div class="code">
+
+    </div>
+  </div>
+  <div id="26" class="con">
+    <h2></h2>
+    <div class="code">
+
+    </div>
+  </div>
+  <div id="27" class="con">
+    <h2></h2>
+    <div class="code">
+
+    </div>
+  </div>
+  <div id="28" class="con">
+    <h2></h2>
+    <div class="code">
+
+    </div>
+  </div>
+  <div id="29" class="con">
+    <h2></h2>
+    <div class="code">
+
+    </div>
+  </div>
+  <div id="30" class="con">
+    <h2></h2>
+    <div class="code">
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 

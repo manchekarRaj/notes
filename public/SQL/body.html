@@ -25,6 +25,7 @@
       padding: 3px;
       margin: 3px;
       width: 98%;
+
     }
 
     .comment {
@@ -42,43 +43,69 @@
       font-style: italic;
     }
 
-    li {
-      color: rgb(234, 225, 98);
+    b {
+      color: orange;
+    }
 
+    .keyword {
+      color: rgb(13, 122, 255);
+    }
+
+    .fn {
+      color: rgb(255, 16, 16);
     }
   </style>
-
 </head>
 
 <body>
   <div id="0" class="con">
     <h2>Basic Queries</h2>
-    <ul>
-      <li>select MIN(age) as age from students;</li>
-      <li>select name, gender, age from students where age = (select MIN(age) as age from students);</li>
-      <li>select name, gender, age from students where age = (select MAX(age) as age from students);</li>
-      <li>select SUM(age) as TotalAge from students;</li>
-      <li>select AVG(age) as AverageAge from students;</li>
-      <li>UPDATE Customers SET ContactName = 'Rishabh', City= 'Mumbai' WHERE CustomerID = 1;</li>
-      <li>DELETE FROM Customers WHERE name='Jack';</li>
-      <li>INSERT INTO Customers (Name, Address, City, PostalCode, State)
-        VALUES ('Tom Erichsen', '36, Old Village Road', 'Canacone', '560016', 'Goa');</li>
-    </ul>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-sql">
+    <span class="hljs-comment">-- Select the minimum age from students</span>
+    <span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">MIN</span>(age) <span class="hljs-keyword">AS</span> age <span class="hljs-keyword">FROM</span> students;
+        
+    <span class="hljs-comment">-- Select name, gender, and age of students with the minimum age</span>
+    <span class="hljs-keyword">SELECT</span> name, gender, age <span class="hljs-keyword">FROM</span> students <span class="hljs-keyword">WHERE</span> age <span class="hljs-operator">=</span> (<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">MIN</span>(age) <span class="hljs-keyword">AS</span> age <span class="hljs-keyword">FROM</span> students);
+        
+    <span class="hljs-comment">-- Select name, gender, and age of students with the maximum age</span>
+    <span class="hljs-keyword">SELECT</span> name, gender, age <span class="hljs-keyword">FROM</span> students <span class="hljs-keyword">WHERE</span> age <span class="hljs-operator">=</span> (<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">MAX</span>(age) <span class="hljs-keyword">AS</span> age <span class="hljs-keyword">FROM</span> students);
+        
+    <span class="hljs-comment">-- Calculate the total age of all students</span>
+    <span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">SUM</span>(age) <span class="hljs-keyword">AS</span> TotalAge <span class="hljs-keyword">FROM</span> students;
+        
+    <span class="hljs-comment">-- Calculate the average age of all students</span>
+    <span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">AVG</span>(age) <span class="hljs-keyword">AS</span> AverageAge <span class="hljs-keyword">FROM</span> students;
+        
+    <span class="hljs-comment">-- Update contact name and city for customer with ID 1</span>
+    <span class="hljs-keyword">UPDATE</span> Customers <span class="hljs-keyword">SET</span> ContactName <span class="hljs-operator">=</span> <span class="hljs-string">'Rishabh'</span>, City <span class="hljs-operator">=</span> <span class="hljs-string">'Mumbai'</span> <span class="hljs-keyword">WHERE</span> CustomerID <span class="hljs-operator">=</span> <span class="hljs-number">1</span>;
+        
+    <span class="hljs-comment">-- Delete customers named Jack</span>
+    <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">FROM</span> Customers <span class="hljs-keyword">WHERE</span> name <span class="hljs-operator">=</span> <span class="hljs-string">'Jack'</span>;
+        
+    <span class="hljs-comment">-- Insert a new customer into the Customers table</span>
+    <span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> Customers (Name, Address, City, PostalCode, State) 
+    <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">'Tom Erichsen'</span>, <span class="hljs-string">'36, Old Village Road'</span>, <span class="hljs-string">'Canacone'</span>, <span class="hljs-string">'560016'</span>, <span class="hljs-string">'Goa'</span>);
+    </code>
+    </div>
 
   </div>
 
   <div id="1" class="con">
     <h2>Ranking Rows Based on a Specific Ordering Criteria</h2>
-
     <div class="code">
-      SELECT
-      employee_id,<br>
-      last_name,<br>
-      first_name,<br>
-      salary,<br>
-      RANK() OVER (ORDER BY salary DESC) as ranking<br>
-      FROM employee<br>
-      ORDER BY ranking<br>
+      <code class="!whitespace-pre hljs language-sql">
+  <span class="hljs-keyword">SELECT</span>
+      employee_id,
+      last_name,
+      first_name,
+      salary,
+      <span class="hljs-built_in">RANK</span>() <span class="hljs-keyword">OVER</span> (<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> salary <span class="hljs-keyword">DESC</span>) <span class="hljs-keyword">AS</span> ranking
+  <span class="hljs-keyword">FROM</span>
+      employee
+  <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span>
+      ranking;
+    </code>
     </div>
 
   </div>
@@ -86,162 +113,209 @@
   <div id="2" class="con">
     <h2>List The First 5 Rows of a Result Set</h2>
     <div class="code">
-      WITH employee_ranking AS (<br>
-      SELECT<br>
-      employee_id,<br>
-      last_name,<br>
-      first_name,<br>
-      salary,<br>
-      RANK() OVER (ORDER BY salary DESC) as ranking<br>
-      FROM employee<br>
-      )<br>
-      SELECT<br>
-      employee_id,<br>
-      last_name,<br>
-      first_name,<br>
-      salary<br>
-      FROM employee_ranking<br>
-      WHERE ranking lessthen=5 ORDER BY ranking;
+      <code class="!whitespace-pre hljs language-sql">
+    <span class="hljs-keyword">WITH</span> employee_ranking <span class="hljs-keyword">AS</span> (
+        <span class="hljs-keyword">SELECT</span>
+            employee_id,
+            last_name,
+            first_name,
+            salary,
+            <span class="hljs-built_in">RANK</span>() <span class="hljs-keyword">OVER</span> (<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> salary <span class="hljs-keyword">DESC</span>) <span class="hljs-keyword">AS</span> ranking
+        <span class="hljs-keyword">FROM</span>
+            employee
+    )
+    <span class="hljs-keyword">SELECT</span>
+        employee_id,
+        last_name,
+        first_name,
+        salary
+    <span class="hljs-keyword">FROM</span>
+        employee_ranking
+    <span class="hljs-keyword">WHERE</span>
+        ranking <span class="hljs-operator">&lt;</span> <span class="hljs-number">5</span>
+    <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span>
+        ranking;
+    </code>
     </div>
   </div>
 
   <div id="3" class="con">
     <h2>List the Last 5 Rows of a Result Set</h2>
     <div class="code">
-      WITH employee_ranking AS (<br>
-      SELECT<br>
-      employee_id,<br>
-      last_name,<br>
-      first_name,<br>
-      salary,<br>
-      RANK() OVER (ORDER BY salary ASC) as ranking<br>
-      FROM employee<br>
-      )<br>
-      SELECT<br>
-      employee_id,<br>
-      last_name,<br>
-      first_name,<br>
-      salary<br>
-      FROM employee_ranking<br>
-      WHERE ranking lessthen= 5 ORDER BY ranking </div>
-
-
+      <code class="!whitespace-pre hljs language-sql">
+    <span class="hljs-keyword">WITH</span> employee_ranking <span class="hljs-keyword">AS</span> (
+      <span class="hljs-keyword">SELECT</span>
+          employee_id,
+          last_name,
+          first_name,
+          salary,
+          <span class="hljs-built_in">RANK</span>() <span class="hljs-keyword">OVER</span> (<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> salary <span class="hljs-keyword">ASC</span>) <span class="hljs-keyword">AS</span> ranking
+      <span class="hljs-keyword">FROM</span>
+          employee
+    )
+    <span class="hljs-keyword">SELECT</span>
+        employee_id,
+        last_name,
+        first_name,
+        salary
+    <span class="hljs-keyword">FROM</span>
+        employee_ranking
+    <span class="hljs-keyword">WHERE</span>
+        ranking <span class="hljs-operator">&lt;</span> <span class="hljs-number">5</span>
+    <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span>
+        ranking;
+    </code>
+    </div>
   </div>
 
   <div id="4" class="con">
     <h2>List The Second Highest Row of a Result Set</h2>
     <div class="code">
-      WITH employee_ranking AS (<br>
-      SELECT<br>
-      employee_id,<br>
-      last_name,<br>
-      first_name,<br>
-      salary,<br>
-      RANK() OVER (ORDER BY salary DESC) as ranking<br>
-      FROM employee<br>
-      )<br>
-      SELECT<br>
-      employee_id,<br>
-      last_name,<br>
-      first_name,<br>
-      salary<br>
-      FROM employee_ranking<br>
-      WHERE ranking = 2<br>
+      <code class="!whitespace-pre hljs language-sql">
+    <span class="hljs-keyword">WITH</span> employee_ranking <span class="hljs-keyword">AS</span> (
+      <span class="hljs-keyword">SELECT</span>
+          employee_id,
+          last_name,
+          first_name,
+          salary,
+          <span class="hljs-built_in">RANK</span>() <span class="hljs-keyword">OVER</span> (<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> salary <span class="hljs-keyword">DESC</span>) <span class="hljs-keyword">AS</span> ranking
+    <span class="hljs-keyword">FROM</span>
+          employee
+    )
+  <span class="hljs-keyword">SELECT</span>
+      employee_id,
+      last_name,
+      first_name,
+      salary
+  <span class="hljs-keyword">FROM</span>
+      employee_ranking
+  <span class="hljs-keyword">WHERE</span>
+      ranking <span class="hljs-operator">=</span> <span class="hljs-number">2</span>;
+  </code>
 
     </div>
-
   </div>
 
   <div id="5" class="con">
     <h2>List the Second Highest Salary By Department</h2>
     <div class="code">
-      WITH employee_ranking AS (<br>
-      SELECT<br>
-      employee_id,<br>
-      last_name,<br>
-      first_name,<br>
-      salary,<br>
-      dept_id<br>
-      RANK() OVER (PARTITION BY dept_id ORDER BY salary DESC) as ranking<br>
-      FROM employee<br>
-      )<br>
-      SELECT<br>
-      dept_id,<br>
-      employee_id,<br>
-      last_name,<br>
-      first_name,<br>
-      salary<br>
-      FROM employee_ranking<br>
-      WHERE ranking = 2<br>
-      ORDER BY dept_id, last_name<br>
+      <code class="!whitespace-pre hljs language-sql">
+    <span class="hljs-keyword">WITH</span> employee_ranking <span class="hljs-keyword">AS</span> (
+      <span class="hljs-keyword">SELECT</span>
+          employee_id,
+          last_name,
+          first_name,
+          salary,
+          dept_id,
+          <span class="hljs-built_in">RANK</span>() <span class="hljs-keyword">OVER</span> (<span class="hljs-keyword">PARTITION</span> <span class="hljs-keyword">BY</span> dept_id <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> salary <span class="hljs-keyword">DESC</span>) <span class="hljs-keyword">AS</span> ranking
+      <span class="hljs-keyword">FROM</span>
+          employee
+    )
+    <span class="hljs-keyword">SELECT</span>
+        dept_id,
+        employee_id,
+        last_name,
+        first_name,
+        salary
+    <span class="hljs-keyword">FROM</span>
+        employee_ranking
+    <span class="hljs-keyword">WHERE</span>
+        ranking <span class="hljs-operator">=</span> <span class="hljs-number">2</span>
+    <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span>
+        dept_id,
+        last_name;
+    </code>
     </div>
   </div>
 
   <div id="6" class="con">
     <h2>List the First 50% Rows in a Result Set</h2>
     <div class="code">
-      WITH employee_ranking AS (<br>
-      SELECT<br>
-      employee_id,<br>
-      last_name,<br>
-      first_name,<br>
-      salary,<br>
-      NTILE(2) OVER (ORDER BY salary ) as ntile<br>
-      FROM employee<br>
-      )<br>
-      SELECT<br>
-      employee_id,<br>
-      last_name,<br>
-      first_name,<br>
-      salary<br>
-      FROM employee_ranking<br>
-      WHERE ntile = 1<br>
-      ORDER BY salary<br>
+      <code class="!whitespace-pre hljs language-sql">
+    <span class="hljs-keyword">WITH</span> employee_ranking <span class="hljs-keyword">AS</span> (
+      <span class="hljs-keyword">SELECT</span>
+          employee_id,
+          last_name,
+          first_name,
+          salary,
+          <span class="hljs-built_in">NTILE</span>(<span class="hljs-number">2</span>) <span class="hljs-keyword">OVER</span> (<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> salary) <span class="hljs-keyword">AS</span> ntile
+      <span class="hljs-keyword">FROM</span>
+          employee
+    )
+    <span class="hljs-keyword">SELECT</span>
+        employee_id,
+        last_name,
+        first_name,
+        salary
+    <span class="hljs-keyword">FROM</span>
+        employee_ranking
+    <span class="hljs-keyword">WHERE</span>
+        ntile <span class="hljs-operator">=</span> <span class="hljs-number">1</span>
+    <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span>
+        salary;
+    </code>
     </div>
   </div>
 
   <div id="7" class="con">
     <h2>List the Last 25% Rows in a Result Set</h2>
     <div class="code">
-      WITH employee_ranking AS (<br>
-      SELECT<br>
-      employee_id,<br>
-      last_name,<br>
-      first_name,<br>
-      salary,<br>
-      NTILE(4) OVER (ORDER BY salary) as ntile<br>
-      FROM employee<br>
-      )<br>
-      SELECT<br>
-      employee_id,<br>
-      last_name,<br>
-      first_name,<br>
-      salary<br>
-      FROM employee_ranking<br>
-      WHERE ntile = 4<br>
-      ORDER BY salary<br>
+      <code class="!whitespace-pre hljs language-sql">
+      <span class="hljs-keyword">WITH</span> employee_ranking <span class="hljs-keyword">AS</span> (
+      <span class="hljs-keyword">SELECT</span>
+          employee_id,
+          last_name,
+          first_name,
+          salary,
+          <span class="hljs-built_in">NTILE</span>(<span class="hljs-number">4</span>) <span class="hljs-keyword">OVER</span> (<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> salary) <span class="hljs-keyword">AS</span> ntile
+      <span class="hljs-keyword">FROM</span>
+          employee
+    )
+    <span class="hljs-keyword">SELECT</span>
+        employee_id,
+        last_name,
+        first_name,
+        salary
+    <span class="hljs-keyword">FROM</span>
+        employee_ranking
+    <span class="hljs-keyword">WHERE</span>
+        ntile <span class="hljs-operator">=</span> <span class="hljs-number">4</span>
+    <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span>
+        salary;
+    </code>
     </div>
   </div>
 
   <div id="8" class="con">
     <h2>Number the Rows in a Result Set</h2>
-    <div class="code">SELECT<br>
-      employee_id,<br>
-      last_name,<br>
-      first_name,<br>
-      salary,<br>
-      ROW_NUMBER() OVER (ORDER BY employee_id) as ranking_position<br>
-      FROM employee</div>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-sql">
+    <span class="hljs-keyword">SELECT</span>
+      employee_id,
+      last_name,
+      first_name,
+      salary,
+      <span class="hljs-built_in">ROW_NUMBER</span>() <span class="hljs-keyword">OVER</span> (<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> employee_id) <span class="hljs-keyword">AS</span> ranking_position
+    <span class="hljs-keyword">FROM</span>
+      employee;
+    </code>
+    </div>
   </div>
 
   <div id="9" class="con">
     <h2>List All Combinations of Rows from Two Tables</h2>
-    <div class="code">SELECT<br>
-      grain.product_name,<br>
-      box_size.description,<br>
-      grain.price_per_pound * box_size.box_weight<br>
-      FROM product<br>
-      CROSS JOIN box_sizes</div>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-sql">
+    <span class="hljs-keyword">SELECT</span>
+      grain.product_name,
+      box_size.description,
+      grain.price_per_pound <span class="hljs-operator">*</span> box_size.box_weight
+    <span class="hljs-keyword">FROM</span>
+      product
+    <span class="hljs-keyword">CROSS</span> <span class="hljs-keyword">JOIN</span>
+      box_sizes;
+    </code>
+    </div>
   </div>
 
   <div id="10" class="con">
