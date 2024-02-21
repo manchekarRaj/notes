@@ -281,33 +281,368 @@
   </div>
 
   <div id="5" class="con">
-    <h2></h2>
+    <h2>Indexes</h2>
+    <p>Indexes are data structures that store a small portion of the collection's data to quickly locate documents
+      within the colllection based on the indexed fields.</p>
+    <p>MongoDB utilizes indexing to enhance query processing efficiency. <br>
+      Without indexing, MongoDB would need to scan every document in the collection and retrieve only those matching the
+      query. So Indexing limits how MongoDB scans the document.</p>
+    <br>
+    <p>Negative performance impact: For collection with a high write-to-read ratio, indexes are expensive because each
+      insert must also update any indexes. </p>
+    </p>
+
+    <h3>Create an Index</h3>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      db.<span class="hljs-property">collection</span>.<span class="hljs-title function_">createIndex</span>({ <span class="hljs-attr">name</span>: -<span class="hljs-number">1</span> })
+      </code>
+    </div>
+    <h3>Index Types</h3>
+    <ul>
+      <li>Single Field Indexes - Single field indexes store information from a single field in a collection. </li>
+      <li>Compound Indexes - Compound indexes are indexes that contain references to multiple fields.</li>
+      <li>Multikey Indexes (Indexes on Array Fields)</li>
+      <li>Clustered Indexes</li>
+      <li>Text Indexes</li>
+      <li>Unique Indexes</li>
+      <li>Wildcard Indexes</li>
+      <li>Geospatial Indexes</li>
+      <li>Hashed Indexes</li>
+    </ul>
 
 
+    <p><b>Single Field Indexes</b> - Single field indexes store information from a single field in a collection. </p>
+    <u>Create an Index on a Single Field</u>: <span class="comment">db.students.createIndex( { gpa: 1 } )</span>
+    <br>
+    <u>Create an Index on an Embedded Document</u>: Eg, Student location is stored in an embedded document called
+    location.
+    The location document contains the fields city and state. You can create an index on the location field to
+    improve
+    performance for queries on the location document: <span class="comment">db.students.createIndex( { location: 1 }
+      )</span>
+    <p>The following query uses the index on the location field:<br>
+      <span class="comment">db.students.find( { location: { city: "Sacramento", state: "California" } } )</span>
+    </p>
+
+    <u>Create an Index on an Embedded Field</u>: You can create indexes on fields within embedded documents. <span
+      class="comment">db.students.createIndex( { "location.state": 1 } )</span>
+    <br>
+    <p><b>Compound Indexes</b> - Compound indexes are indexes that contain references to multiple fields.</p>
+    <u>Create a Compound Index</u>
+    <br>
+    <span class="comment">
+      db.students.createIndex( {<br>
+      name: 1,<br>
+      gpa: -1<br>
+      } )<br>
+      <p>In this example:<br>
+        - The index on name is ascending (1).<br>
+        - The index on gpa is descending (-1).</p>
+    </span>
+
+    <p><b>Multikey Indexes (Indexes on Array Fields)</b>
+    <p>Multikey indexes are indexes that improve the performance of queries on fields that contain array values.</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">const</span> database = client.<span class="hljs-title function_">db</span>(<span class="hljs-string">"sample_mflix"</span>);
+    <span class="hljs-keyword">const</span> movies = database.<span class="hljs-title function_">collection</span>(<span class="hljs-string">"movies"</span>);
+        
+    <span class="hljs-comment">// Create a multikey index on the "cast" field in the "movies" collection</span>
+    <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> movies.<span class="hljs-title function_">createIndex</span>({ <span class="hljs-attr">cast</span>: <span class="hljs-number">1</span> });
+        </code>
+    </div>
+    </p>
+    <br>
+    <p><b>Clustered Indexes:</b>
+    <p>Clustered indexes are indexes that improve the performance of insert, update, and delete operations on clustered
+      collections. Clustered collections store documents ordered by the clustered index key value.</p>
+    </p>
+    <p>To create a clustered index, specify the clusteredIndex option in the CollectionOption. The clusteredIndex option
+      must specify the _id field as the key and the unique field as true.
+      <br>
+      The following example uses the createCollection() method to create a clustered index on the _id field in the
+      vendors collection of the tea database.
+    </p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">const</span> db = client.<span class="hljs-title function_">db</span>(<span class="hljs-string">'tea'</span>);
+      <span class="hljs-keyword">await</span> db.<span class="hljs-title function_">createCollection</span>(<span class="hljs-string">'ratings'</span>, {
+        <span class="hljs-attr">clusteredIndex</span>: {
+          <span class="hljs-attr">key</span>: { <span class="hljs-attr">_id</span>: <span class="hljs-number">1</span> },
+          <span class="hljs-attr">unique</span>: <span class="hljs-literal">true</span>
+        }
+    });
+        </code>
+
+    </div>
+
+    <p><b>Text Indexes</b>
+      Text indexes support text search queries on string content. These indexes can include any field whose value is a
+      string or an array of string elements.
+    </p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-comment">// Get the database and collection on which to create the index </span>
+    <span class="hljs-keyword">const</span> myDB = client.<span class="hljs-title function_">db</span>(<span class="hljs-string">"testDB"</span>);
+    <span class="hljs-keyword">const</span> myColl = myDB.<span class="hljs-title function_">collection</span>(<span class="hljs-string">"blogPosts"</span>);
+        
+    <span class="hljs-comment">// Create a text index on the "title" and "body" fields</span>
+    <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> myColl.<span class="hljs-title function_">createIndex</span>(
+      { <span class="hljs-attr">title</span>: <span class="hljs-string">"text"</span>, <span class="hljs-attr">body</span>: <span class="hljs-string">"text"</span> },
+      { <span class="hljs-attr">default_language</span>: <span class="hljs-string">"english"</span> },
+      { <span class="hljs-attr">weights</span>: { <span class="hljs-attr">body</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">title</span>: <span class="hljs-number">3</span> } }
+    );
+        </code>
+
+    </div>
+
+    <p><b>Unique Indexes</b>
+      Unique indexes ensure that the indexed fields do not store duplicate values. By default, MongoDB creates a unique
+      index on the _id field during the creation of a collection. To create a unique index, specify the field or
+      combination of fields that you want to prevent duplication on and set the unique option to true.
+    </p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">const</span> database = client.<span class="hljs-title function_">db</span>(<span class="hljs-string">"sample_mflix"</span>);
+    <span class="hljs-keyword">const</span> movies = database.<span class="hljs-title function_">collection</span>(<span class="hljs-string">"movies"</span>);
+        
+    <span class="hljs-comment">// Create a unique index on the "theaterId" field in the "theaters" collection.</span>
+    <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> movies.<span class="hljs-title function_">createIndex</span>({ <span class="hljs-attr">theaterId</span>: <span class="hljs-number">1</span> }, { <span class="hljs-attr">unique</span>: <span class="hljs-literal">true</span> });
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Index created: <span class="hljs-subst">${result}</span>`</span>);
+        </code>
+    </div>
   </div>
 
   <div id="6" class="con">
-    <h2></h2>
+    <h2>ReplicaSet</h2>
+    A replica set is a group of MongoDB servers that maintain the same data set, providing high availability and fault
+    tolerance. Replica sets are the recommended way to achieve redundancy and ensure data availability in MongoDB.
+    <br>
+    <b>What is replication in MongoDB?</b>
+    <p>A replica set is a group of MongoDB instances that maintain the same data set. There are numbers of nodes in this
+      replica set and among these nodes, one node is the primary node and the rest are secondary nodes.
+      The primary node receives all read and write operations. Through oplog(operations log) the secondary members
+      (nodes) then copy and apply these operations in an asynchronous process.</p>
+
 
   </div>
 
   <div id="7" class="con">
-    <h2></h2>
-
+    <h2>Cluster</h2>
+    <p>Cluster is some instances of MongoDB that are running in tandem with each other.<br>
+      There are 2 types of Cluster in MongoDB.<br>
+      <b>Replicate Sets</b>: They maintain the same data set across each of the instances. Therefore they provide high
+      availability of data. They are also very useful in load balancing and they are the basis of all production
+      deployments.<br>
+      <b>Sharded Cluster</b>: In Sharded cluster, data is distributed between each of the instances. Data is not
+      replicated along each of the clusters. Sharded clusters are useful when we have very large data sets.
+      <br>
+      <b>Setup MongoDB for Production deployment - Replica Sets cluster</b>
+      <br>
+    <ul>
+      <li>To deploy replica sets what you need is to have a minimum of 2 instances of MongoDB running. So that one
+        instance
+        can act as a primary node and the second instance can act as a secondary node.</li>
+      <li>All the read and write operations happen on the primary node and the replication is done on the secondary
+        nodes.</li>
+      <li>For load balancing, all the Write operations can happen on the primary node and the read preference can be set
+        on
+        the secondary node.</li>
+    </ul>
+    </p>
   </div>
 
   <div id="8" class="con">
-    <h2></h2>
+    <h2>Aggregation</h2>
+    <p>Aggregation is a way to filter, sort, group, reshape and analyze data without changing any data in your
+      collection.
+    </p>
+
+    <p>
+      <b>Aggregation</b>: Collection and summary of data
+      <b>Stage</b>: One of the built-in methods that can be completed on the data, but does not permanently alter it
+      <b>Aggregation pipeline</b>: A series of stages completed on the data in order
+    </p>
+
+    <b>How many users are active?</b>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-json">
+      <span class="hljs-punctuation">[</span>
+      <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">"$match"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+          <span class="hljs-attr">"isActive"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
+        <span class="hljs-punctuation">}</span>
+      <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">"$count"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"isActive"</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span>
+    </code>
+    </div>
+    <br>
+    <b>Fetch data from multiple docs</b>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-json">
+    <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"$lookup"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">"from"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"authors"</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">"localField"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"author_id"</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">"foreignField"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"_id"</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">"as"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"author_details"</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"$addFields"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">"author_details"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+          <span class="hljs-comment">// "$first": "$author_details"</span>
+          <span class="hljs-attr">"$arrayElemAt"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"$author_details"</span><span class="hljs-punctuation">,</span> <span class="hljs-number">0</span><span class="hljs-punctuation">]</span>
+        <span class="hljs-punctuation">}</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span>
+      </code>
+
+    </div>
+    <br>
+    <b>Top 5 most common favorite fruits among users</b>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-json">
+    <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"$group"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">"_id"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"$favoriteFruit"</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">"count"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+          <span class="hljs-attr">"$sum"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span>
+        <span class="hljs-punctuation">}</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"$sort"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">"count"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">-1</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"$limit"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">5</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span>
+      </code>
+
+    </div>
+    <br>
+    <b>What is the average number of tags per user?</b>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-json"><span class="hljs-punctuation">[</span>
+        <span class="hljs-punctuation">{</span>
+          <span class="hljs-attr">"$unwind"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">"path"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"$tags"</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">"includeArrayIndex"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"string"</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">"preserveNullAndEmptyArrays"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
+          <span class="hljs-punctuation">}</span>
+        <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-punctuation">{</span>
+          <span class="hljs-attr">"$group"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">"_id"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"$_id"</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">"numberOfTags"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+              <span class="hljs-attr">"$sum"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span>
+            <span class="hljs-punctuation">}</span>
+          <span class="hljs-punctuation">}</span>
+        <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-punctuation">{</span>
+          <span class="hljs-attr">"$group"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">"_id"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">"averageNumOfTags"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+              <span class="hljs-attr">"$avg"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"$numberOfTags"</span>
+            <span class="hljs-punctuation">}</span>
+          <span class="hljs-punctuation">}</span>
+        <span class="hljs-punctuation">}</span>
+      <span class="hljs-punctuation">]</span>
+      
+      <span class="hljs-comment">// Using new add field and set length of the array (tags)</span>
+      
+      <span class="hljs-punctuation">[</span>
+        <span class="hljs-punctuation">{</span>
+          <span class="hljs-attr">"$addFields"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">"numOfTags"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+              <span class="hljs-attr">"$size"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">"$ifNull"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"$tags"</span><span class="hljs-punctuation">,</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">}</span>
+            <span class="hljs-punctuation">}</span>
+          <span class="hljs-punctuation">}</span>
+        <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-punctuation">{</span>
+          <span class="hljs-attr">"$group"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">"_id"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">"averageNoOfTags"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">"$avg"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"$numOfTags"</span> <span class="hljs-punctuation">}</span>
+          <span class="hljs-punctuation">}</span>
+        <span class="hljs-punctuation">}</span>
+      <span class="hljs-punctuation">]</span>
+      </code>
+
+    </div>
+    <br>
+    <b></b>
+    <div class="code">
+
+    </div>
+    <br>
+    <b></b>
+    <div class="code">
+
+    </div>
+
 
   </div>
 
 
   <div id="9" class="con">
-    <h2></h2>
+    <h2>Pagination</h2>
+    <p>Pagination in MongoDB typically involves using the skip() and limit() methods in conjunction with your query.
+      Here's a basic example:</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      <span class="hljs-keyword">const</span> pageNumber = <span class="hljs-number">1</span>; <span class="hljs-comment">// Page number (starting from 1)</span>
+      <span class="hljs-keyword">const</span> pageSize = <span class="hljs-number">10</span>; <span class="hljs-comment">// Number of items per page</span>
+          
+      <span class="hljs-keyword">const</span> skipAmount = (pageNumber - <span class="hljs-number">1</span>) * pageSize;
+          
+      <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> db.<span class="hljs-title function_">collection</span>(<span class="hljs-string">'yourCollection'</span>)
+          .<span class="hljs-title function_">find</span>(yourQuery)
+          .<span class="hljs-title function_">skip</span>(skipAmount)
+          .<span class="hljs-title function_">limit</span>(pageSize)
+          .<span class="hljs-title function_">toArray</span>();
+      </code>
+    </div>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">db.<span class="hljs-property">movies</span>.<span class="hljs-title function_">aggregate</span>([
+        {
+          <span class="hljs-string">"$search"</span>: {
+            <span class="hljs-string">"index"</span>: <span class="hljs-string">"pagination-tutorial"</span>,
+            <span class="hljs-string">"text"</span>: {
+              <span class="hljs-string">"query"</span>: <span class="hljs-string">"tom hanks"</span>,
+              <span class="hljs-string">"path"</span>: <span class="hljs-string">"cast"</span>
+            }
+          }
+        },
+        {
+          <span class="hljs-string">"$project"</span>: {
+            <span class="hljs-string">"_id"</span>: <span class="hljs-number">0</span>,
+            <span class="hljs-string">"title"</span>: <span class="hljs-number">1</span>,
+            <span class="hljs-string">"cast"</span>: <span class="hljs-number">1</span>
+          }
+        },
+        {
+          <span class="hljs-string">"$skip"</span>: <span class="hljs-number">10</span>
+        },
+        {
+          <span class="hljs-string">"$limit"</span>: <span class="hljs-number">10</span>
+        }
+      ])
+      </code>
+    </div>
 
   </div>
 
-  <div id="10" class="con">
+  <!-- <div id="10" class="con">
     <h2></h2>
 
   </div>
@@ -333,66 +668,7 @@
   </div>
 
   <div id="15" class="con">
-    <h2>Indexes</h2>
-    <p>Indexes are data structures that store a small portion of the collection's data to quickly locate documents
-      within the colllection based on the indexed fields.</p>
-    <p>MongoDB utilizes indexing to enhance query processing efficiency. <br>
-      Without indexing, MongoDB would need to scan every document in the collection and retrieve only those matching the
-      query. So Indexing limits how MongoDB scans the document.</p>
-    <br>
-    <p>Negative performance impact: For collection with a high write-to-read ratio, indexes are expensive because each
-      insert must also update any indexes. </p>
-    </p>
 
-    <h3>Create an Index</h3>
-    <div class="code">
-      <code class="!whitespace-pre hljs language-javascript">
-      db.<span class="hljs-property">collection</span>.<span class="hljs-title function_">createIndex</span>({ <span class="hljs-attr">name</span>: -<span class="hljs-number">1</span> })
-      </code>
-    </div>
-    <h3>Index Types</h3>
-    <ul>
-      <li>Single Field Indexes - Single field indexes store information from a single field in a collection. </li>
-      <li>Compound Indexes - Compound indexes are indexes that contain references to multiple fields.</li>
-      <li>Multikey Indexes</li>
-      <li>Text Indexes</li>
-      <li>Wildcard Indexes</li>
-      <li>Geospatial Indexes</li>
-      <li>Hashed Indexes</li>
-    </ul>
-
-    <ul>
-      <p><b>Single Field Indexes</b> - Single field indexes store information from a single field in a collection. </p>
-      <li><u>Create an Index on a Single Field</u>: <span class="comment">db.students.createIndex( { gpa: 1 } )</span>
-      </li>
-      <li><u>Create an Index on an Embedded Document</u>: Eg, Student location is stored in an embedded document called
-        location.
-        The location document contains the fields city and state. You can create an index on the location field to
-        improve
-        performance for queries on the location document: <span class="comment">db.students.createIndex( { location: 1 }
-          )</span>
-        <p>The following query uses the index on the location field:<br>
-          <span class="comment">db.students.find( { location: { city: "Sacramento", state: "California" } } )</span>
-        </p>
-      </li>
-      <li><u>Create an Index on an Embedded Field</u>: You can create indexes on fields within embedded documents. <span
-          class="comment">db.students.createIndex( { "location.state": 1 } )</span></li>
-
-      <p><b>Compound Indexes</b> - Compound indexes are indexes that contain references to multiple fields.</p>
-      <li><u>Create a Compound Index</u>
-        <br>
-        <span class="comment">
-          db.students.createIndex( {<br>
-          name: 1,<br>
-          gpa: -1<br>
-          } )<br>
-          <p>In this example:<br>
-            - The index on name is ascending (1).<br>
-            - The index on gpa is descending (-1).</p>
-        </span>
-      </li>
-      <li><u>Compound Index Sort Order</u></li>
-    </ul>
 
     <p></p>
     <p></p>
@@ -438,7 +714,7 @@
 
   <div id="22" class="con">
     <h2></h2>
-  </div>
+  </div> -->
 
 
 

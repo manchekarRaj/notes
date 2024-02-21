@@ -5,7 +5,7 @@
   <style>
     body {
       font-family: 'Courier New', Courier, monospace;
-      font-size: 17px;
+      font-size: 18px;
       background-color: rgb(28, 28, 28);
       color: rgb(226, 234, 241);
     }
@@ -291,7 +291,30 @@
       <li>- Mutation observer callbacks</li>
       <li>- process.nextTick in Node.js</li>
     </ul>
+
+    <p><b>process.nextTick()</b> is a method that allows you to schedule a callback function to be invoked during the
+      next iteration of the event loop, immediately after the current operation completes.</p>
     <br>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Start'</span>);
+
+    process.<span class="hljs-title function_">nextTick</span>(<span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Inside nextTick callback'</span>);
+    });
+        
+    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Inside setTimeout callback'</span>);
+    }, <span class="hljs-number">0</span>);
+        
+    <span class="hljs-title function_">setImmediate</span>(<span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Inside setImmediate callback'</span>);
+    });
+        
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'End'</span>);
+    </code>
+    </div>
+
     <h4>Relationship:</h4>
     <p>
       When a macrotask is executed, it can queue up microtasks, and those microtasks will be executed before the next
@@ -1332,7 +1355,7 @@
     </p>
     <div class="code">
       <code class="!whitespace-pre hljs language-javascript">
-        <span class="hljs-keyword">function</span> <span class="hljs-title function_">asyncOperation1</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">asyncOperation1</span>(<span class="hljs-params"></span>) {
         <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
             <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
                 <span class="hljs-title function_">resolve</span>(<span class="hljs-string">'Async Operation 1 Completed'</span>);

@@ -60,6 +60,48 @@
 <body>
   <div id="0" class="con">
     <h2>Basic Queries</h2>
+    <p><b>INNER JOIN</b> - Returns records that have matching values in both tables</p>
+    <p><b>Left Join</b> - Returns all records from the left table, and the matched records from the right table</p>
+    <p><b>Right Join</b> - Returns all records from the right table, and the matched records from the left table</p>
+    <p><b>Full Join</b> - Returns all records when there is a match in either left or right table</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-sql">
+    <span class="hljs-comment">-- Customer table</span>
+    <span class="hljs-comment">-- Payment table</span>
+        
+    <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> customer;
+    <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> payment;
+        
+    <span class="hljs-comment">-- Inner Join</span>
+        
+    <span class="hljs-keyword">SELECT</span> c.first_name, c.last_name, c.email, p.mode, p.amount, p.payment_date
+    <span class="hljs-keyword">FROM</span> customer <span class="hljs-keyword">AS</span> c
+    <span class="hljs-keyword">INNER</span> <span class="hljs-keyword">JOIN</span> payment <span class="hljs-keyword">AS</span> p
+    <span class="hljs-keyword">ON</span> c.customer_id <span class="hljs-operator">=</span> p.customer_id;
+        
+    <span class="hljs-comment">-- Left Join</span>
+        
+    <span class="hljs-keyword">SELECT</span> c.first_name, c.last_name, c.email, p.mode, p.amount, p.payment_date
+    <span class="hljs-keyword">FROM</span> customer <span class="hljs-keyword">AS</span> c
+    <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> payment <span class="hljs-keyword">AS</span> p
+    <span class="hljs-keyword">ON</span> c.customer_id <span class="hljs-operator">=</span> p.customer_id;
+        </code>
+    </div>
+    <br>
+
+    <div class="code">
+      <code class="!whitespace-pre hljs language-sql">
+    <span class="hljs-comment">-- Full Join</span>
+
+    <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span>
+    <span class="hljs-keyword">FROM</span> customer <span class="hljs-keyword">AS</span> c
+    <span class="hljs-keyword">FULL</span> <span class="hljs-keyword">OUTER</span> <span class="hljs-keyword">JOIN</span> payment <span class="hljs-keyword">AS</span> p
+    <span class="hljs-keyword">ON</span> c.customer_id <span class="hljs-operator">=</span> p.customer_id;
+    </code>
+    </div>
+
+
+    <br>
     <div class="code">
       <code class="!whitespace-pre hljs language-sql">
     <span class="hljs-comment">-- Select the minimum age from students</span>
@@ -587,6 +629,62 @@
           }
         );
         </code>
+    </div>
+  </div>
+
+  <div id="23" class="con">
+    <h2>TIMESTAMP</h2>
+    <p>
+      • TIME - contains only time, format HH:MI:SS
+      • DATE - contains on date, format YYYY-MM-DD
+      • YEAR - contains on year, format YYYY or YY
+      • TIMESTAMP - contains date and time, format YYYY-MM-DD
+      HH:MI:SS
+      • TIMESTAMPTZ - contains date, time and time zone
+    </p>
+  </div>
+
+  <div id="24" class="con">
+    <h2>Union</h2>
+    <p>The SQL UNION clause/operator is used to combine/concatenate the results of two or more SELECT statements without
+      returning any duplicate rows and keeps unique records.
+    </p>
+    <br>
+    <p>
+      To use this UNION clause, each SELECT statement must have:<br>
+      • The same number of columns selected and expressions<br>
+      • The same data type and<br>
+      • Have them in the same order<br>
+    </p><br>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-sql">
+    <span class="hljs-keyword">SELECT</span> column_name(s) <span class="hljs-keyword">FROM</span> TableA
+    <span class="hljs-keyword">UNION</span>
+    <span class="hljs-keyword">SELECT</span> column_name(s) <span class="hljs-keyword">FROM</span> TableB;
+      </code>
+    </div>
+    <br>
+    <p>
+      In <b>UNION ALL</b> UNION ALL everything is same as UNION, it combines/concatenate two or more table but keeps all
+      records, including duplicates.
+    </p>
+  </div>
+
+  <div id="24" class="con">
+    <h2>Create Table</h2>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-sql">
+      <span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> customer (
+      cust_id <span class="hljs-type">INT</span> <span class="hljs-keyword">PRIMARY</span> KEY,
+      cust_name <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+      cust_age <span class="hljs-type">INT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+      city <span class="hljs-type">CHAR</span>(<span class="hljs-number">50</span>),
+      salary <span class="hljs-type">NUMERIC</span>,
+      start_date <span class="hljs-type">DATE</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+      end_date <span class="hljs-type">DATE</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>
+    );
+    </code>
+
     </div>
 
   </div>

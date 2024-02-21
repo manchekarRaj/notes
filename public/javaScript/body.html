@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+
+<head>
+  <link rel="stylesheet" href="./../notes_style.css">
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 18px;
+      background-color: rgb(28, 28, 28);
+      color: rgb(226, 234, 241);
+    }
+
+    .code {
+      font-family: "Consolas";
+      color: rgb(236, 255, 209);
+      border: 1px;
+      border-style: inset;
+      width: 98%;
+    }
+
+    .con {
+      background-color: black;
+      border: 2px;
+      border-style: double;
+      padding: 3px;
+      margin: 3px;
+      width: 98%;
+
+    }
+
+    .comment {
+      font-size: medium;
+      font-style: italic;
+      color: rgb(112, 111, 111);
+    }
+
+    h2 {
+      color: rgb(72, 176, 245);
+    }
+
+    h4 {
+      color: rgb(71, 144, 177);
+      font-style: italic;
+    }
+
+    b {
+      color: orange;
+    }
+
+    .keyword {
+      color: rgb(13, 122, 255);
+    }
+
+    .fn {
+      color: rgb(255, 16, 16);
+    }
+
+    u {
+      color: rgb(0, 221, 203);
+    }
+
+    .cmd {
+      color: rgb(124, 255, 141);
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    b {
+      color: rgb(255, 226, 61);
+    }
+
+    .keyword {
+      color: rgb(93, 190, 255);
+    }
+
+    .class {
+      color: rgb(255, 61, 77);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="0" class="con">
+    <h2>About JavaScript</h2>
+    <b>ES6</b>
+    <p>ES6, Which is also known as ECMAScript 2015, introduced some features in JavaScript language.</p>
+    <ul>
+      <li><b>Arrow Functions</b> : Arrow function {()=>} is concise way of writing JavaScript functions in shorter way.
+        They
+        make our code more structured and readable.
+        <br>
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// ES5</span>
+            <span class="hljs-keyword">var</span> add = <span class="hljs-keyword">function</span>(<span class="hljs-params">a, b</span>) {
+                <span class="hljs-keyword">return</span> a + b;
+            };
+            <span class="hljs-comment">// ES6</span>
+            <span class="hljs-keyword">const</span> <span class="hljs-title function_">add</span> = (<span class="hljs-params">a, b</span>) =&gt; a + b;
+            </code>
+        </div>
+      </li>
+      <li><b>Let and Const Declarations</b>: let and const introduce block-scoped that provide better control over
+        variable scope and preventing unintended reassignments.
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// ES5</span>
+            <span class="hljs-keyword">var</span> x = <span class="hljs-number">10</span>;
+            <span class="hljs-keyword">if</span> (<span class="hljs-literal">true</span>) {
+                <span class="hljs-keyword">var</span> x = <span class="hljs-number">20</span>;
+            }
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(x); <span class="hljs-comment">// 20</span>
+            
+            <span class="hljs-comment">// ES6</span>
+            <span class="hljs-keyword">let</span> y = <span class="hljs-number">10</span>;
+            <span class="hljs-keyword">if</span> (<span class="hljs-literal">true</span>) {
+                <span class="hljs-keyword">let</span> y = <span class="hljs-number">20</span>;
+            }
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(y); <span class="hljs-comment">// 10</span>
+            </code>
+        </div>
+      </li>
+      <li><b>Template Literals</b>: Template literals allow for easier string interpolation and multiline strings, using
+        backticks.
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// ES5</span>
+            <span class="hljs-keyword">var</span> name = <span class="hljs-string">"John"</span>;
+            <span class="hljs-keyword">var</span> message = <span class="hljs-string">"Hello, "</span> + name + <span class="hljs-string">"!"</span>;
+            <span class="hljs-comment">// ES6</span>
+            <span class="hljs-keyword">let</span> name = <span class="hljs-string">"John"</span>;
+            <span class="hljs-keyword">let</span> message = <span class="hljs-string">`Hello, <span class="hljs-subst">${name}</span>!`</span>;
+            </code>
+        </div>
+
+
+      </li>
+      <li><b>Default Parameters</b>: ES6 allows parameters to have default values if no argument is provided when the
+        function is called.
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// ES6</span>
+            <span class="hljs-keyword">function</span> <span class="hljs-title function_">greet</span>(<span class="hljs-params">name = <span class="hljs-string">'World'</span></span>) {
+                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Hello, <span class="hljs-subst">${name}</span>!`</span>);
+            }
+            <span class="hljs-title function_">greet</span>(); <span class="hljs-comment">// Hello, World!</span>
+            <span class="hljs-title function_">greet</span>(<span class="hljs-string">'Alice'</span>); <span class="hljs-comment">// Hello, Alice!</span>
+            </code>
+        </div>
+
+      </li>
+      <li><b>Spread and Rest Operators</b>: The spread operator (...) allows for the expansion of iterable objects into
+        individual elements, while the rest operator collects multiple elements into a single array.
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// Spread operator</span>
+          <span class="hljs-keyword">let</span> arr1 = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];
+          <span class="hljs-keyword">let</span> arr2 = [...arr1, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>];
+          
+          <span class="hljs-comment">// Rest operator</span>
+          <span class="hljs-keyword">function</span> <span class="hljs-title function_">sum</span>(<span class="hljs-params">...numbers</span>) {
+              <span class="hljs-keyword">return</span> numbers.<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">total, num</span>) =&gt;</span> total + num, <span class="hljs-number">0</span>);
+          }
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">sum</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>)); <span class="hljs-comment">// 15</span>
+          </code>
+        </div>
+      </li>
+      <li><b>Classes</b>: ES6 introduces class syntax for defining objects and inheritance hierarchies, which is
+        syntactic sugar over JavaScript's existing prototype-based inheritance.
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// ES6</span>
+          <span class="hljs-keyword">class</span> <span class="hljs-title class_">Rectangle</span> {
+              <span class="hljs-title function_">constructor</span>(<span class="hljs-params">width, height</span>) {
+                  <span class="hljs-variable language_">this</span>.<span class="hljs-property">width</span> = width;
+                  <span class="hljs-variable language_">this</span>.<span class="hljs-property">height</span> = height;
+              }
+              <span class="hljs-title function_">area</span>(<span class="hljs-params"></span>) {
+                  <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">width</span> * <span class="hljs-variable language_">this</span>.<span class="hljs-property">height</span>;
+              }
+          }
+          </code>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div id="1" class="con">
+    <h2>JavaScript Engine</h2>
+    <p>All modern browsers have their own version of the JavaScript Engine, like V8 in Chrome, SpiderMonkey in Firefox,
+      or JavaScriptCore in Safari, they are responsible for executing JavaScript code.</p><br>
+    <ul>
+      <li>V8 - JavaScript Engine developed by Google for Chrome</li>
+      <li>SpiderMonkey - The JavaScript Engine used by Mozilla Firefox</li>
+      <li>JavaScriptCore - Developed by Apple for Safari</li>
+      <li>Rhino - Managed by Mozilla Foundation for Firefox</li>
+      <li>Chakra - A JavaScript Engine for Microsoft Edge</li>
+      <li>JerryScript - A JavaScript Engine employed for the Internet of Things (IoT).</li>
+    </ul>
+    <br>
+
+    1. <b>Parsing</b>: The engine starts by parsing the JavaScript code. It reads the code and
+    generates a data structure called the Abstract Syntax Tree (AST), which represents the syntactic structure of the
+    code.
+    <br>
+    2. <b>Compilation</b>: After parsing, the engine compiles the JavaScript code into bytecode or machine code, which
+    browser can understand.
+    <br>
+    3. <b>Optimizations</b>: Modern JavaScript engines employ various optimization techniques to improve performance.
+    These include inline caching, function inlining, loop unrolling, and dynamic optimization based on runtime feedback.
+    Optimization is an ongoing process and may happen at different stages of execution.
+    <br>
+    4. <b>Execution</b>: Once the code is parsed and compiled, the engine executes it line by line. During execution,
+    variables are allocated memory, functions are defined, and statements are executed sequentially. The engine also
+    manages the call stack to keep track of function calls and their execution contexts. JavaScript is single-threaded
+    and uses an event-driven, asynchronous programming model, meaning that certain operations like I/O operations or
+    any asynchronous operations do not block the main execution thread.
+    <br>
+    5. <b>Event Loop</b>: JavaScript utilizes an event loop to manage asynchronous operations and handle events. The
+    event loop continuously checks for tasks in the task queue and executes them in a first-in-first-out manner. This
+    allows JavaScript to handle tasks such as responding to user interactions, fetching data from servers, or executing
+    callbacks without blocking the main thread.
+    <br>
+    6. <b>Rendering</b>: JavaScript often interacts with the Document Object Model (DOM) to manipulate the structure and
+    content of the web page dynamically. Changes made to the DOM through JavaScript can trigger reflows and repaints,
+    ultimately updating what the user sees on the screen.
+    <br><br>
+
+
+    <b>Memory Heap</b>
+    <p>Heap is a large unstructured data structure that stores all the dynamic data like function definitions, objects,
+      arrays, etc. The memory heap is where the memory allocation happens, it is a location in memory where memory may
+      be allocated at random access. Individual data elements distributed on the heap are typically released in ways
+      that are asynchronous from one another. The memory occupied in the heap continues to exist even after JavaScript
+      code execution has been completed and is later removed by the JavaScript Garbage Collector if needed.</p>
+
+
+  </div>
+
+  <div id="2" class="con">
+    <h2>Ahead of Time (AOT)</h2>
+    <p>When you serve/build your angular application, the Ahead of Time compiler converts your code during the build
+      time before your browser downloads and runs that code.</p>
+    <br>
+    <p>Why should you use the Ahead of Time compiler ?</p>
+    <ul>
+      <li>- When you are using Ahead of Time Compiler, compilation only happens once, while you build your project.</li>
+      <li>- The browser does not need to compile the code in run time, it can directly render the application
+        immediately, without waiting to compile the app first so, it provides quicker component rendering.</li>
+      <li>- We don't have to ship the HTML templates and the Angular compiler whenever we enter a new component.</li>
+      <li>- It can minimize the size of your application.</li>
+      <li>- The Ahead of time compiler detects template error earlier. It detects and reports template binding errors
+        during the build steps before users can see them.</li>
+      <li>- AOT provides better security, It reduces the chances of injections attacks, because it compiles HTML
+        components and templates into JavaScript files long before they are served into the client display. So, there
+        are no templates to read and no risky client-side HTML or JavaScript evaluation.</li>
+    </ul>
+  </div>
+
+  <div id="3" class="con">
+    <h2>Just in Time (JIT)</h2>
+    <p>In Just in Time (JIT), code get compiles when it's needed, not at the build time.</p>
+    <br>
+    <p>Why and When Should you use Just In Time Compiler ?</p>
+    <ul>
+      <li>- In Just in Time (JIT), Most compiling is done on the browser side, so it will take less compiling time.</li>
+      <li>- Just in time compiler compiles each file separately and it's mostly compiled in the browser. You don't have
+        to
+        build your project again after changing your code.</li>
+      <li>- Just in Time compiler is best when your application is in local development.</li>
+    </ul>
+  </div>
+
+  <div id="4" class="con">
+    <h2>Callback function</h2>
+    <p>
+      Callback functions are functions passed as arguments to other functions, which are then invoked or executed inside
+      the outer function. They are commonly used in JavaScript for asynchronous operations or to achieve more flexible
+      and reusable code.
+    </p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// Function that takes a callback as an argument</span>
+        <span class="hljs-keyword">function</span> <span class="hljs-title function_">greet</span>(<span class="hljs-params">name, callback</span>) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">"Hello, "</span> + name + <span class="hljs-string">"!"</span>);
+            <span class="hljs-comment">// Invoke the callback function</span>
+            <span class="hljs-title function_">callback</span>();
+        }
+        
+        <span class="hljs-comment">// Callback function</span>
+        <span class="hljs-keyword">function</span> <span class="hljs-title function_">sayGoodbye</span>(<span class="hljs-params"></span>) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">"Goodbye!"</span>);
+        }
+        
+        <span class="hljs-comment">// Call the greet function and pass the callback function as an argument</span>
+        <span class="hljs-title function_">greet</span>(<span class="hljs-string">"Alice"</span>, sayGoodbye);
+        </code>
+    </div>
+    <p>Output:<br>
+      Hello, Alice!<br>
+      Goodbye!
+    </p>
+
+  </div>
+
+  <div id="5" class="con">
+    <h2>Promise</h2>
+    Promise in JavaScript is object which represents the eventual completion (or failure) of an asynchronous operations.
+    A Promise take two parameters: 'resolve' and 'reject'.
+
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">const</span> myPromise = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+    <span class="hljs-comment">// Asynchronous operation, e.g., fetching data from an API</span>
+    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-comment">// If operation is successful</span>
+      <span class="hljs-title function_">resolve</span>(<span class="hljs-string">'Data successfully fetched'</span>);
+      <span class="hljs-comment">// If operation fails</span>
+      <span class="hljs-title function_">reject</span>(<span class="hljs-string">'Failed to fetch data'</span>);
+    }, <span class="hljs-number">2000</span>);
+  });
+      </code>
+    </div>
+    <h2>Promise.all()</h2>
+    <p>Promise.all() is useful for aggregating the results of multiple promises. It will reject immediately upon any
+      of
+      the input promise is rejected</p>
+
+    <h2>Promise.allSettled()</h2>
+    <p>Promise.allSettled() is typically used when you have multiple asynchronous tasks that are not dependent on one
+      another to complete successfully, or you'd always like to know the result of each promise.</p>
+
+    <h2>Promise.any()</h2>
+    <p>Promise.any() is useful for returning the first promise that fulfills. It does not wait for the other promises
+      to
+      complete once it finds one.</p>
+
+    <h2>Promise.race()</h2>
+    <p>Promise.race() is useful when you want the first async task to complete, but do not care about its eventual
+      state.</p>
+
+
+    <br>
+    <h2>Nested Promise - Promise Chaining</h2>
+    <p>Nested promises, also known as chained promises, are a common pattern in JavaScript for handling asynchronous
+      operations in a sequential manner. Instead of nesting multiple levels of callbacks, which can lead to callback
+      hell and reduce code readability, you can chain promises together to handle asynchronous operations more cleanly.
+    </p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">asyncOperation1</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+            <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+                <span class="hljs-title function_">resolve</span>(<span class="hljs-string">'Async Operation 1 Completed'</span>);
+            }, <span class="hljs-number">1000</span>);
+        });
+    }
+    
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">asyncOperation2</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+            <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+                <span class="hljs-title function_">resolve</span>(<span class="hljs-string">'Async Operation 2 Completed'</span>);
+            }, <span class="hljs-number">1000</span>);
+        });
+    }
+    
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">asyncOperation3</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+            <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+                <span class="hljs-title function_">resolve</span>(<span class="hljs-string">'Async Operation 3 Completed'</span>);
+            }, <span class="hljs-number">1000</span>);
+        });
+    }
+    
+    <span class="hljs-title function_">asyncOperation1</span>()
+        .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">result1</span> =&gt;</span> {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result1);
+            <span class="hljs-keyword">return</span> <span class="hljs-title function_">asyncOperation2</span>();
+        })
+        .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">result2</span> =&gt;</span> {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result2);
+            <span class="hljs-keyword">return</span> <span class="hljs-title function_">asyncOperation3</span>();
+        })
+        .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">result3</span> =&gt;</span> {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result3);
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'All async operations completed successfully'</span>);
+        })
+        .<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">'Error:'</span>, error);
+        });
+    </code>
+    </div>
+    <br>
+    <h2>Async-Await</h2>
+    <p>Async-Await is a new JavaScript feature that allows you to write asynchronous code in a synchronous-like
+      manner. It's provides cleaner and readable syntax for handling asynchronous operations.</p>
+
+    <div class="code">
+      <span class="keyword">async</span> <span class="fn">function</span> fetchData() {<br>
+      try {<br>
+      const data = <span class="keyword">await</span> fetchDataFromAPI(); <span class="comment">// fetchDataFromAPI()
+        returns a promise</span><br>
+      console.log(data);<br>
+      } catch (error) {<br>
+      console.error(error); <span class="comment">// Handle error</span><br>
+      }<br>
+      }<br>
+
+      <br>
+      <span class="fn">fetchData</span>()<br>
+      . <span class="fn">then</span>((_data) => console.log('Data fetched successfully', _data))<br>
+      . <span class="fn">catch</span>((error) => console.error('Failed to fetch data:', error));<br>
+
+
+    </div>
+  </div>
+
+  <div id="6" class="con">
+    <h2>Unhandled rejection</h2>
+    An "unhandled rejection" occurs when a promise error is not handled at the end of the microtask queue. if we expect
+    an error, we add .catch to the promise chain to handle it.
+  </div>
+
+  <div id="7" class="con">
+    <h2>This keyword</h2>
+    <p>The <u>"this"</u> keyword always refers to an Object. The value of this always changes as per the scenarion in
+      which it is called. </p>
+    <p>Some different ways to use "this" keyword</p>
+    <ul>
+      <li>By itself -- Will refer window Object</li>
+      <li>Inside Object method -- Will refer the owner object</li>
+      <li>Inside function -- Will refer window object</li>
+    </ul>
+    <span class="cmd">If you use 'use strict' then you will get 'undefined', if there is no reference to 'this' keyword.
+    </span>
+    <br>
+  </div>
+
+
+  <div id="8" class="con">
+    <h2>Call, Apply and Bind</h2>
+    <h4>Call</h4>
+    <p>Call, Apply and Bind are built-in pre-defined methods in JavaScript.</p>
+    <p>Call is a function that helps you to change the context of the invoking function. In other words, it helps you
+      replace the value of "this" inside a function with whatever value you want.</p>
+
+    <p> call() method allows an object to use the method of another object.</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-comment">//---- call - apply - bind -----</span>
+
+    <span class="hljs-keyword">let</span> fname = {
+        <span class="hljs-attr">fn</span>: <span class="hljs-string">"Raj"</span>,
+        <span class="hljs-attr">ln</span>: <span class="hljs-string">"Manchekar"</span>
+    }
+        
+  <span class="hljs-keyword">let</span> printName = <span class="hljs-keyword">function</span>(<span class="hljs-params">leavesIn, favVacationPlace</span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">fn</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">ln</span>, <span class="hljs-string">'leave in'</span>, leavesIn, <span class="hljs-string">'and his fav vacation destination is'</span>, favVacationPlace)
+  }
+        
+    printName.<span class="hljs-title function_">call</span>(fname, <span class="hljs-string">"Mumbai"</span>, <span class="hljs-string">"Goa!"</span>) 
+    <span class="hljs-comment">// With call method we can do function borrowing - pass arguments as individual list</span>
+        
+    printName.<span class="hljs-title function_">apply</span>(fname, [<span class="hljs-string">"Mumbai"</span>, <span class="hljs-string">"Goa!!"</span>])
+    <span class="hljs-comment">// Only diff bwtn call and apply is that you pass the arguments as array in apply </span>
+        
+    <span class="hljs-keyword">let</span> printUsersName = printName.<span class="hljs-title function_">bind</span>(fname, <span class="hljs-string">"Mumbai"</span>, <span class="hljs-string">"Goa!!!"</span>)
+    <span class="hljs-title function_">printUsersName</span>() <span class="hljs-comment">// bind method creates a copy of a method which can be invoked later.</span>
+        </code>
+    </div>
+  </div>
+
+  <div id="9" class="con">
+    <h2>Closure</h2>
+    <p>A closure gives you access to an outer function's scope from and inner function.</p>
+    <p>A closure is the combination of a function bundled together with reference to it surrounding state.</p>
+
+    <h4>Lexical Environment. Scope in JavaScript</h4>
+
+    <b>Lexical scope</b> is the ability for a function scope to access variable from the parent scope.
+
+    <p>We call the child function to be Lexical bound by that of the parent function.</p>
+
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">outerFunction</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">let</span> outerVariable = <span class="hljs-string">'I am from the outer function'</span>;
+      
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">innerFunction</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(outerVariable); <span class="hljs-comment">// Accessing outerVariable from the outer scope</span>
+    }
+      
+    <span class="hljs-keyword">return</span> innerFunction; <span class="hljs-comment">// returning innerFunction</span>
+    }
+      
+    <span class="hljs-keyword">const</span> myInnerFunction = <span class="hljs-title function_">outerFunction</span>(); <span class="hljs-comment">// Execute outerFunction and store the returned innerFunction</span>
+      
+    <span class="hljs-title function_">myInnerFunction</span>(); <span class="hljs-comment">// Execute innerFunction which still has access to outerVariable</span>
+      </code>
+    </div>
+  </div>
+
+  <div id="10" class="con">
+    <h2>Hoisting</h2>
+    <p>Hoisting is a JavaScript mechanism where variables and function declarations are moved to the top of their
+      containing scope during the compile phase before the code execution. This means that regardless of where
+      variables and functions are declared within their scope, they are treated as if they were declared at the top.
+      However, only the declarations are hoisted, not the initializations or assignments.</p>
+  </div>
+
+  <div id="11" class="con">
+    <h2>Loops</h2>
+    <ul>
+      <li>for - The for loop repeats a block of code a specified number of times.</li>
+      <li>for/in - The for...in loop iterates over the properties of an object.</li>
+      <li>for/of - The for...of loop iterates over iterable objects such as arrays, strings, etc.</li>
+      <li>while - The while loop repeats a block of code while a specified condition is true.</li>
+      <li>do/while - The do-while loop is similar to the while loop, but it always executes the block of code at least
+        once, even if the condition is false.</li>
+    </ul>
+
+    <b>for - loop</b>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(i); <span class="hljs-comment">// Output: 0, 1, 2, 3, 4</span>
+      }
+      </code>
+
+    </div>
+
+    <b>for-in loop</b>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">const</span> person = { <span class="hljs-attr">name</span>: <span class="hljs-string">'John'</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">30</span> };
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> person) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(key + <span class="hljs-string">": "</span> + person[key]); <span class="hljs-comment">// Output: name: John, age: 30</span>
+    }
+        </code>
+
+    </div>
+
+    <b>for-of' Loop</b>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">const</span> colors = [<span class="hljs-string">'red'</span>, <span class="hljs-string">'green'</span>, <span class="hljs-string">'blue'</span>];
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> color <span class="hljs-keyword">of</span> colors) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(color); <span class="hljs-comment">// Output: red, green, blue</span>
+      }
+        </code>
+    </div>
+
+    <b>while loop</b>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>;
+      <span class="hljs-keyword">while</span> (i &lt; <span class="hljs-number">5</span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(i); <span class="hljs-comment">// Output: 0, 1, 2, 3, 4</span>
+            i++;
+    }
+        </code>
+    </div>
+
+    <b>do-while Loop</b>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>;
+      <span class="hljs-keyword">do</span> {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(i); <span class="hljs-comment">// Output: 0</span>
+            i++;
+    } <span class="hljs-keyword">while</span> (i &lt; <span class="hljs-number">3</span>);
+        </code>
+    </div>
+  </div>
+
+  <div id="12" class="con">
+    <h2>Tricky Questions</h2>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+<span class="hljs-title class_">Number</span>(<span class="hljs-string">" 123 "</span>); <span class="hljs-comment">// 123;</span>
+<span class="hljs-title class_">Number</span>(<span class="hljs-string">"123z"</span>); <span class="hljs-comment">// NaN (error reading a number at "z");</span>
+<span class="hljs-title class_">Number</span>(<span class="hljs-literal">true</span>); <span class="hljs-comment">// 1;</span>
+<span class="hljs-title class_">Number</span>(<span class="hljs-literal">false</span>); <span class="hljs-comment">// 0;</span>
+<span class="hljs-title class_">Boolean</span>(<span class="hljs-number">1</span>); <span class="hljs-comment">// true;</span>
+<span class="hljs-title class_">Boolean</span>(<span class="hljs-number">0</span>); <span class="hljs-comment">// false;</span>
+<span class="hljs-title class_">Boolean</span>(<span class="hljs-string">"hello"</span>); <span class="hljs-comment">// true;</span>
+<span class="hljs-title class_">Boolean</span>(<span class="hljs-string">""</span>); <span class="hljs-comment">// false;</span>
+<span class="hljs-title class_">Boolean</span>(<span class="hljs-string">"0"</span>); <span class="hljs-comment">// true;</span>
+<span class="hljs-title class_">Boolean</span>(<span class="hljs-string">" "</span>); <span class="hljs-comment">// true;</span>
+
+<span class="hljs-number">6</span> - <span class="hljs-string">'2'</span>; <span class="hljs-comment">// 4;</span>
+<span class="hljs-string">'6'</span> / <span class="hljs-string">'2'</span>; <span class="hljs-comment">// 3;</span>
+
+<span class="hljs-keyword">let</span> a = <span class="hljs-number">1</span>, b = <span class="hljs-number">1</span>;
+<span class="hljs-keyword">let</span> c = ++a;
+<span class="hljs-keyword">let</span> d = b++;
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(c, d, b); <span class="hljs-comment">// 2 1 2;</span>
+        
+<span class="hljs-string">""</span> + <span class="hljs-number">1</span> + <span class="hljs-number">0</span>; 
+<span class="hljs-comment">// "10" // The addition with a string "" + 1 converts 1 to a string: "" + 1 = "1", 
+  and then we have "1" + 0, the same rule is applied;</span>
+<span class="hljs-string">""</span> - <span class="hljs-number">1</span> + <span class="hljs-number">0</span>; <span class="hljs-comment">// -1 
+  // The subtraction - (like most math operations) only works with numbers, it converts an</span>
+<span class="hljs-comment">// empty string "" to 0;</span>
+
+<span class="hljs-literal">true</span> + <span class="hljs-literal">false</span>; <span class="hljs-comment">// 1;</span>
+<span class="hljs-number">6</span> / <span class="hljs-string">"3"</span>; <span class="hljs-comment">// 2;</span>
+<span class="hljs-string">"2"</span> * <span class="hljs-string">"3"</span>; <span class="hljs-comment">// 6;</span>
+<span class="hljs-number">4</span> + <span class="hljs-number">5</span> + <span class="hljs-string">"px"</span>; <span class="hljs-comment">// "9px";</span>
+<span class="hljs-string">"$"</span> + <span class="hljs-number">4</span> + <span class="hljs-number">5</span>; <span class="hljs-comment">// "$45";</span>
+<span class="hljs-string">"4"</span> - <span class="hljs-number">2</span>; <span class="hljs-comment">// 2;</span>
+<span class="hljs-string">"4px"</span> - <span class="hljs-number">2</span>; <span class="hljs-comment">// NaN;</span>
+
+<span class="hljs-string">" -9 "</span> + <span class="hljs-number">5</span>; <span class="hljs-comment">// " -9 5" </span> 
+<span class="hljs-comment">// The addition with a string appends the number 5 to the string.</span>
+
+<span class="hljs-string">" -9 "</span> - <span class="hljs-number">5</span>; <span class="hljs-comment">// -14 </span>
+<span class="hljs-comment">// The subtraction always converts to numbers, so it makes " -9 " a number -9</span>
+
+<span class="hljs-literal">null</span> + <span class="hljs-number">1</span>; <span class="hljs-comment">// 1 </span>
+<span class="hljs-comment">// null becomes 0 after the numeric conversion.</span>
+
+<span class="hljs-literal">undefined</span> + <span class="hljs-number">1</span>; <span class="hljs-comment">// NaN </span>
+<span class="hljs-comment">// undefined becomes NaN after the numeric conversion.</span>
+
+<span class="hljs-string">" \t \n"</span> - <span class="hljs-number">2</span>; <span class="hljs-comment">// -2 </span>
+<span class="hljs-comment">// Space characters are trimmed off string start and end when a string is converted to a</span>
+<span class="hljs-comment">// number. Here the whole string consists of space characters, such as \t, \n and a “regular” space between</span>
+<span class="hljs-comment">// them. So, similarly to an empty string, it becomes 0.</span>
+  </code>
+    </div>
+
+  </div>
+
+  <div id="13" class="con">
+    <h2>Array Methods</h2>
+    <p>1. <b>push()</b>: Adds one or more elements to the end of an array and returns the new length of the array.
+
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+        <span class="hljs-keyword">let</span> fruits = [<span class="hljs-string">'apple'</span>, <span class="hljs-string">'banana'</span>];
+          fruits.<span class="hljs-title function_">push</span>(<span class="hljs-string">'orange'</span>);
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(fruits); <span class="hljs-comment">// Output: ['apple', 'banana', 'orange']</span>
+        </code>
+    </div>
+    </p><br>
+    <p>2. <b>pop()</b>: Removes the last element from an array and returns that element.
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      <span class="hljs-keyword">let</span> fruits = [<span class="hljs-string">'apple'</span>, <span class="hljs-string">'banana'</span>, <span class="hljs-string">'orange'</span>];
+      <span class="hljs-keyword">let</span> lastFruit = fruits.<span class="hljs-title function_">pop</span>();
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(lastFruit); <span class="hljs-comment">// Output: 'orange'</span>
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(fruits); <span class="hljs-comment">// Output: ['apple', 'banana']</span>
+      </code>
+    </div>
+    </p><br>
+    <p>3. <b>unshift()</b>: Adds one or more elements to the beginning of an array and returns the new length of the
+      array.
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      <span class="hljs-keyword">let</span> fruits = [<span class="hljs-string">'banana'</span>, <span class="hljs-string">'orange'</span>];
+        fruits.<span class="hljs-title function_">unshift</span>(<span class="hljs-string">'apple'</span>);
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(fruits); <span class="hljs-comment">// Output: ['apple', 'banana', 'orange']</span>
+      </code>
+    </div>
+    </p><br>
+    <p>4. <b>forEach()</b>: Executes a provided function once for each array element.
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      <span class="hljs-keyword">let</span> numbers = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>];
+        numbers.<span class="hljs-title function_">forEach</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">number</span>) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(number * <span class="hljs-number">2</span>);
+        });
+      <span class="hljs-comment">// Output:</span>
+      <span class="hljs-comment">// 2</span>
+      <span class="hljs-comment">// 4</span>
+      <span class="hljs-comment">// 6</span>
+      <span class="hljs-comment">// 8</span>
+      </code>
+    </div>
+    </p><br>
+    <p>5. <b>map()</b>: Creates a new array populated with the results of calling a provided function on every
+      element in the calling array.
+
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      <span class="hljs-keyword">let</span> numbers = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>];
+      <span class="hljs-keyword">let</span> doubledNumbers = numbers.<span class="hljs-title function_">map</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">number</span>) {
+          <span class="hljs-keyword">return</span> number * <span class="hljs-number">2</span>;
+        });
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(doubledNumbers); <span class="hljs-comment">// Output: [2, 4, 6, 8]</span>
+      </code>
+    </div>
+    </p><br>
+    <p>6. <b>filter()</b>: Creates a new array with all elements that pass the test implemented by the provided
+      function.
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      <span class="hljs-keyword">let</span> numbers = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>];
+      <span class="hljs-keyword">let</span> evenNumbers = numbers.<span class="hljs-title function_">filter</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">number</span>) {
+        <span class="hljs-keyword">return</span> number % <span class="hljs-number">2</span> === <span class="hljs-number">0</span>;
+      });
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(evenNumbers); <span class="hljs-comment">// Output: [2, 4]</span>
+      </code>
+    </div>
+    </p><br>
+    <p>7. <b>shift()</b>: Removes the first element from an array and returns that element.
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript"><span class="hljs-keyword">let</span> fruits = [<span class="hljs-string">'apple'</span>, <span class="hljs-string">'banana'</span>, <span class="hljs-string">'orange'</span>];
+      <span class="hljs-keyword">let</span> firstFruit = fruits.<span class="hljs-title function_">shift</span>();
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(firstFruit); <span class="hljs-comment">// Output: 'apple'</span>
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(fruits); <span class="hljs-comment">// Output: ['banana', 'orange']</span>
+      </code>
+    </div>
+    </p><br>
+    <p>8. <b>slice()</b>: The slice() method is used to extract a section of an array and return a new array without
+      modifying the original array. It takes two optional parameters: start and end, which specify the beginning and
+      end of the extracted portion of the array.
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      <span class="hljs-keyword">let</span> fruits = [<span class="hljs-string">'apple'</span>, <span class="hljs-string">'banana'</span>, <span class="hljs-string">'orange'</span>, <span class="hljs-string">'grape'</span>, <span class="hljs-string">'kiwi'</span>];
+
+      <span class="hljs-comment">// Extract elements from index 1 to index 3 (not including 3)</span>
+      <span class="hljs-keyword">let</span> slicedFruits = fruits.<span class="hljs-title function_">slice</span>(<span class="hljs-number">1</span>, <span class="hljs-number">3</span>);
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(slicedFruits); <span class="hljs-comment">// Output: ['banana', 'orange']</span>
+        
+      <span class="hljs-comment">// Extract elements from index 2 to the end of the array</span>
+      <span class="hljs-keyword">let</span> slicedFruits2 = fruits.<span class="hljs-title function_">slice</span>(<span class="hljs-number">2</span>);
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(slicedFruits2); <span class="hljs-comment">// Output: ['orange', 'grape', 'kiwi']</span>
+        
+      <span class="hljs-comment">// Original array remains unchanged</span>
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(fruits); <span class="hljs-comment">// Output: ['apple', 'banana', 'orange', 'grape', 'kiwi']</span>
+      </code>
+    </div>
+    </p><br>
+    <p><b>splice()</b>: The splice() method in JavaScript is used to change the contents of an array by removing or
+      replacing existing elements and/or adding new elements in place. It modifies the original array.
+
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      <span class="hljs-keyword">let</span> fruits = [<span class="hljs-string">'apple'</span>, <span class="hljs-string">'banana'</span>, <span class="hljs-string">'orange'</span>, <span class="hljs-string">'grape'</span>, <span class="hljs-string">'kiwi'</span>];
+
+      <span class="hljs-comment">// Remove 'orange' from the array</span>
+        fruits.<span class="hljs-title function_">splice</span>(<span class="hljs-number">2</span>, <span class="hljs-number">1</span>);
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(fruits); <span class="hljs-comment">// Output: ['apple', 'banana', 'grape', 'kiwi']</span>
+        
+      <span class="hljs-comment">// Remove 'banana' and 'grape', and add 'lemon' and 'peach' starting from index 1</span>
+        fruits.<span class="hljs-title function_">splice</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-string">'lemon'</span>, <span class="hljs-string">'peach'</span>);
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(fruits); <span class="hljs-comment">// Output: ['apple', 'lemon', 'peach', 'kiwi']</span>
+        
+      <span class="hljs-comment">// Add 'pear' and 'orange' starting from index 2 without removing any elements</span>
+        fruits.<span class="hljs-title function_">splice</span>(<span class="hljs-number">2</span>, <span class="hljs-number">0</span>, <span class="hljs-string">'pear'</span>, <span class="hljs-string">'orange'</span>);
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(fruits); <span class="hljs-comment">// Output: ['apple', 'lemon', 'pear', 'orange', 'peach', 'kiwi']</span>
+      </code>
+    </div>
+    </p><br>
+    <p><b>reduce()</b>: The reduce() method in JavaScript is used to apply a function to each element in the array
+      to reduce the array to a single value. It iterates through the array from left to right, accumulating a single
+      result by calling the provided function with an accumulator and each element in the array.
+
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      <span class="hljs-keyword">let</span> numbers = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>];
+
+      <span class="hljs-comment">// Calculate the sum of all numbers in the array</span>
+      <span class="hljs-keyword">let</span> sum = numbers.<span class="hljs-title function_">reduce</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">accumulator, currentValue</span>) {
+        <span class="hljs-keyword">return</span> accumulator + currentValue;
+      }, <span class="hljs-number">0</span>); <span class="hljs-comment">// Initial value of accumulator is 0</span>
+        
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(sum); <span class="hljs-comment">// Output: 15 (1 + 2 + 3 + 4 + 5)</span>
+      </code>
+    </div>
+    </p>
+  </div>
+
+  <div id="14" class="con">
+    <h2>Let-Var-Const</h2>
+    <p>In JavaScript, var, let, and const are used to declare variables, but they have some differences in terms of
+      scope, hoisting, and reassignment.</p>
+    <br>
+
+    <b>var (Function-scoped):</b>
+    <ul>
+      <li>- var are function-scoped, which means they are only accessible within the function in which they are
+        declared.
+      </li>
+      <li>- var variables are hoisted to the top of their scope, so you can use them before the declaration.</li>
+      <li>- var variables can be redeclared and reassigned.</li>
+    </ul>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">example</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-keyword">var</span> x = <span class="hljs-number">10</span>;
+      <span class="hljs-keyword">if</span> (<span class="hljs-literal">true</span>) {
+        <span class="hljs-keyword">var</span> x = <span class="hljs-number">20</span>; <span class="hljs-comment">// This reassigns the variable declared above</span>
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(x); <span class="hljs-comment">// Outputs 20</span>
+      }
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(x); <span class="hljs-comment">// Outputs 20</span>
+    }
+      </code>
+    </div>
+    <br>
+
+    <b>let (Block-scoped)</b>:
+    <ul>
+      <li>Variables declared with let are block-scoped, meaning they are only accessible within the block (enclosed by
+        curly braces) in which they are declared.</li>
+      <li>let variables are hoisted, but they are not initialized until the interpreter reaches the declaration. This is
+        known as the "temporal dead zone."</li>
+      <li>let allows variable redeclaration within different scopes, but it does not allow redeclaration in the same
+        scope.</li>
+    </ul>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">example</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-keyword">let</span> x = <span class="hljs-number">10</span>;
+      <span class="hljs-keyword">if</span> (<span class="hljs-literal">true</span>) {
+        <span class="hljs-keyword">let</span> x = <span class="hljs-number">20</span>; <span class="hljs-comment">// This creates a new variable x within this block</span>
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(x); <span class="hljs-comment">// Outputs 20</span>
+      }
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(x); <span class="hljs-comment">// Outputs 10</span>
+    }
+      </code>
+    </div>
+    <br>
+
+    <b>const (Block-scoped)</b>:
+    <ul>
+      <li>- Variables declared with const are block-scoped, similar to let.</li>
+      <li>- const variables must be initialized at the time of declaration, and they cannot be reassigned once assigned.
+      </li>
+      <li>- Like let, const is hoisted but not initialized until the declaration is reached.</li>
+    </ul>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">example</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-keyword">const</span> x = <span class="hljs-number">10</span>;
+      <span class="hljs-keyword">if</span> (<span class="hljs-literal">true</span>) {
+          <span class="hljs-keyword">const</span> x = <span class="hljs-number">20</span>; <span class="hljs-comment">// This creates a new variable x within this block</span>
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(x); <span class="hljs-comment">// Outputs 20</span>
+      }
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(x); <span class="hljs-comment">// Outputs 10</span>
+    }
+      </code>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  <div id="15" class="con">
+    <h2></h2>
+
+    <div class="code"></div>
+  </div>
+
+  <div id="16" class="con">
+    <h2></h2>
+
+    <div class="code"></div>
+  </div>
+
+
+</body>
+
+</html>
