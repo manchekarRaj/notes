@@ -865,6 +865,49 @@
     - Exception Handling<br>
     - Parallel Computing<br>
     - Distributed Environment<br>
+
+    <p>System design consists of various aspects such as architecture design, database design, networking, security,
+      scalability, and performance optimization. Here's an overview of the key components involved in system design:</p>
+    <br>
+    <b>Requirements Analysis</b>: Understanding the needs and constraints of the system stakeholders is the first step.
+    This involves gathering requirements, defining use cases, and identifying non-functional requirements such as
+    scalability, reliability, and performance.
+    <br><br>
+    <b>Architecture Design</b>: This involves defining the high-level structure of the system, including
+    components/modules, their interactions, and the overall system behavior. Common architectural patterns include
+    client-server, microservices, event-driven, and layered architectures.
+    <br><br>
+    <b>Database Design</b>: Designing the data storage and retrieval mechanisms based on the requirements. This includes
+    choosing appropriate database technologies, defining schemas, and optimizing data access patterns for efficiency.
+    <br><br>
+    <b>Networking</b>: Designing the communication infrastructure that enables interaction between different components
+    of the system. This includes protocols, data formats, and considerations for security and performance.
+    <br><br>
+    <b>Scalability and Performance</b>: Designing the system to handle increasing loads by scaling horizontally or
+    vertically. This involves techniques such as load balancing, caching, and optimizing algorithms and data structures
+    for performance.
+    <br><br>
+    <b>Security</b>: Implementing measures to protect the system from unauthorized access, data breaches, and other
+    security threats. This includes authentication, authorization, encryption, and secure communication protocols.
+    <br><br>
+    <b>Fault Tolerance and Reliability</b>: Designing the system to continue functioning in the presence of failures or
+    unexpected events. This involves techniques such as redundancy, replication, and graceful degradation.
+    <br><br>
+    <b>Monitoring and Logging</b>: Implementing mechanisms to monitor the health and performance of the system in
+    real-time and to log relevant events for troubleshooting and analysis.
+    <br><br>
+    <b>Deployment and Operations</b>: Planning the deployment strategy for the system, including considerations for
+    infrastructure provisioning, configuration management, and continuous integration/continuous deployment (CI/CD)
+    pipelines.
+    <br><br>
+    <b>Documentation and Communication</b>: Documenting the design decisions, architectural diagrams, and operational
+    procedures to facilitate collaboration among team members and to onboard new developers.
+    <br><br>
+    <p>
+      System design is an iterative process that involves continuous refinement and improvement based on feedback and
+      evolving requirements. It requires a deep understanding of both technical concepts and business objectives to
+      design
+      systems that effectively meet the needs of the users and the organization.</p>
   </div>
 
   <div id="13" class="con">
@@ -1704,6 +1747,131 @@
       Goodbye!
     </p>
 
+  </div>
+
+  <div id="32" class="con">
+    <h2>Architectural patterns</h2>
+    <p>Architectural patterns are high-level design templates or blueprints that provide solutions to commonly occurring
+      architectural problems in software development. These patterns help in structuring and organizing the components
+      of a system, making it easier to understand, maintain, and scale. Some of the commonly used architectural patterns
+      include:</p>
+    <br>
+    <p>
+      <b>Client-Server Architecture</b>: In this pattern, the system is divided into client and server components, where
+      clients
+      request services or resources from servers. It facilitates distribution of processing tasks between clients and
+      servers, enabling scalability and centralized management of resources.
+    </p>
+    <br>
+    <p>
+      <b>Microservices Architecture</b>: This architectural style decomposes the system into a collection of small,
+      loosely
+      coupled services, each responsible for a specific business function. Microservices communicate over lightweight
+      protocols like HTTP or message queues. This pattern enables flexibility, scalability, and independent deployment
+      of
+      services.
+    </p>
+    <br>
+    <p>
+      <b>Event-Driven Architecture (EDA)</b>: In EDA, components of the system communicate by producing and consuming
+      events.
+      Events represent significant occurrences or state changes within the system. This pattern promotes loose coupling,
+      scalability, and responsiveness to changes.
+    </p>
+    <br>
+    <p>
+      <b>Model-View-Controller (MVC)</b>: MVC separates the system into three interconnected components: Model (data
+      and
+      business
+      logic), View (user interface), and Controller (handles user input and controls the flow of the application). This
+      pattern facilitates modularity, reusability, and maintainability of the system.
+    </p>
+    <br>
+    <p>
+      <b>Service-Oriented Architecture (SOA)</b>: SOA decomposes the system into a collection of services that are
+      loosely
+      coupled, self-contained, and interoperable. These services expose functionalities through standardized interfaces
+      (such as APIs) and can be orchestrated to fulfill complex business processes.
+    </p>
+    <br>
+    <p>
+      <b>Component-Based Architecture</b>: In this pattern, the system is built from reusable, self-contained software
+      components
+      that encapsulate specific functionality. Components can be assembled and interconnected to create larger systems,
+      promoting reusability and modularity.
+    </p>
+  </div>
+
+  <div id="33" class="con">
+    <h2>AWS Lambda</h2>
+    <p>AWS Lambda is a serverless compute service provided by Amazon Web Services (AWS) that allows you to run code
+      without provisioning or managing servers. It automatically scales your application by running code in response to
+      events and manages resources efficiently.</p>
+    <br>
+    <p>
+      <b>1. Create a Lambda Function</b>:
+
+      Sign in to the AWS Management Console and navigate to the Lambda service.
+      Click on "Create function" and choose the authoring option (e.g., Author from scratch).
+      Give your function a name, choose the runtime as Node.js, and select an execution role with necessary permissions.
+      Click on "Create function" to create the Lambda function.
+    </p>
+
+    <p><br>
+      <b>2. Write Your Node.js Code</b>:
+
+      In the Lambda function configuration, you'll find an inline code editor where you can write your Node.js code
+      directly or upload a ZIP file containing your code.<br>
+      Your Node.js code should define a handler function that Lambda will invoke when the function is triggered. The
+      handler function receives event data and context information.
+    </p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      <span class="hljs-built_in">exports</span>.<span class="hljs-property">handler</span> = <span class="hljs-keyword">async</span> (event, context) =&gt; {
+      <span class="hljs-comment">// Your Node.js code logic here</span>
+    };
+    </code>
+    </div>
+    <br>
+    <p><b>3. Configure Triggers</b>:
+
+      AWS Lambda can be triggered by various AWS services or external events. Common triggers include Amazon S3 events,
+      Amazon SNS notifications, Amazon API Gateway requests, Amazon DynamoDB streams, and scheduled events via Amazon
+      CloudWatch Events.<br>
+      Configure the appropriate trigger for your Lambda function based on your application's requirements.</p>
+
+    <br>
+    <p><b>4. Testing and Debugging</b>:
+
+      Use the Lambda console's "Test" feature to invoke your function manually with sample event data. You can also test
+      your Lambda function locally using the AWS SAM CLI or other testing frameworks.
+      Implement logging within your Lambda function to capture relevant information for debugging purposes. Lambda
+      function logs can be viewed in Amazon CloudWatch.</p>
+
+    <br>
+    <p><b>5. Deployment</b>:
+
+      Once you have tested your Lambda function, you can deploy it to the AWS Lambda service.
+      AWS Lambda supports versioning and aliases, allowing you to manage multiple versions of your function and direct
+      traffic to specific versions using aliases.</p>
+
+    <br>
+    <p><b>6. Monitoring and Management</b>:
+
+      Monitor the performance and health of your Lambda functions using Amazon CloudWatch metrics and alarms.
+      Set up AWS X-Ray for distributed tracing to analyze and debug performance issues in your serverless applications.
+    </p>
+
+    <br>
+    <p><b>7. Cost Optimization</b>:
+      AWS Lambda pricing is based on the number of requests and the duration of code execution. Optimize your Lambda
+      functions for performance and resource usage to minimize costs.
+      Consider using provisioned concurrency to reduce cold start latency for frequently invoked functions.
+    </p>
+
+    <br>
+    <p>AWS Lambda simplifies the process of deploying and managing applications, allowing developers to focus on writing
+      code and delivering value to their customers without worrying about server management.</p>
   </div>
 
 
