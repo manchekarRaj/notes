@@ -297,8 +297,9 @@
 
   <div id="5" class="con">
     <h2>Promise</h2>
-    Promise in JavaScript is object which represents the eventual completion (or failure) of an asynchronous operations.
-    A Promise take two parameters: 'resolve' and 'reject'.
+    <p>Promise in JavaScript is object which promises some data over a period of time. The data which promise returns us
+      can be an actual data or it can also ba an error.</p>
+    <p>Promise cannot handle a stream of data. A promise can only deliver a single value.</p>
 
     <div class="code">
       <code class="!whitespace-pre hljs language-javascript">
@@ -836,33 +837,109 @@
       </code>
     </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   </div>
 
   <div id="15" class="con">
-    <h2></h2>
+    <h2>Prototype</h2>
+    <p>Prototypes are the mechanism by which JavaScript objects inherit features from one another.</p>
+    <br>
+    <p> <b>Prototype Chain</b>: Each JavaScript object has an internal link to another object called its prototype. This
+      prototype object, in turn, has its own prototype, and this chain continues until we reach an object with null as
+      its prototype. </p>
 
     <div class="code"></div>
   </div>
 
   <div id="16" class="con">
-    <h2></h2>
+    <h2>Object</h2>
+    <p><b>Object.assign()</b>: The Object.assign() static method copies all enumerable own properties from one or more
+      source objects to a target object. It returns the modified target object.</p>
+    <br>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      <span class="hljs-keyword">const</span> target = { <span class="hljs-attr">a</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">b</span>: <span class="hljs-number">2</span> };
+      <span class="hljs-keyword">const</span> source = { <span class="hljs-attr">b</span>: <span class="hljs-number">4</span>, <span class="hljs-attr">c</span>: <span class="hljs-number">5</span> };
+        
+      <span class="hljs-keyword">const</span> returnedTarget = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">assign</span>(target, source);
+        
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(target); 
+      <span class="hljs-comment">// Expected output: Object { a: 1, b: 4, c: 5 }</span>
+        
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(returnedTarget === target); 
+      <span class="hljs-comment">// Expected output: true</span>
+        </code>
+    </div>
+    <br>
+    <p><b>Object.create()</b>: The Object.create() static method creates a new object, using an existing object as the
+      prototype of the newly created object.</p>
+    <br>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">const</span> person = {
+    <span class="hljs-attr">isHuman</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">printIntroduction</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`My name is <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.name}</span>. Am I human? <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.isHuman}</span>`</span>);
+      },
+    };
+      
+      <span class="hljs-keyword">const</span> me = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">create</span>(person);
+      
+      me.<span class="hljs-property">name</span> = <span class="hljs-string">'Matthew'</span>; 
+      <span class="hljs-comment">// "name" is a property set on "me", but not on "person"</span>
+      me.<span class="hljs-property">isHuman</span> = <span class="hljs-literal">true</span>; 
+      <span class="hljs-comment">// Inherited properties can be overwritten</span>
+      
+      me.<span class="hljs-title function_">printIntroduction</span>();
+      <span class="hljs-comment">// Expected output: "My name is Matthew. Am I human? true"</span>
+      </code>
+    </div>
+    <br>
+    <p><b>Object.defineProperty()</b>: The Object.defineProperty() static method defines a new property directly on an
+      object, or modifies an existing property on an object, and returns the object.</p>
+    <br>
 
-    <div class="code"></div>
+    <p><b>Object.entries()</b>: The Object.entries() static method returns an array of a given object's own enumerable
+      string-keyed property key-value pairs.</p>
+    <br>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">const</span> object1 = {
+      <span class="hljs-attr">a</span>: <span class="hljs-string">'somestring'</span>,
+      <span class="hljs-attr">b</span>: <span class="hljs-number">42</span>,
+    };
+      
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> [key, value] <span class="hljs-keyword">of</span> <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">entries</span>(object1)) {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`<span class="hljs-subst">${key}</span>: <span class="hljs-subst">${value}</span>`</span>);
+    }
+      
+    <span class="hljs-comment">// Expected output:</span>
+    <span class="hljs-comment">// "a: somestring"</span>
+    <span class="hljs-comment">// "b: 42"</span>
+      </code>
+    </div>
+    <br>
+    <p><b>Object.freeze()</b>: The Object.freeze() static method freezes an object. Freezing an object prevents
+      extensions and makes existing properties non-writable and non-configurable. A frozen object can no longer be
+      changed: new properties cannot be added, existing properties cannot be removed.</p>
+    <br>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      <span class="hljs-keyword">const</span> obj = {
+        <span class="hljs-attr">prop</span>: <span class="hljs-number">42</span>,
+      };
+      
+      <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">freeze</span>(obj);
+      
+      obj.<span class="hljs-property">prop</span> = <span class="hljs-number">33</span>;
+      <span class="hljs-comment">// Throws an error in strict mode</span>
+      
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(obj.<span class="hljs-property">prop</span>);
+      <span class="hljs-comment">// Expected output: 42</span>
+      </code>
+    </div>
+    <br>
+
+
   </div>
 
 

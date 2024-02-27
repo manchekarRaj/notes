@@ -464,6 +464,28 @@
       <b>Stage</b>: One of the built-in methods that can be completed on the data, but does not permanently alter it
       <b>Aggregation pipeline</b>: A series of stages completed on the data in order
     </p>
+    <br>
+
+    <b>Fetch data from multiple docs</b>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+  <span class="hljs-comment">// customer collection - With, name, phone, email, address: ObjectId(9087353476567)</span>
+  <span class="hljs-comment">// address collection - With, _id: ObjectId(9087353476567), street, pin, city, country</span>
+
+  db.<span class="hljs-property">customer</span>.<span class="hljs-title function_">aggregate</span>([
+    {
+      <span class="hljs-attr">$lookup</span>: {
+          <span class="hljs-attr">from</span>: <span class="hljs-string">"address"</span>,        <span class="hljs-comment">// collection name</span>
+          <span class="hljs-attr">localField</span>: <span class="hljs-string">"address"</span>,  <span class="hljs-comment">// address field from customer collection with reference ObjectID</span>
+          <span class="hljs-attr">foreignField</span>: <span class="hljs-string">"_id"</span>,    <span class="hljs-comment">// ID field from address collection</span>
+          <span class="hljs-attr">as</span>: <span class="hljs-string">"Address"</span>           <span class="hljs-comment">// Alias name of new field</span>
+      }
+    }
+  ])
+    </code>
+
+    </div>
+    <br>
 
     <b>How many users are active?</b>
     <div class="code">
@@ -479,31 +501,6 @@
       <span class="hljs-punctuation">}</span>
     <span class="hljs-punctuation">]</span>
     </code>
-    </div>
-    <br>
-    <b>Fetch data from multiple docs</b>
-    <div class="code">
-      <code class="!whitespace-pre hljs language-json">
-    <span class="hljs-punctuation">[</span>
-    <span class="hljs-punctuation">{</span>
-      <span class="hljs-attr">"$lookup"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
-        <span class="hljs-attr">"from"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"authors"</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">"localField"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"author_id"</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">"foreignField"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"_id"</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">"as"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"author_details"</span>
-      <span class="hljs-punctuation">}</span>
-    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
-    <span class="hljs-punctuation">{</span>
-      <span class="hljs-attr">"$addFields"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
-        <span class="hljs-attr">"author_details"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
-          <span class="hljs-comment">// "$first": "$author_details"</span>
-          <span class="hljs-attr">"$arrayElemAt"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"$author_details"</span><span class="hljs-punctuation">,</span> <span class="hljs-number">0</span><span class="hljs-punctuation">]</span>
-        <span class="hljs-punctuation">}</span>
-      <span class="hljs-punctuation">}</span>
-    <span class="hljs-punctuation">}</span>
-  <span class="hljs-punctuation">]</span>
-      </code>
-
     </div>
     <br>
     <b>Top 5 most common favorite fruits among users</b>
@@ -600,15 +597,15 @@
       Here's a basic example:</p>
     <div class="code">
       <code class="!whitespace-pre hljs language-javascript">
-      <span class="hljs-keyword">const</span> pageNumber = <span class="hljs-number">1</span>; <span class="hljs-comment">// Page number (starting from 1)</span>
-      <span class="hljs-keyword">const</span> pageSize = <span class="hljs-number">10</span>; <span class="hljs-comment">// Number of items per page</span>
+      <span class="hljs-keyword">const</span> pageNumber = <span class="hljs-number">req.query.pageNum || 0</span>; <span class="hljs-comment">// Page number (starting from 0)</span>
+      <span class="hljs-keyword">const</span> itemsPerPage = <span class="hljs-number">5</span>; <span class="hljs-comment">// Number of items per page</span>
           
-      <span class="hljs-keyword">const</span> skipAmount = (pageNumber - <span class="hljs-number">1</span>) * pageSize;
+      <span class="hljs-keyword">const</span> skipAmount = (pageNumber * itemsPerPage);
           
-      <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> db.<span class="hljs-title function_">collection</span>(<span class="hljs-string">'yourCollection'</span>)
+      <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> db.<span class="hljs-title function_">collection</span>(<span class="hljs-string">'books'</span>)
           .<span class="hljs-title function_">find</span>(yourQuery)
-          .<span class="hljs-title function_">skip</span>(skipAmount)
-          .<span class="hljs-title function_">limit</span>(pageSize)
+          .<span class="hljs-title function_">skip</span>(skipAmount) <span class="hljs-comment">// If 0, it will not skip any - First page</span>
+          .<span class="hljs-title function_">limit</span>(itemsPerPage)
           .<span class="hljs-title function_">toArray</span>();
       </code>
     </div>
@@ -642,18 +639,61 @@
 
   </div>
 
-  <!-- <div id="10" class="con">
-    <h2></h2>
+  <div id="10" class="con">
+    <h2>Cursor</h2>
+    A cursor is a pointer to list of documents, mongodb does not return us all the documnets at once when we use the
+    find method on a collection, it returns us documnets in batches and that patch is called as cursor. <br>A cursor is
+    nothing but an Object. While working with programming language like NodeJS and PHP, we cannot use this IT command,
+    so in order to work with cursor, the language driver provides certain cursor methods which we can use in that
+    particular language.<br><br>
+    Eg:
+    <ul>
+      <li><b>toArray()</b> method, db.customer.find().toArray()</li>
+      <li><b>forEach()</b> method:
+        <div class="code">
+          <code class="!whitespace-pre hljs language-javascript">
+        db.<span class="hljs-property">customer</span>.<span class="hljs-title function_">find</span>().<span class="hljs-title function_">forEach</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">cust</span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">"Customer Name: "</span> + cust.<span class="hljs-property">name</span>);
+        });
+        </code>
+        </div>
+      </li>
+    </ul>
+
 
   </div>
 
   <div id="11" class="con">
-    <h2></h2>
+    <h2>DataTypes</h2>
+    <p>MongoDb supports datatypes like:
+    <ul>
+      <li><b>string</b></li>
+      <li><b>boolean</b></li>
+      <li><b>number: NumberInt(Int32), NumberLong(Int64).</b> By default every number will be store with 64bit floating
+        point number</li>
+      <li><b>Date</b>: ISODate, Timestamp</li>
+      <li><b>Embedded Document</b></li>
+      <li><b>Arrays</b></li>
+    </ul>
+
+    </p>
 
   </div>
 
   <div id="12" class="con">
-    <h2></h2>
+    <h2>Relations in MongoDB</h2>
+    <p>In MongoBD there two ways to specify the relations:
+    <ul>
+      <li><b>Embedded documents</b>: Here we dont have to query multiple collections, because everthing is avaliabel in
+        same collection.<br>
+        Disadvantage: This can lead to redundant or duplicate data in the collection.
+      </li>
+      <li><b>References</b>: Here we have less or no redundant data at all.<br>
+        Disadvantage: We need to query multiple collections to get the desired results.</li>
+    </ul>
+
+    </p>
+
 
   </div>
   <div id="13" class="con">
@@ -674,7 +714,7 @@
     <p></p>
 
   </div>
-
+  <!--
 
   <div id="16" class="con">
     <h2></h2>

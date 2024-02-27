@@ -499,9 +499,9 @@
 
   <div id="10" class="con">
     <h2>Observables & RxJS</h2>
-    Observables are used to pass values/data across your application. They are used frequently in Angular and are a
-    technique for event handling, asynchronous programming, and handling multiple values.
-    <br>
+    Observables are used to pass values/data across your application. It is a technique for event handling, asynchronous
+    programming, and handling multiple values which are emitted over time.
+    <br>Angular uses RxJS library fir Observables.
 
     <b>NOTIFICATION TYPE</b><br>
     <u>next</u>: Required. A handler for each delivered value. Called zero or more times after execution starts.<br>
@@ -517,6 +517,14 @@
       });<br>
     </span>
     <br>
+
+    <h2>Observables Pattern</h2>
+    <p>In Observable pattern, we have Event Emitter, which we call it as observable, and then we also have an
+      Observer, which listen to that Observables. So, When ever an Observable emits an event, the observer then handles
+      that event using event handlers.</p>
+
+    <br>
+    <p><b>Observables(Event Emitter) ------> Observer(Event Listener) -----> Handler (Event Handler)</b></p>
 
   </div>
 
@@ -928,14 +936,15 @@
 
     <div id="23" class="con">
       <h2>View Encapsulation</h2>
-      <p>In Angular, view encapsulation is a mechanism that ensures the styles defined in a component's CSS file only
-        affect the component's template and don't leak out to other parts of the application. <br> By default, Angular
-        provides three view encapsulation strategies:</p><br>
+      <p>THe view encapsulation is a concept where the component css style are encapsulated in components view and it
+        does not affect the rest of the application. <br>
+        In Angular there are 3 types of encapsulation.
+      </p><br>
 
-      <p><b>Emulated (default)</b>: This is the default view encapsulation strategy in Angular. It emulates the Shadow
-        DOM behavior by appending a unique attribute to each element in the component's template, and then scoped CSS
-        styles are applied using this attribute as a selector. This way, styles defined in the component's CSS file only
-        affect the component's template and don't bleed out to other parts of the application.</p>
+      <p><b>Emulated (default)</b>: In Emulated type of encapsulation, Angular adds some unique HTML attributes to the
+        component CSS style and also to the HTML element. So for each component there will be a unique attribute added
+        to each HTML element.
+      </p>
       <div class="code">
         <code class="!whitespace-pre hljs language-typescript">
   <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span>, <span class="hljs-title class_">ViewEncapsulation</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
@@ -951,9 +960,9 @@
   }
           </code>
       </div><br>
-      <p><b>None</b>: With this strategy, Angular doesn't apply any view encapsulation. The component's styles are
-        globally available and can potentially affect other components or elements in the application. Use this strategy
-        with caution, especially in large applications where styles may unintentionally clash.</p>
+      <p><b>None</b>: In None, Eg. Button, whatever css syle we have specified to the button element, that CSS style
+        will be applied to all the button elements of the child component as well.
+      </p>
       <div class="code">
         <code class="!whitespace-pre hljs language-typescript">
     <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span>, <span class="hljs-title class_">ViewEncapsulation</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
@@ -969,10 +978,12 @@
     }
           </code>
       </div><br>
-      <p><b>Shadow DOM</b>: This strategy utilizes the native Shadow DOM to encapsulate the component's styles. Shadow
-        DOM provides true encapsulation, as styles defined in the component's CSS file are scoped to the component's
-        template and don't affect other parts of the application. However, this strategy requires browser support for
-        Shadow DOM.</p>
+      <p><b>Shadow DOM</b>: Using ShadowDom view encapsulation we can achive true encapsulation, because the component
+        creates it own DOM. So the
+        browser keeps the shadowDOM seperate from the main DOM, and the rendering of the shadowDOM and the main DOM
+        happens seperatly. Thats why the state and style of the component remains private and it does not get effected
+        by the main DOM.
+      </p>
       <div class="code">
         <code class="!whitespace-pre hljs language-typescript">
       <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span>, <span class="hljs-title class_">ViewEncapsulation</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
@@ -1600,6 +1611,70 @@
                 <span class="hljs-title function_">expect</span>(compiled.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">'.content span'</span>).<span class="hljs-property">textContent</span>).<span class="hljs-title function_">toContain</span>(<span class="hljs-string">'my-app app is running!'</span>);
           });
         });
+            </code>
+        </div>
+      </div>
+
+      <div id="33" class="con">
+        <h2>of & from Operator</h2>
+        <p><b>of</b>: The "of" operator creates an observable from the agruments that we pass into it. You can pass any
+          number of arguments to the "of" operator.</p><br>
+        <p>Each argument is emitted seperatly one after another. It sends the complete signal in the end.</p>
+        <div class="code">
+          <code class="!whitespace-pre hljs language-typescript">
+        <span class="hljs-comment">// of Operator example</span>
+
+        <span class="hljs-attr">data</span>: <span class="hljs-built_in">any</span>[] = [];
+        array1 = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>];
+        array2 = [<span class="hljs-string">'A'</span>, <span class="hljs-string">'B'</span>, <span class="hljs-string">'C'</span>, <span class="hljs-string">'D'</span>];
+            
+        myOfObservableOperator = <span class="hljs-title function_">of</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">array1</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">array2</span>);
+            
+        getOfOperator = <span class="hljs-function">() =&gt;</span> {
+          <span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span> = [];
+          <span class="hljs-variable language_">this</span>.<span class="hljs-property">myOfObservableOperator</span>.<span class="hljs-title function_">subscribe</span>({
+            <span class="hljs-attr">next</span>: <span class="hljs-function">(<span class="hljs-params">val: <span class="hljs-built_in">any</span></span>) =&gt;</span> { <span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>.<span class="hljs-title function_">push</span>(val); },
+            <span class="hljs-attr">error</span>: <span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> { <span class="hljs-title function_">alert</span>(err.<span class="hljs-property">message</span>); },
+            <span class="hljs-attr">complete</span>: <span class="hljs-function">() =&gt;</span> { <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Completed!!'</span>); }
+          });
+        };
+            
+        <span class="hljs-comment">// In HTML page</span>
+            
+        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> (<span class="hljs-attr">click</span>)=<span class="hljs-string">"getOfOperator()"</span>&gt;</span>Get of Operator<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>
+        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"data-list"</span> *<span class="hljs-attr">ngFor</span>=<span class="hljs-string">"let x of data"</span>&gt;</span>
+          {{x}}
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+            </code>
+
+        </div>
+        <br>
+        <p><b>from</b>: The "from" operator takes a single argument which can be iterated over and converts it into an
+          observable. <br>
+          <u>If you want to convert Promise into an observable, then the "from" operator is the best way todo that. </u>
+        </p>
+        <div class="code">
+          <code class="!whitespace-pre hljs language-typescript">
+      <span class="hljs-comment">// from Operator example</span>
+
+      namearr = <span class="hljs-string">'TonuRishabhRaj'</span>;
+      <span class="hljs-attr">data</span>: <span class="hljs-built_in">any</span>[] = [];
+            
+      promiseData = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+        <span class="hljs-title function_">resolve</span>([<span class="hljs-number">12</span>, <span class="hljs-number">14</span>, <span class="hljs-number">34</span>, <span class="hljs-number">23</span>, <span class="hljs-number">45</span>]);
+      });
+            
+      <span class="hljs-comment">// myfromOperator = from(this.namearr);</span>
+      myfromOperator = <span class="hljs-title function_">from</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">promiseData</span>);
+            
+      getfromOperator = <span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span> = [];
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">myfromOperator</span>.<span class="hljs-title function_">subscribe</span>({
+          <span class="hljs-attr">next</span>: <span class="hljs-function">(<span class="hljs-params">val: <span class="hljs-built_in">any</span></span>) =&gt;</span> { <span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>.<span class="hljs-title function_">push</span>(val); },
+          <span class="hljs-attr">error</span>: <span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> { <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(err.<span class="hljs-property">message</span>); },
+          <span class="hljs-attr">complete</span>: <span class="hljs-function">() =&gt;</span> { <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">"Completed"</span>); }
+        });
+      };
             </code>
         </div>
       </div>

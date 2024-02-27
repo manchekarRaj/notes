@@ -66,6 +66,26 @@
     <p><b>Full Join</b> - Returns all records when there is a match in either left or right table</p>
     <div class="code">
       <code class="!whitespace-pre hljs language-sql">
+    <span class="hljs-comment">-- Select Top 50 % of rows from a table</span>
+    <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> employee <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> employee_id LIMIT (<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>) <span class="hljs-operator">/</span> <span class="hljs-number">2</span> <span class="hljs-keyword">FROM</span> employee);
+        
+    <span class="hljs-comment">-- Select 5th highest Salary</span>
+    <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> employee <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> salary <span class="hljs-keyword">DESC</span> LIMIT <span class="hljs-number">1</span> <span class="hljs-keyword">OFFSET</span> <span class="hljs-number">4</span>;
+        
+    <span class="hljs-comment">-- Select First row from the employee table</span>
+    <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> employee <span class="hljs-keyword">WHERE</span> employee_id <span class="hljs-operator">=</span> (<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">MIN</span>(employee_id) <span class="hljs-keyword">FROM</span> employee);
+        
+    <span class="hljs-comment">-- Select MIN/MAX Salary from an employee table</span>
+    <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> employee <span class="hljs-keyword">WHERE</span> salary <span class="hljs-operator">=</span> (<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">MIN</span>(salary) <span class="hljs-keyword">AS</span> salary <span class="hljs-keyword">FROM</span> employee);
+        
+    <span class="hljs-comment">-- OR </span>
+    <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> employee <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> salary <span class="hljs-keyword">DESC</span> LIMIT <span class="hljs-number">1</span>;
+        </code>
+    </div>
+
+
+    <div class="code">
+      <code class="!whitespace-pre hljs language-sql">
     <span class="hljs-comment">-- Customer table</span>
     <span class="hljs-comment">-- Payment table</span>
         
