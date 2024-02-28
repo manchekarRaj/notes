@@ -231,6 +231,13 @@ select {
   text-transform: none
 }
 
+.end {
+  height: 300px;
+  width: 98%;
+  background-color: black;
+
+}
+
 [type=button],
 [type=reset],
 [type=submit],

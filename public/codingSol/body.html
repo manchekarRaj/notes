@@ -255,38 +255,181 @@
     </div>
   </div>
   <div id="10" class="con">
-    <h2></h2>
+    <h2>GroupBy</h2>
     <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">var</span> people = [
+      { <span class="hljs-attr">firstName</span>: <span class="hljs-string">'John'</span>, <span class="hljs-attr">lastName</span>: <span class="hljs-string">'Doe'</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">25</span> }, { <span class="hljs-attr">firstName</span>: <span class="hljs-string">'Joanne'</span>, <span class="hljs-attr">lastName</span>: <span class="hljs-string">'Doe'</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">43</span> },
+      { <span class="hljs-attr">firstName</span>: <span class="hljs-string">'Lucas'</span>, <span class="hljs-attr">lastName</span>: <span class="hljs-string">'Santos'</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">80</span> }, { <span class="hljs-attr">firstName</span>: <span class="hljs-string">'Rishabh'</span>, <span class="hljs-attr">lastName</span>: <span class="hljs-string">'Manchekar'</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">12</span> },
+    ];
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">groupBy</span>(<span class="hljs-params">people</span>) {
+      <span class="hljs-keyword">return</span> people.<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">acc, person</span>) =&gt;</span> {
+          <span class="hljs-keyword">if</span> (person.<span class="hljs-property">age</span> &lt; <span class="hljs-number">18</span>) {
+              <span class="hljs-keyword">return</span> { ...acc, <span class="hljs-attr">children</span>: [...acc.<span class="hljs-property">children</span>, person] }
+          }
+          <span class="hljs-keyword">if</span> (person.<span class="hljs-property">age</span> &lt; <span class="hljs-number">35</span>) {
+              <span class="hljs-keyword">return</span> { ...acc, <span class="hljs-attr">young</span>: [...acc.<span class="hljs-property">young</span>, person] }
+          }
+          <span class="hljs-keyword">if</span> (person.<span class="hljs-property">age</span> &lt; <span class="hljs-number">55</span>) {
+              <span class="hljs-keyword">return</span> { ...acc, <span class="hljs-attr">midAge</span>: [...acc.<span class="hljs-property">midAge</span>, person] }
+          }
+          <span class="hljs-keyword">return</span> { ...acc, <span class="hljs-attr">old</span>: [...acc.<span class="hljs-property">old</span>, person] }
+      }, {
+          <span class="hljs-attr">children</span>: [],
+          <span class="hljs-attr">young</span>: [],
+          <span class="hljs-attr">midAge</span>: [],
+          <span class="hljs-attr">old</span>: []
+        })
+    }
+    
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">groupBy</span>(people))
+    </code>
 
     </div>
   </div>
   <div id="11" class="con">
-    <h2></h2>
+    <h2>FilterData - Reduce</h2>
     <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+  <span class="hljs-keyword">var</span> arr = [[<span class="hljs-string">'a'</span>, <span class="hljs-string">'Jay'</span>, <span class="hljs-string">'Nagpur'</span>], [<span class="hljs-string">'b'</span>, <span class="hljs-string">'Dinesh'</span>, <span class="hljs-string">'Mumbai'</span>], [<span class="hljs-string">'a'</span>, <span class="hljs-string">'Rakesh'</span>, <span class="hljs-string">'Thane'</span>], 
+  [<span class="hljs-string">'a'</span>, <span class="hljs-string">'Ravi'</span>, <span class="hljs-string">'NZ'</span>]];
+  <span class="hljs-comment">//Output:</span>
+  {
+      <span class="hljs-attr">a</span>: [{ <span class="hljs-string">'name'</span>: <span class="hljs-string">'Jay'</span>, <span class="hljs-string">'location'</span>: <span class="hljs-string">'Nagpur'</span> }, { <span class="hljs-string">'name'</span>: <span class="hljs-string">'Rakesh'</span>, <span class="hljs-string">'location'</span>: <span class="hljs-string">'Thane'</span> }],
+      <span class="hljs-attr">b</span>: [{ <span class="hljs-string">'name'</span>: <span class="hljs-string">'Dinesh'</span>, <span class="hljs-string">'location'</span>: <span class="hljs-string">'Mumbai'</span> }]
+  }
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">filterData</span>(<span class="hljs-params">arr</span>) {
+        <span class="hljs-keyword">return</span> arr.<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">acc, person</span>) =&gt;</span> {
+            <span class="hljs-keyword">let</span> p = { <span class="hljs-string">'name'</span>: person[<span class="hljs-number">1</span>], <span class="hljs-string">'location'</span>: person[<span class="hljs-number">2</span>] }
+            <span class="hljs-keyword">if</span> (person[<span class="hljs-number">0</span>] === <span class="hljs-string">'a'</span>) {
+                <span class="hljs-keyword">return</span> { ...acc, <span class="hljs-attr">a</span>: [...acc.<span class="hljs-property">a</span>, p] }
+            }
+            <span class="hljs-keyword">return</span> { ...acc, <span class="hljs-attr">b</span>: [...acc.<span class="hljs-property">b</span>, p] }
+        }, { <span class="hljs-attr">a</span>: [], <span class="hljs-attr">b</span>: [] })
+    } 
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">filterData</span>(arr))
+        </code>
+
 
     </div>
   </div>
   <div id="12" class="con">
-    <h2></h2>
+    <h2>twoSum</h2>
     <div class="code">
-
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">var</span> arr = [<span class="hljs-number">2</span>, <span class="hljs-number">7</span>, <span class="hljs-number">11</span>, <span class="hljs-number">15</span>];
+    <span class="hljs-keyword">var</span> target = <span class="hljs-number">9</span>;
+        
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">twoSum</span>(<span class="hljs-params">arr, target</span>) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> x = <span class="hljs-number">0</span>; x &lt; arr.<span class="hljs-property">length</span> - <span class="hljs-number">1</span>; x++) {
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> y = x + <span class="hljs-number">1</span>; y &lt; arr.<span class="hljs-property">length</span>; y++) {
+                <span class="hljs-keyword">if</span> (arr[x] + arr[y] === target) {
+                    <span class="hljs-keyword">return</span> [x, y];
+                }
+            }
+        }
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    }
+        
+    <span class="hljs-comment">// Output: [0, 1]</span>
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">twoSum</span>(arr, target));
+        </code>
     </div>
   </div>
   <div id="13" class="con">
-    <h2></h2>
+    <h2>Palindrome Number</h2>
     <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-comment">// Input: x = 121</span>
+    <span class="hljs-comment">// Output: true</span>
+    <span class="hljs-comment">// Explanation: 121 reads as 121 from left to right and from right to left.</span>
+    <span class="hljs-keyword">const</span> <span class="hljs-title function_">isPalindrome</span> = (<span class="hljs-params">x</span>) =&gt; {
+        <span class="hljs-keyword">if</span> (x &lt; <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">const</span> reversedNum = <span class="hljs-title class_">Number</span>(x.<span class="hljs-title function_">toString</span>().<span class="hljs-title function_">split</span>(<span class="hljs-string">""</span>).<span class="hljs-title function_">reverse</span>().<span class="hljs-title function_">join</span>(<span class="hljs-string">""</span>));
+        <span class="hljs-keyword">if</span> (x === reversedNum) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+            
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    };
+        </code>
 
     </div>
   </div>
   <div id="14" class="con">
-    <h2></h2>
+    <h2>threeSum</h2>
     <div class="code">
-
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">var</span> arr = [-<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">4</span>];
+    <span class="hljs-comment">// Output: [ [ -1, -1, 2 ], [ -1, 0, 1 ] ]</span>
+    <span class="hljs-keyword">var</span> threeSum = <span class="hljs-keyword">function</span>(<span class="hljs-params">nums</span>) {
+        nums.<span class="hljs-title function_">sort</span>(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a - b);
+        <span class="hljs-keyword">let</span> answer = [];
+            
+        <span class="hljs-keyword">if</span> (nums.<span class="hljs-property">length</span> &lt; <span class="hljs-number">3</span>) {
+            <span class="hljs-keyword">return</span> answer;
+        }
+            
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; nums.<span class="hljs-property">length</span>; i++) {
+            <span class="hljs-keyword">if</span> (nums[i] &gt; <span class="hljs-number">0</span>) {
+                <span class="hljs-keyword">break</span>;
+            }
+                
+            <span class="hljs-keyword">if</span> (i &gt; <span class="hljs-number">0</span> &amp;&amp; nums[i] === nums[i - <span class="hljs-number">1</span>]) {
+                <span class="hljs-keyword">continue</span>;
+            }
+                
+            <span class="hljs-keyword">let</span> low = i + <span class="hljs-number">1</span>;
+            <span class="hljs-keyword">let</span> high = nums.<span class="hljs-property">length</span> - <span class="hljs-number">1</span>;
+            <span class="hljs-keyword">while</span> (low &lt; high) {
+                <span class="hljs-keyword">const</span> sum = nums[i] + nums[low] + nums[high];
+                <span class="hljs-keyword">if</span> (sum &gt; <span class="hljs-number">0</span>) {
+                    high--;
+                } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (sum &lt; <span class="hljs-number">0</span>) {
+                    low++;
+                } <span class="hljs-keyword">else</span> {
+                    answer.<span class="hljs-title function_">push</span>([nums[i], nums[low], nums[high]]);
+                    <span class="hljs-keyword">let</span> lastLowOccurrence = nums[low];
+                    <span class="hljs-keyword">let</span> lastHighOccurrence = nums[high];
+                        
+                    <span class="hljs-keyword">while</span> (low &lt; high &amp;&amp; nums[low] === lastLowOccurrence) {
+                        low++;
+                    }
+                        
+                    <span class="hljs-keyword">while</span> (low &lt; high &amp;&amp; nums[high] === lastHighOccurrence) {
+                        high--;
+                    }
+                }
+            }
+        }
+        <span class="hljs-keyword">return</span> answer;
+      };
+        </code>
     </div>
   </div>
   <div id="15" class="con">
-    <h2></h2>
+    <h2>Remove Duplicates from Sorted Array</h2>
     <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">var</span> arr = [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>];
+
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">removeDuplicates</span>(<span class="hljs-params">arr</span>) {
+        <span class="hljs-keyword">let</span> y = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> x = <span class="hljs-number">1</span>; x &lt; arr.<span class="hljs-property">length</span>; x++) {
+            <span class="hljs-keyword">if</span> (arr[x] != arr[x - <span class="hljs-number">1</span>]) {
+                arr[y] = arr[x];
+                y++;
+            }
+        }
+        <span class="hljs-keyword">return</span> y;
+    }
+        
+    <span class="hljs-comment">// Call the function and log the result</span>
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">removeDuplicates</span>(arr));
+        
+    <span class="hljs-comment">// The Intuition is to use two pointers, x and y, to iterate through the array.</span>
+    <span class="hljs-comment">// The variable y is used to keep track of the current index where a unique element should be placed.</span>
+    <span class="hljs-comment">// The initial value of y is 1 since the first element in the array is always unique 
+      and doesn't need to be changed.</span>
+        </code>
 
     </div>
   </div>
@@ -379,6 +522,8 @@
     <div class="code">
 
     </div>
+
+
   </div>
 
 
@@ -391,7 +536,7 @@
 
 
 
-
+  <div class="end"></div>
 
 
 

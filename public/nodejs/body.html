@@ -1874,6 +1874,69 @@
       code and delivering value to their customers without worrying about server management.</p>
   </div>
 
+  <div id="34" class="con">
+    <h2>Rabbit MQ</h2>
+    <p>RabbitMQ is a powerful message broker that enables applications to communicate with each other asynchronously via
+      messages. In Node.js, you can use the amqplib library to interact with RabbitMQ. </p>
+    <br>
+    <b>Producer (sender.js)</b>:
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">const</span> amqp = <span class="hljs-built_in">require</span>(<span class="hljs-string">'amqplib'</span>);
+
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">produce</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-keyword">try</span> {
+        <span class="hljs-keyword">const</span> connection = <span class="hljs-keyword">await</span> amqp.<span class="hljs-title function_">connect</span>(<span class="hljs-string">'amqp://localhost'</span>);
+        <span class="hljs-keyword">const</span> channel = <span class="hljs-keyword">await</span> connection.<span class="hljs-title function_">createChannel</span>();
+        <span class="hljs-keyword">const</span> queueName = <span class="hljs-string">'hello'</span>;
+        <span class="hljs-keyword">const</span> message = <span class="hljs-string">'Hello World!'</span>;
+        
+        <span class="hljs-keyword">await</span> channel.<span class="hljs-title function_">assertQueue</span>(queueName);
+        <span class="hljs-keyword">await</span> channel.<span class="hljs-title function_">sendToQueue</span>(queueName, <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(message));
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">" [x] Sent %s"</span>, message);
+        
+        <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+          connection.<span class="hljs-title function_">close</span>();
+          process.<span class="hljs-title function_">exit</span>(<span class="hljs-number">0</span>);
+        }, <span class="hljs-number">500</span>);
+      } <span class="hljs-keyword">catch</span> (error) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(error);
+        }
+      }
+      <span class="hljs-title function_">produce</span>();
+        </code>
+
+    </div>
+    <br>
+    <b>Consumer (receiver.js)</b>:
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">const</span> amqp = <span class="hljs-built_in">require</span>(<span class="hljs-string">'amqplib'</span>);
+
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">consume</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-keyword">try</span> {
+        <span class="hljs-keyword">const</span> connection = <span class="hljs-keyword">await</span> amqp.<span class="hljs-title function_">connect</span>(<span class="hljs-string">'amqp://localhost'</span>);
+        <span class="hljs-keyword">const</span> channel = <span class="hljs-keyword">await</span> connection.<span class="hljs-title function_">createChannel</span>();
+        <span class="hljs-keyword">const</span> queueName = <span class="hljs-string">'hello'</span>;
+        
+        <span class="hljs-keyword">await</span> channel.<span class="hljs-title function_">assertQueue</span>(queueName);
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">" [*] Waiting for messages in %s. To exit press CTRL+C"</span>, queueName);
+        
+        channel.<span class="hljs-title function_">consume</span>(queueName, <span class="hljs-function">(<span class="hljs-params">msg</span>) =&gt;</span> {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">" [x] Received %s"</span>, msg.<span class="hljs-property">content</span>.<span class="hljs-title function_">toString</span>());
+         }, { <span class="hljs-attr">noAck</span>: <span class="hljs-literal">true</span> });
+      } <span class="hljs-keyword">catch</span> (error) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(error);
+      }
+    } 
+    <span class="hljs-title function_">consume</span>();
+        </code>
+    </div>
+
+
+
+  </div>
+
 
 
 

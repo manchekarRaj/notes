@@ -2,6 +2,7 @@
 
 var arr = [['a', 'Jay', 'Nagpur'], ['b', 'Dinesh', 'Mumbai'], ['a', 'Rakesh', 'Thane'], ['a', 'Ravi', 'NZ']]
 
+//Output:
 {
     a: [{ 'name': 'Jay', 'location': 'Nagpur' }, { 'name': 'Rakesh', 'location': 'Thane' }]
     b: [{ 'name': 'Dinesh', 'location': 'Mumbai' }]
