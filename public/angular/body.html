@@ -639,17 +639,25 @@
 
   </div>
   <div id="14" class="con">
-    <h2>Template variables / Symbol</h2>
-    Template variables are used to refer to an HTML element and all of its DOM properties. You use the # symbol followed
-    by the variable name.<br>
-    <span class="cmd">
-      input #myInput type=”text”><br>
-      button (click)=”logMessage(myInput.value)”> /button><br>
-    </span>
-    <p><u>Template variable scope</u>: Refer to a template variable anywhere within its surrounding template. Structural
-      directives, such as *ngIf and *ngFor, or /ng-template> act as a template boundary. You cannot access template
-      variables outside of these boundaries.
-    </p>
+    <h2>Template reference variables / Symbol</h2>
+    <p>A template reference variable is a varaible which stores a reference to a DOM element, Component or Directive on
+      which it is used.</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-typescript">
+    <span class="hljs-comment">// In dashboard.component.ts</span>
+    <span class="hljs-attr">searchText</span>: <span class="hljs-built_in">string</span> = <span class="hljs-string">''</span>;
+        
+    <span class="hljs-title function_">searchTextfn</span>(<span class="hljs-params">ele: HTMLInputElement</span>) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(ele.<span class="hljs-property">value</span>);
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">searchText</span> = ele.<span class="hljs-property">value</span>;
+    }
+        
+    <span class="hljs-comment">// In dashboard.component.html</span>
+    &lt;input <span class="hljs-keyword">class</span>=<span class="hljs-string">"btn btn-search"</span> #searchInputText /&gt;
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> (<span class="hljs-attr">click</span>)=<span class="hljs-string">"searchTextfn(searchInputText)"</span>&gt;</span>Search<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>
+        </code>
+    </div>
+
   </div>
 
   <div id="15" class="con">
@@ -1703,9 +1711,103 @@
   (newItemEvent)=<span class="hljs-string">"addItem($event)"</span>&gt;&lt;/app-item-output&gt;
           </code>
         </div>
+      </div>
 
+      <div id="35" class="con">
+        <h2>HostListener</h2>
+        <p>The @HostListener decorator listens to the DOM event on the host element and it reacts to that event by
+          executing an event handler method.</p>
+        <div class="code">
+          <code class="!whitespace-pre hljs language-typescript">
+  <span class="hljs-comment">// Create a custom directive to hover effect on HTML element</span>
+  <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Directive</span>, <span class="hljs-title class_">ElementRef</span>, <span class="hljs-title class_">HostListener</span>, <span class="hljs-title class_">Renderer2</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+              
+  <span class="hljs-meta">@Directive</span>({
+    <span class="hljs-attr">selector</span>: <span class="hljs-string">'[appHover]'</span>
+  })
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HoverDirective</span> {
+              
+  <span class="hljs-comment">// When we use the private keyword with the parameters, 
+    Angular creates a private property with that name behind the scenes and assigns that 
+    private property with that parameter.</span>
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> element: ElementRef, <span class="hljs-keyword">private</span> renderer: Renderer2</span>) { }
+              
+    <span class="hljs-meta">@HostListener</span>(<span class="hljs-string">'mouseenter'</span>) <span class="hljs-title function_">onmouseOver</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">renderer</span>.<span class="hljs-title function_">setStyle</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">element</span>.<span class="hljs-property">nativeElement</span>, <span class="hljs-string">'margin'</span>, <span class="hljs-string">'5px 10px'</span>);
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">renderer</span>.<span class="hljs-title function_">setStyle</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">element</span>.<span class="hljs-property">nativeElement</span>, <span class="hljs-string">'padding'</span>, <span class="hljs-string">'30px 30px'</span>);
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">renderer</span>.<span class="hljs-title function_">setStyle</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">element</span>.<span class="hljs-property">nativeElement</span>, <span class="hljs-string">'background-color'</span>, <span class="hljs-string">'#e3685e'</span>);
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">renderer</span>.<span class="hljs-title function_">setStyle</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">element</span>.<span class="hljs-property">nativeElement</span>, <span class="hljs-string">'transition'</span>, <span class="hljs-string">'0.5s'</span>);
+    }
+              
+    <span class="hljs-meta">@HostListener</span>(<span class="hljs-string">'mouseleave'</span>) <span class="hljs-title function_">onmouseOut</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">renderer</span>.<span class="hljs-title function_">setStyle</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">element</span>.<span class="hljs-property">nativeElement</span>, <span class="hljs-string">'margin'</span>, <span class="hljs-string">'10px 20px'</span>);
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">renderer</span>.<span class="hljs-title function_">setStyle</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">element</span>.<span class="hljs-property">nativeElement</span>, <span class="hljs-string">'padding'</span>, <span class="hljs-string">'10px 20px'</span>);
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">renderer</span>.<span class="hljs-title function_">setStyle</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">element</span>.<span class="hljs-property">nativeElement</span>, <span class="hljs-string">'background-color'</span>, <span class="hljs-string">'#d2691e'</span>);
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">renderer</span>.<span class="hljs-title function_">setStyle</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">element</span>.<span class="hljs-property">nativeElement</span>, <span class="hljs-string">'transition'</span>, <span class="hljs-string">'0.5s'</span>);
+      }
+    }
+              </code>
+        </div>
 
+        <div class="code">
+          <code class="!whitespace-pre hljs language-html">
+    <span class="hljs-comment">&lt;!-- In app.component.html --&gt;</span>
 
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span> <span class="hljs-attr">appHover</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Custom attribute directive for @HostListener<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span> <span class="hljs-attr">appHover</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Custom attribute directive for @HostListener<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            </code>
+        </div>
+
+      </div>
+
+      <div id="36" class="con">
+        <h2>HostBinding</h2>
+        <p>The @HostBinding decorator binds a host element property to a variable in a directive or a component.</p>
+
+        <div class="code">
+          <code class="!whitespace-pre hljs language-typescript">
+    <span class="hljs-comment">// Create a custom directive</span>
+    <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Directive</span>, <span class="hljs-title class_">ElementRef</span>, <span class="hljs-title class_">HostBinding</span>, <span class="hljs-title class_">HostListener</span>, <span class="hljs-title class_">Renderer2</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+            
+    <span class="hljs-meta">@Directive</span>({
+      <span class="hljs-attr">selector</span>: <span class="hljs-string">'[appHighlight]'</span>
+    })
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HighlightDirective</span> {
+            
+      <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> element: ElementRef, <span class="hljs-keyword">private</span> renderer: Renderer2</span>) { }
+            
+      <span class="hljs-comment">// Create a property for a highlight directive class</span>
+      <span class="hljs-meta">@HostBinding</span>(<span class="hljs-string">'style.backgroundColor'</span>) <span class="hljs-attr">background</span>: <span class="hljs-built_in">string</span> = <span class="hljs-string">'#749fef'</span>;
+            
+      <span class="hljs-meta">@HostListener</span>(<span class="hljs-string">'mouseenter'</span>) <span class="hljs-title function_">mouseOver</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">background</span> = <span class="hljs-string">'#cbc519'</span>;
+      }
+            
+      <span class="hljs-meta">@HostListener</span>(<span class="hljs-string">'mouseleave'</span>) <span class="hljs-title function_">mouseOut</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">background</span> = <span class="hljs-string">'#749fef'</span>;
+      }
+    }
+            </code>
+        </div>
+
+        <div class="code">
+          <code class="!whitespace-pre hljs language-html">
+    <span class="hljs-comment">&lt;!-- In app.component.html --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span> <span class="hljs-attr">appHighlight</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Custom attribute directive for @HostBinding<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            </code>
+        </div>
+
+      </div>
+
+      <div id="37" class="con">
+        <h2>..</h2>
+        <p></p>
       </div>
 
 
