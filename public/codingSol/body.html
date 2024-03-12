@@ -70,6 +70,7 @@
   </style>
 
 </head>
+<!-- https://www.sql-practice.com/ -->
 
 <body>
   <div id="1" class="con">
@@ -284,8 +285,39 @@
     
     <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">groupBy</span>(people))
     </code>
+    </div>
+
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    <span class="hljs-keyword">var</span> data = [{<span class="hljs-attr">name</span>: <span class="hljs-string">"Ramesh"</span>, <span class="hljs-attr">city</span>: <span class="hljs-string">"Jaipur"</span>}, 
+    {<span class="hljs-attr">name</span>: <span class="hljs-string">"Jai"</span>, <span class="hljs-attr">city</span>: <span class="hljs-string">"Miraj"</span>}, {<span class="hljs-attr">name</span>: <span class="hljs-string">"Tonu"</span>, <span class="hljs-attr">city</span>: <span class="hljs-string">"Mumbai"</span>}, 
+    {<span class="hljs-attr">name</span>: <span class="hljs-string">"Pochuta"</span>, <span class="hljs-attr">city</span>: <span class="hljs-string">"Mumbai"</span>}, {<span class="hljs-attr">name</span>: <span class="hljs-string">"Viddu"</span>, <span class="hljs-attr">city</span>: <span class="hljs-string">"Pune"</span>}, 
+    {<span class="hljs-attr">name</span>: <span class="hljs-string">"Nandudi"</span>, <span class="hljs-attr">city</span>: <span class="hljs-string">"Pune"</span>}
+    ];
+    
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">groupBy</span>(<span class="hljs-params">arr, key</span>) {
+        <span class="hljs-keyword">return</span> arr.<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">accu, currValue</span>) =&gt;</span> {
+            <span class="hljs-keyword">const</span> groupKey = currValue[key];
+            
+            <span class="hljs-keyword">if</span> (!accu[groupKey]) {
+                accu[groupKey] = [];
+            }
+            
+            accu[groupKey].<span class="hljs-title function_">push</span>(currValue);
+            <span class="hljs-keyword">return</span> accu;
+        }, {});
+    }
+    
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">groupBy</span>(data, <span class="hljs-string">'city'</span>));
+    </code>
+
 
     </div>
+
+
+
+
+
   </div>
   <div id="11" class="con">
     <h2>FilterData - Reduce</h2>
@@ -409,27 +441,36 @@
     <h2>Remove Duplicates from Sorted Array</h2>
     <div class="code">
       <code class="!whitespace-pre hljs language-javascript">
-    <span class="hljs-keyword">var</span> arr = [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>];
+    <span class="hljs-keyword">var</span> arr = [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">7</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>];
 
     <span class="hljs-keyword">function</span> <span class="hljs-title function_">removeDuplicates</span>(<span class="hljs-params">arr</span>) {
+        <span class="hljs-comment">// First, sort the array</span>
+        arr.<span class="hljs-title function_">sort</span>();
+        
         <span class="hljs-keyword">let</span> y = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">let</span> res = [];
+        <span class="hljs-comment">// Initialize the first element of the result array</span>
+        res[<span class="hljs-number">0</span>] = arr[<span class="hljs-number">0</span>];
+        
+        <span class="hljs-comment">// Iterate through the array to remove duplicates</span>
         <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> x = <span class="hljs-number">1</span>; x &lt; arr.<span class="hljs-property">length</span>; x++) {
+            <span class="hljs-comment">// If the current element is different from the previous one, add it to the result array</span>
             <span class="hljs-keyword">if</span> (arr[x] != arr[x - <span class="hljs-number">1</span>]) {
-                arr[y] = arr[x];
+                res[y] = arr[x];
                 y++;
             }
         }
-        <span class="hljs-keyword">return</span> y;
+        <span class="hljs-keyword">return</span> res;
     }
         
-    <span class="hljs-comment">// Call the function and log the result</span>
     <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">removeDuplicates</span>(arr));
         
     <span class="hljs-comment">// The Intuition is to use two pointers, x and y, to iterate through the array.</span>
     <span class="hljs-comment">// The variable y is used to keep track of the current index where a unique element should be placed.</span>
-    <span class="hljs-comment">// The initial value of y is 1 since the first element in the array is always unique 
-      and doesn't need to be changed.</span>
+    <span class="hljs-comment">// The initial value of y is 1 since the first element in the array is always unique </span>
+    <span class="hljs-comment">// and doesn't need to be changed.</span>
         </code>
+
 
     </div>
   </div>

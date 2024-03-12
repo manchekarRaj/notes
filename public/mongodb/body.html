@@ -697,13 +697,125 @@
 
   </div>
   <div id="13" class="con">
-    <h2></h2>
+    <h2>Populate</h2>
+    <p>MongoDB has the join-like $lookup aggregation operator in versions >= 3.2.
+      Mongoose has a more powerful alternative called populate(), which lets you reference documents in other
+      collections.
+      <br>
+      Population is the process of automatically replacing the specified paths in the document with document(s) from
+      other collection(s).
+      We may populate a single document, multiple documents, a plain object, multiple plain objects, or all objects
+      returned from a query.
+    </p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+      <span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mongoose'</span>);
+      <span class="hljs-keyword">const</span> { <span class="hljs-title class_">Schema</span> } = mongoose;
+          
+      <span class="hljs-comment">// User Model</span>
+      <span class="hljs-keyword">const</span> userSchema = <span class="hljs-title class_">Schema</span>({
+        <span class="hljs-attr">_id</span>: <span class="hljs-title class_">Schema</span>.<span class="hljs-property">Types</span>.<span class="hljs-property">ObjectId</span>,
+        <span class="hljs-attr">name</span>: <span class="hljs-title class_">String</span>,
+        <span class="hljs-attr">age</span>: <span class="hljs-title class_">Number</span>,
+        <span class="hljs-attr">posts</span>: [{ <span class="hljs-attr">type</span>: <span class="hljs-title class_">Schema</span>.<span class="hljs-property">Types</span>.<span class="hljs-property">ObjectId</span>, <span class="hljs-attr">ref</span>: <span class="hljs-string">'Post'</span> }]
+       });
+      <span class="hljs-keyword">const</span> <span class="hljs-title class_">User</span> = mongoose.<span class="hljs-title function_">model</span>(<span class="hljs-string">'User'</span>, userSchema);
+          
+      <span class="hljs-comment">// Post Model</span>
+      <span class="hljs-keyword">const</span> postSchema = <span class="hljs-title class_">Schema</span>({
+        <span class="hljs-attr">title</span>: <span class="hljs-title class_">String</span>,
+         <span class="hljs-attr">content</span>: <span class="hljs-title class_">String</span>,
+         <span class="hljs-attr">author</span>: { <span class="hljs-attr">type</span>: <span class="hljs-title class_">Schema</span>.<span class="hljs-property">Types</span>.<span class="hljs-property">ObjectId</span>, <span class="hljs-attr">ref</span>: <span class="hljs-string">'User'</span> },
+         <span class="hljs-attr">comments</span>: [{ <span class="hljs-attr">type</span>: <span class="hljs-title class_">Schema</span>.<span class="hljs-property">Types</span>.<span class="hljs-property">ObjectId</span>, <span class="hljs-attr">ref</span>: <span class="hljs-string">'Comment'</span> }]
+      });
+      <span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = mongoose.<span class="hljs-title function_">model</span>(<span class="hljs-string">'Post'</span>, postSchema);
+          
+      <span class="hljs-comment">// Comment Model</span>
+       <span class="hljs-keyword">const</span> commentSchema = <span class="hljs-title class_">Schema</span>({
+         <span class="hljs-attr">text</span>: <span class="hljs-title class_">String</span>,
+         <span class="hljs-attr">author</span>: { <span class="hljs-attr">type</span>: <span class="hljs-title class_">Schema</span>.<span class="hljs-property">Types</span>.<span class="hljs-property">ObjectId</span>, <span class="hljs-attr">ref</span>: <span class="hljs-string">'User'</span> },
+       });
+      <span class="hljs-keyword">const</span> <span class="hljs-title class_">Comment</span> = mongoose.<span class="hljs-title function_">model</span>(<span class="hljs-string">'Comment'</span>, commentSchema);
+          </code>
+
+    </div>
+
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+    app.<span class="hljs-title function_">get</span>(<span class="hljs-string">'/get-user-with-post'</span>, <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>){
+    <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> <span class="hljs-title class_">User</span>.<span class="hljs-title function_">findOne</span>({<span class="hljs-attr">name</span>:<span class="hljs-string">'Tonu'</span>}).<span class="hljs-title function_">populate</span>({
+        <span class="hljs-attr">path</span>: <span class="hljs-string">'posts'</span>,
+        <span class="hljs-attr">populate</span>: {
+            <span class="hljs-attr">path</span>: <span class="hljs-string">'comments'</span>,
+            <span class="hljs-attr">model</span>: <span class="hljs-string">'Comment'</span>,
+            <span class="hljs-attr">populate</span>: {
+                <span class="hljs-attr">path</span>: <span class="hljs-string">'author'</span>,
+                <span class="hljs-attr">model</span>: <span class="hljs-string">'User'</span>
+            }
+        }
+    });
+      res.<span class="hljs-title function_">send</span>(data);
+    });
+    </code>
+    </div>
 
 
 
   </div>
   <div id="14" class="con">
     <h2></h2>
+    <p>
+      SQL (Structured Query Language) and NoSQL (Not Only SQL) are two different approaches to managing and manipulating
+      data in databases, each with its own advantages and use cases.</p>
+
+    <b>SQL</b>:<br>
+
+    <u>Structure</u>: SQL databases are based on a structured schema, which means data is organized into tables with
+    rows and
+    columns. This structure enforces data integrity and ensures consistency.<br>
+
+    <u>ACID Properties</u>: SQL databases typically adhere to ACID (Atomicity, Consistency, Isolation, Durability)
+    properties, which ensure that database transactions are processed reliably.<br>
+
+    <u>Relational Model</u>: SQL databases follow the relational model and support relationships between different
+    tables,
+    allowing complex queries and joins.<br>
+
+    <u>Vertical Scalability</u>: SQL databases are usually vertically scalable, meaning you can increase the power of
+    a
+    single server by adding more CPU, RAM, or SSD.<br>
+
+    Examples: MySQL, PostgreSQL, Oracle, SQL Server.<br>
+
+    <b>NoSQL</b>:<br>
+
+    <u>Schema Flexibility</u>: NoSQL databases offer flexibility in terms of schema design, allowing for dynamic and
+    unstructured data storage. This makes them suitable for applications with evolving data models.<br>
+
+    <u>Scalability</u>: NoSQL databases are designed for horizontal scalability, allowing them to handle large volumes
+    of
+    data by distributing it across multiple servers.<br>
+
+    <u>Variety of Models</u>: NoSQL databases come in various models like key-value stores, document stores,
+    column-family
+    stores, and graph databases, each optimized for specific use cases.<br>
+
+    <u>Performance</u>: NoSQL databases often provide high performance and low latency for read and write operations,
+    especially when dealing with large-scale distributed systems.<br>
+
+    Examples: MongoDB, Cassandra, Redis, Couchbase.<br>
+
+    <b>When to Use SQL</b>:<br>
+
+    When data structure is well-defined and unlikely to change frequently.<br>
+    For applications that require complex queries and transactions.<br>
+    When ACID compliance is necessary, such as in financial applications.<br>
+
+    <b>When to Use NoSQL</b>:<br>
+
+    For applications with rapidly changing data requirements.<br>
+    When scalability and performance are crucial, especially for big data and real-time analytics.<br>
+    When dealing with unstructured or semi-structured data like JSON documents.<br>
 
   </div>
 
@@ -756,7 +868,7 @@
     <h2></h2>
   </div> -->
 
-
+  <div class="end"></div>
 
 
 </body>

@@ -499,6 +499,12 @@
       containing scope during the compile phase before the code execution. This means that regardless of where
       variables and functions are declared within their scope, they are treated as if they were declared at the top.
       However, only the declarations are hoisted, not the initializations or assignments.</p>
+    <br>
+    <p><b>let</b> variable are hoisted at temporal dead zone.</p>
+    <p>When you try to hoist let variable, you will get an error, cannot access 'x' before initilization.</p>
+    <p><b>Temporal dead zone</b> is the time between the declaration and the initilazation of <b>let</b> and
+      <b>const</b> variables.
+    </p>
   </div>
 
   <div id="11" class="con">
