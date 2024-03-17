@@ -96,7 +96,8 @@
             <span class="hljs-comment">// ES6</span>
             <span class="hljs-keyword">const</span> <span class="hljs-title function_">add</span> = (<span class="hljs-params">a, b</span>) =&gt; a + b;
             </code>
-        </div>
+        </div><br>
+        <p>The <b>this</b> keyword points to the global object in arrow function.</p><br>
       </li>
       <li><b>Let and Const Declarations</b>: let and const introduce block-scoped that provide better control over
         variable scope and preventing unintended reassignments.
@@ -265,34 +266,30 @@
   </div>
 
   <div id="4" class="con">
-    <h2>Callback function</h2>
-    <p>
-      Callback functions are functions passed as arguments to other functions, which are then invoked or executed inside
-      the outer function. They are commonly used in JavaScript for asynchronous operations or to achieve more flexible
-      and reusable code.
-    </p>
+    <h2>Currying</h2>
+    <p>Currying is a technique in JavaScript where you break down a function that takes multiple arguments into a series
+      of functions, each taking only one argument. It allows you to transform a function from being callable as f(a, b,
+      c) into being callable as f(a)(b)(c).</p>
     <div class="code">
-      <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// Function that takes a callback as an argument</span>
-        <span class="hljs-keyword">function</span> <span class="hljs-title function_">greet</span>(<span class="hljs-params">name, callback</span>) {
-            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">"Hello, "</span> + name + <span class="hljs-string">"!"</span>);
-            <span class="hljs-comment">// Invoke the callback function</span>
-            <span class="hljs-title function_">callback</span>();
-        }
-        
-        <span class="hljs-comment">// Callback function</span>
-        <span class="hljs-keyword">function</span> <span class="hljs-title function_">sayGoodbye</span>(<span class="hljs-params"></span>) {
-            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">"Goodbye!"</span>);
-        }
-        
-        <span class="hljs-comment">// Call the greet function and pass the callback function as an argument</span>
-        <span class="hljs-title function_">greet</span>(<span class="hljs-string">"Alice"</span>, sayGoodbye);
-        </code>
-    </div>
-    <p>Output:<br>
-      Hello, Alice!<br>
-      Goodbye!
-    </p>
+      <code
+        class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// Basic Currying Example: Suppose we have a function sum(a, b) that adds two numbers:</span>
 
+  <span class="hljs-keyword">function</span> <span class="hljs-title function_">sum</span>(<span class="hljs-params">a, b</span>) {
+      <span class="hljs-keyword">return</span> a + b;
+  }
+        
+  <span class="hljs-comment">// Currying the sum function</span>
+  <span class="hljs-keyword">function</span> <span class="hljs-title function_">curry</span>(<span class="hljs-params">f</span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params">a</span>) {
+          <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params">b</span>) {
+              <span class="hljs-keyword">return</span> <span class="hljs-title function_">f</span>(a, b);
+          };
+      };
+  }
+        
+  <span class="hljs-keyword">const</span> curriedSum = <span class="hljs-title function_">curry</span>(sum);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">curriedSum</span>(<span class="hljs-number">1</span>)(<span class="hljs-number">2</span>)); <span class="hljs-comment">// Output: 3</span></code>
+    </div>
   </div>
 
   <div id="5" class="con">
@@ -418,15 +415,54 @@
     <h2>This keyword</h2>
     <p>The <u>"this"</u> keyword always refers to an Object. The value of this always changes as per the scenarion in
       which it is called. </p>
-    <p>Some different ways to use "this" keyword</p>
-    <ul>
-      <li>By itself -- Will refer window Object</li>
-      <li>Inside Object method -- Will refer the owner object</li>
-      <li>Inside function -- Will refer window object</li>
-    </ul>
-    <span class="cmd">If you use 'use strict' then you will get 'undefined', if there is no reference to 'this' keyword.
-    </span>
-    <br>
+
+    <div class="code">
+      <code
+        class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// 1. In an Object Method: When used within an object method, this refers to the object itself.</span>
+  <span class="hljs-keyword">const</span> person = {
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">"John"</span>,
+    <span class="hljs-attr">lastName</span>: <span class="hljs-string">"Doe"</span>,
+    <span class="hljs-attr">fullName</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">firstName</span> + <span class="hljs-string">" "</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">lastName</span>;
+    }
+  };
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(person.<span class="hljs-title function_">fullName</span>()); <span class="hljs-comment">// Outputs: "John Doe"</span>
+    <span class="hljs-comment">// Here, THIS points to the person object because fullName is a method of that object</span>
+          
+  <span class="hljs-comment">/* 2. Alone (Global Scope): When used alone (outside any function or object), 
+    this refers to the global object (usually the browser window).*/</span>
+  <span class="hljs-keyword">let</span> x = <span class="hljs-variable language_">this</span>; <span class="hljs-comment">// In a browser, this refers to [object Window]</span>
+          
+  <span class="hljs-comment">// 3. In a Function (Default Binding): In a function, the global object is the default binding for this.</span>
+  <span class="hljs-keyword">function</span> <span class="hljs-title function_">myFunction</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>; <span class="hljs-comment">// In a browser, this refers to [object Window]</span>
+  }
+          
+  <span class="hljs-comment">/* 4. In a Function (Strict Mode): In strict mode, default binding is disallowed. 
+    Therefore, when used in a function, this becomes undefined.*/</span>
+  <span class="hljs-meta">"use strict"</span>;
+  <span class="hljs-keyword">function</span> <span class="hljs-title function_">myFunction</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>; <span class="hljs-comment">// In strict mode, this is undefined</span>
+  }
+          
+  <span class="hljs-comment">// 5. In Event Handlers: this refers to the HTML element that received the event</span>
+  &lt;button onclick=<span class="hljs-string">"this.style.display='none'"</span>&gt;<span class="hljs-title class_">Click</span> to <span class="hljs-title class_">Remove</span> <span class="hljs-title class_">Me</span>!&lt;/button&gt;
+          
+  <span class="hljs-comment">/* 6. Explicit Function Binding: The call() and apply() methods allow calling an object method 
+    with another object as an argument.*/</span>
+  <span class="hljs-keyword">const</span> person1 = {
+    <span class="hljs-attr">fullName</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">firstName</span> + <span class="hljs-string">" "</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">lastName</span>;
+    }
+  };
+  <span class="hljs-keyword">const</span> person2 = {
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">"John"</span>,
+    <span class="hljs-attr">lastName</span>: <span class="hljs-string">"Doe"</span>
+  };
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(person1.<span class="hljs-property">fullName</span>.<span class="hljs-title function_">call</span>(person2)); <span class="hljs-comment">// Outputs: "John Doe"</span>
+  <span class="hljs-comment">// Here, this refers to person2, even though fullName is a method of person1</span>
+  <span class="hljs-comment">// Remember, this is not a variable; it’s a keyword that allows interaction with different objects based on context.</span></code>
+    </div>
   </div>
 
 
@@ -477,20 +513,28 @@
     <div class="code">
       <code class="!whitespace-pre hljs language-javascript">
     <span class="hljs-keyword">function</span> <span class="hljs-title function_">outerFunction</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-keyword">let</span> outerVariable = <span class="hljs-string">'I am from the outer function'</span>;
-      
-    <span class="hljs-keyword">function</span> <span class="hljs-title function_">innerFunction</span>(<span class="hljs-params"></span>) {
-      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(outerVariable); <span class="hljs-comment">// Accessing outerVariable from the outer scope</span>
-    }
-      
-    <span class="hljs-keyword">return</span> innerFunction; <span class="hljs-comment">// returning innerFunction</span>
+      <span class="hljs-keyword">let</span> outerVariable = <span class="hljs-string">'I am from the outer function'</span>;
+      <span class="hljs-keyword">function</span> <span class="hljs-title function_">innerFunction</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>  (outerVariable); <span class="hljs-comment">// Accessing outerVariable from the outer scope</span>
+      }
+        <span class="hljs-keyword">return</span> innerFunction; <span class="hljs-comment">// returning innerFunction</span>
     }
       
     <span class="hljs-keyword">const</span> myInnerFunction = <span class="hljs-title function_">outerFunction</span>(); <span class="hljs-comment">// Execute outerFunction and store the returned innerFunction</span>
-      
     <span class="hljs-title function_">myInnerFunction</span>(); <span class="hljs-comment">// Execute innerFunction which still has access to outerVariable</span>
       </code>
-    </div>
+    </div><br>
+    <p><b>Closure scope chain:</b> Every closure has three scopes:<br>
+      1 - Local Scope<br>
+      2 - Outer function scope<br>
+      3 - Global Scope<br>
+    </p>
+    <p>In javascript every time you create a new function, it binds it self to the environment, or it lexical scope.
+      Closure makes it possible for a function to have private variables. </p>
+
+
+
+
   </div>
 
   <div id="10" class="con">
@@ -989,6 +1033,130 @@
   <div id="18" class="con">
     <h2>Design Patterns</h2>
 
+  </div>
+
+  <div id="19" class="con">
+    <h2>TypeScript vs JavaScript</h2>
+    <p>JavaScript is being excuted natively inside all browsers. But in TypeScript you cannot run TS in a browser, for
+      that you have to transpile your code in JavaScript first.</p><br>
+    <p>TypeScript is a strongly typed programming language that is build on JavaScript. That means, it uses every thing
+      that is avalible in JavaScript, like Variables, functions, objects, arrays etc.</p><br>
+    <p>In JavaScript, we get errors in runtime, ie, when we run the script in the browser.</p>
+    <p>In TypeScript, we get all the errors in transpiling time and not during runtime. </p>
+    <p>TypeScript also helps you scale your application better and faster.</p>
+  </div>
+  <div id="20" class="con">
+    <h2>Types in TypeScript</h2>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-typescript">
+  <span class="hljs-keyword">const</span> <span class="hljs-attr">foo</span>: <span class="hljs-built_in">string</span> = <span class="hljs-string">"foo"</span>;
+  <span class="hljs-keyword">const</span> <span class="hljs-attr">isActive</span>: <span class="hljs-built_in">boolean</span> = <span class="hljs-literal">false</span>;
+  <span class="hljs-keyword">const</span> <span class="hljs-attr">age</span>: <span class="hljs-built_in">number</span> = <span class="hljs-number">25</span>;
+  <span class="hljs-keyword">const</span> <span class="hljs-attr">user</span>: { <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>, <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span> } = { <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'Dan'</span> };
+  <span class="hljs-keyword">const</span> <span class="hljs-attr">arr</span>: <span class="hljs-title class_">Array</span>&lt;{ <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>, <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span> }&gt; = [user];
+  <span class="hljs-comment">// or</span>
+  <span class="hljs-keyword">const</span> <span class="hljs-attr">arr</span>: { <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>, <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span> }[] = [user];
+        
+  <span class="hljs-keyword">const</span> getFullName = (<span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">lastname</span>: <span class="hljs-built_in">string</span>): <span class="hljs-function"><span class="hljs-params">string</span> =&gt;</span> name + <span class="hljs-string">" "</span> + lastname;
+        </code>
+    </div>
+
+  </div>
+
+  <div id="21" class="con">
+    <h2>Difference between Explicit vs Implicit types</h2>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-typescript">
+    <span class="hljs-comment">// Explicit type</span>
+    <span class="hljs-keyword">const</span> <span class="hljs-attr">foo</span>: <span class="hljs-built_in">string</span> = <span class="hljs-string">"foo"</span>;
+    <span class="hljs-keyword">const</span> <span class="hljs-attr">isActive</span>: <span class="hljs-built_in">boolean</span> = <span class="hljs-literal">false</span>;
+        
+    <span class="hljs-comment">// Implicit type</span>
+    <span class="hljs-keyword">const</span> foo = <span class="hljs-string">"foo"</span>;
+    <span class="hljs-keyword">const</span> isActive = <span class="hljs-literal">false</span>;
+        </code>
+    </div>
+  </div>
+
+  <div id="22" class="con">
+    <h2>Interface in TypeScript</h2>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-typescript">
+  <span class="hljs-keyword">interface</span> <span class="hljs-title class_">User</span> {
+    <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>;
+    <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>;
+    <span class="hljs-attr">age</span>: <span class="hljs-built_in">number</span>;
+  }
+  
+  <span class="hljs-keyword">const</span> <span class="hljs-attr">user</span>: <span class="hljs-title class_">User</span> = {
+    <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">name</span>: <span class="hljs-string">"Dan"</span>,
+    <span class="hljs-attr">age</span>: <span class="hljs-number">25</span>
+  };
+  
+  <span class="hljs-keyword">const</span> <span class="hljs-title function_">getName</span> = (<span class="hljs-params">user: User</span>) =&gt; {
+    <span class="hljs-keyword">return</span> user.<span class="hljs-property">name</span>;
+  };
+  </code>
+    </div>
+  </div>
+
+  <div id="23" class="con">
+    <h2>Type in TypeScript</h2>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-typescript">
+  <span class="hljs-keyword">type</span> <span class="hljs-variable constant_">ID</span> = <span class="hljs-built_in">number</span>;
+  <span class="hljs-keyword">const</span> <span class="hljs-attr">id</span>: <span class="hljs-variable constant_">ID</span> = <span class="hljs-number">121</span>;
+    
+  <span class="hljs-keyword">type</span> <span class="hljs-title class_">Numbers</span> = <span class="hljs-built_in">number</span>[];
+  <span class="hljs-keyword">const</span> <span class="hljs-attr">numbers</span>: <span class="hljs-title class_">Numbers</span> = [<span class="hljs-number">11</span>, <span class="hljs-number">29</span>, <span class="hljs-number">46</span>];
+    </code>
+    </div>
+    <br>
+  </div>
+
+  <div id="24" class="con">
+    <h2>Union in TypeScript</h2>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-typescript">
+  <span class="hljs-keyword">type</span> stringOrNumber = <span class="hljs-built_in">number</span> | <span class="hljs-built_in">string</span>;
+
+  <span class="hljs-keyword">const</span> <span class="hljs-attr">foo</span>: stringOrNumber = <span class="hljs-number">1</span>;
+  <span class="hljs-comment">// or</span>
+  <span class="hljs-keyword">const</span> <span class="hljs-attr">foo</span>: stringOrNumber = <span class="hljs-string">"Dan"</span>;
+        
+  <span class="hljs-keyword">const</span> <span class="hljs-title function_">getId</span> = (<span class="hljs-params">id: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">number</span></span>) =&gt; {
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> id === <span class="hljs-string">"string"</span>) {
+          <span class="hljs-keyword">return</span> id;
+      } <span class="hljs-keyword">else</span> {
+          <span class="hljs-keyword">return</span> id.<span class="hljs-title function_">toFixed</span>();
+      }
+  };
+        
+  <span class="hljs-comment">// By checking the type definition, we are narrowing the type back to a number or string.</span>
+        
+  <span class="hljs-keyword">type</span> <span class="hljs-title class_">LoadingState</span> = {
+      <span class="hljs-attr">state</span>: <span class="hljs-string">"Loading"</span>;
+  };
+        
+  <span class="hljs-keyword">type</span> <span class="hljs-title class_">FailedState</span> = {
+      <span class="hljs-attr">state</span>: <span class="hljs-string">"Failed"</span>;
+      <span class="hljs-attr">code</span>: <span class="hljs-built_in">number</span>;
+  };
+        
+  <span class="hljs-keyword">type</span> <span class="hljs-title class_">SuccessState</span> = {
+      <span class="hljs-attr">state</span>: <span class="hljs-string">"Success"</span>;
+      <span class="hljs-attr">response</span>: {
+          <span class="hljs-attr">title</span>: <span class="hljs-built_in">string</span>;
+      };
+  };
+        
+  <span class="hljs-keyword">type</span> <span class="hljs-title class_">NetworkState</span> = <span class="hljs-title class_">LoadingState</span> | <span class="hljs-title class_">FailedState</span> | <span class="hljs-title class_">SuccessState</span>;
+  <span class="hljs-comment">// NetworkState can be in three different states, Loading, Failed, or Success. </span>
+  <span class="hljs-comment">// Since we have different properties for different states,</span>
+  <span class="hljs-comment">// we must narrow the type later in the code to read proper properties. </span>
+        </code>
+    </div>
 
 
   </div>

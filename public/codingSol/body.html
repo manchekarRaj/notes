@@ -475,20 +475,126 @@
     </div>
   </div>
   <div id="16" class="con">
-    <h2></h2>
+    <h2>BubbleSort</h2>
     <div class="code">
+      <code class="!whitespace-pre hljs language-javascript">
+  <span class="hljs-keyword">const</span> list = [<span class="hljs-number">15</span>, <span class="hljs-number">5</span>, <span class="hljs-number">20</span>, <span class="hljs-number">35</span>, <span class="hljs-number">2</span>, <span class="hljs-number">42</span>, <span class="hljs-number">67</span>, <span class="hljs-number">17</span>];
 
+  <span class="hljs-comment">// n = 8; no. of elements in an array</span>
+  <span class="hljs-comment">// In bubble sorting, a[i] is compared with a[i+1],</span>
+  <span class="hljs-comment">// and if these two elements are in the wrong order then we have to swap those elements.</span>
+  <span class="hljs-comment">// If the elements are in the correct order then no swapping will be done.</span>
+        
+  <span class="hljs-keyword">function</span> <span class="hljs-title function_">bubbleSortArray</span>(<span class="hljs-params">arr</span>) {
+    <span class="hljs-keyword">var</span> temp = <span class="hljs-literal">null</span>;
+    <span class="hljs-keyword">var</span> flag = <span class="hljs-literal">null</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> x = <span class="hljs-number">0</span>; x &lt; arr.<span class="hljs-property">length</span> - <span class="hljs-number">1</span>; x++) {
+      flag = <span class="hljs-number">0</span>;
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> y = <span class="hljs-number">0</span>; y &lt; arr.<span class="hljs-property">length</span> - <span class="hljs-number">1</span> - x; y++) {
+        <span class="hljs-keyword">if</span> (arr[y] &gt; arr[y + <span class="hljs-number">1</span>]) {
+          temp = arr[y];
+          arr[y] = arr[y + <span class="hljs-number">1</span>];
+          arr[y + <span class="hljs-number">1</span>] = temp;
+          flag = <span class="hljs-number">1</span>;
+        }
+      }
+      <span class="hljs-keyword">if</span> (flag === <span class="hljs-number">0</span>) {
+        <span class="hljs-keyword">break</span>;
+      }
+    }
+    <span class="hljs-keyword">return</span> arr;
+  }
+        
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">bubbleSortArray</span>(list));
+  <span class="hljs-comment">// [ 2, 5, 15, 17, 20, 35, 42, 67]</span>
+        
+  <span class="hljs-comment">// How to find out time complexity, we have to check how many for loops are there.</span>
+  <span class="hljs-comment">// Eg 2. Then, to find out the time complexity you have to check how many calculations are there,</span>
+  <span class="hljs-comment">// how many computations are there within the inner for loop.</span>
+  <span class="hljs-comment">// Best case is array is already sorted, (O(n) - order of n)</span>
+  <span class="hljs-comment">// Worst complexity, the time complexity will be (O(n^2) - Order of Nsquare)</span>
+        </code>
     </div>
   </div>
   <div id="17" class="con">
-    <h2></h2>
+    <h2>Binery Search - Search ele from an Array</h2>
     <div class="code">
+      <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// Binary search always works in a sorted array</span>
+<span class="hljs-comment">// Here we divide the array into two halves and search.</span>
+<span class="hljs-comment">// Case 1: data === arr[midIndex]</span>
+<span class="hljs-comment">// Case 2: data &lt; arr[midIndex]</span>
+<span class="hljs-comment">// Case 3: data &gt; arr[midIndex]</span>
+        
+<span class="hljs-comment">// data: data you want to search</span>
+<span class="hljs-comment">// l: left index</span>
+<span class="hljs-comment">// r: right index</span>
+<span class="hljs-comment">// mid: mid index</span>
+        
+  <span class="hljs-keyword">function</span> <span class="hljs-title function_">binarySearch</span>(<span class="hljs-params">arr, n, data</span>) {
+    <span class="hljs-keyword">let</span> l = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">let</span> r = n - <span class="hljs-number">1</span>;
+    <span class="hljs-comment">// here we check if l &lt;= r, if r &gt; l, then the element does not exist, then return -1.</span>
+    <span class="hljs-keyword">while</span> (l &lt;= r) {
+      <span class="hljs-keyword">let</span> mid = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>((l + r) / <span class="hljs-number">2</span>);
+      <span class="hljs-keyword">if</span> (data === arr[mid]) {
+        <span class="hljs-keyword">return</span> mid;
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (data &lt; arr[mid]) {
+        r = mid - <span class="hljs-number">1</span>;
+      } <span class="hljs-keyword">else</span> {
+        l = mid + <span class="hljs-number">1</span>;
+      }
+    }
+    <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
+  }
+        
+  <span class="hljs-keyword">const</span> arr = [<span class="hljs-number">5</span>, <span class="hljs-number">9</span>, <span class="hljs-number">17</span>, <span class="hljs-number">23</span>, <span class="hljs-number">25</span>, <span class="hljs-number">45</span>, <span class="hljs-number">59</span>, <span class="hljs-number">63</span>, <span class="hljs-number">71</span>, <span class="hljs-number">89</span>];
+  <span class="hljs-keyword">const</span> data = <span class="hljs-number">59</span>;
+        
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">binarySearch</span>(arr, arr.<span class="hljs-property">length</span>, <span class="hljs-number">59</span>));
+        
+  <span class="hljs-comment">/* What is the time complexity of this algorithm? 
+    We are reducing the search space by half, in such case the time complexity will be O(logn) 
+    - Order of log n, and the best case will be O(1) - Order of 1, if the search data is 25. */</span>
+    </code>
 
     </div>
   </div>
   <div id="18" class="con">
-    <h2></h2>
+    <h2>Insertion Sort</h2>
     <div class="code">
+      <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">/*
+In this technique, the given array is divided into two parts: Sorted sublist and Unsorted sublist.
+We take one value of the Unsorted sublist and identify an appropriate place for that value in 
+the sorted sublist. After finding the appropriate place in the sorted sublist, 
+we will insert that value into the sorted sublist. Initially, arr[i] is the sorted sublist and 
+from arr[i+1] until the end of the array is the Unsorted sublist.*/</span>
+        
+    <span class="hljs-keyword">const</span> list = [<span class="hljs-number">5</span>, <span class="hljs-number">4</span>, <span class="hljs-number">10</span>, <span class="hljs-number">1</span>, <span class="hljs-number">6</span>, <span class="hljs-number">2</span>];
+        
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">insertionSort</span>(<span class="hljs-params">arr</span>) {
+      <span class="hljs-keyword">var</span> temp = <span class="hljs-literal">null</span>;
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>; i &lt; arr.<span class="hljs-property">length</span>; i++) {
+        temp = arr[i];
+        <span class="hljs-keyword">let</span> j = i - <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">while</span> (j &gt;= <span class="hljs-number">0</span> &amp;&amp; arr[j] &gt; temp) {
+          arr[j + <span class="hljs-number">1</span>] = arr[j];
+          j--;
+        }
+        arr[j + <span class="hljs-number">1</span>] = temp;
+      }
+      <span class="hljs-keyword">return</span> arr;
+    }
+        
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">insertionSort</span>(list));
+    <span class="hljs-comment">// Output: [1, 2, 4, 5, 6, 10]</span>
+        
+    <span class="hljs-comment">/*
+    Time complexity in the worst case scenario, when an array is given in descending order 
+    and you have to sort that array in ascending order, in that case, the time 
+    complexity will be O(n^2) - Order of Nsquare.
+    Best case scenario, the time complexity will be O(n) - Order of n. When the array is 
+    already in ascending order. */</span>
+        </code>
 
     </div>
   </div>
