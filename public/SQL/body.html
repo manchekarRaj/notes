@@ -703,73 +703,75 @@
   <div id="27" class="con">
     <h2>Sample Queries</h2>
     <div class="code">
-      <code class="!whitespace-pre hljs language-sql"><span class="hljs-comment">-- --- Medium ---</span>
+      <code
+        class="!whitespace-pre hljs language-sql"><span class="hljs-comment">-- --- Medium ---</span>
 
-  <span class="hljs-comment">-- Show unique birth years from patients and order them by ascending.</span>
-  <span class="hljs-keyword">SELECT</span>
-    <span class="hljs-keyword">DISTINCT</span> <span class="hljs-keyword">YEAR</span>(birth_date) <span class="hljs-keyword">AS</span> birth_year
-  <span class="hljs-keyword">FROM</span> patients
-  <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> birth_year;
+<span class="hljs-comment">-- Show unique birth years from patients and order them by ascending.</span>
+<span class="hljs-keyword">SELECT</span>
+  <span class="hljs-keyword">DISTINCT</span> <span class="hljs-keyword">YEAR</span>(birth_date) <span class="hljs-keyword">AS</span> birth_year
+<span class="hljs-keyword">FROM</span> patients
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> birth_year;
         
-  <span class="hljs-comment">/*
-  Show unique first names from the patients table which only occurs once in the list.
+<span class="hljs-comment">/*
+Show unique first names from the patients table which only occurs once in the list.
+       
+For example, if two or more people are named 'John' in the first_name column then 
+don't include their name in the output list. If only 1 person is named 'Leo' 
+then include them in the output.*/</span>
+<span class="hljs-keyword">SELECT</span> first_name
+<span class="hljs-keyword">FROM</span> patients
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> first_name
+<span class="hljs-keyword">HAVING</span> <span class="hljs-built_in">COUNT</span>(first_name) <span class="hljs-operator">=</span> <span class="hljs-number">1</span>;
         
-  For example, if two or more people are named 'John' in the first_name column then don't include their name in the output list. If only 1 person is named 'Leo' then include them in the output.
-  */</span>
-  <span class="hljs-keyword">SELECT</span> first_name
-  <span class="hljs-keyword">FROM</span> patients
-  <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> first_name
-  <span class="hljs-keyword">HAVING</span> <span class="hljs-built_in">COUNT</span>(first_name) <span class="hljs-operator">=</span> <span class="hljs-number">1</span>;
+<span class="hljs-comment">/*Show patient_id and first_name from patients where their first_name start and ends with 's' and is at least 6 characters long.*/</span>
+<span class="hljs-keyword">SELECT</span> patient_id, first_name
+<span class="hljs-keyword">FROM</span> patients
+<span class="hljs-keyword">WHERE</span> first_name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'s____%s'</span>;
         
-  <span class="hljs-comment">/*Show patient_id and first_name from patients where their first_name start and ends with 's' and is at least 6 characters long.*/</span>
-  <span class="hljs-keyword">SELECT</span> patient_id, first_name
-  <span class="hljs-keyword">FROM</span> patients
-  <span class="hljs-keyword">WHERE</span> first_name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'s____%s'</span>;
+<span class="hljs-comment">/*
+Show patient_id, first_name, last_name from patients whos diagnosis is 'Dementia'.
+Primary diagnosis is stored in the admissions table.*/</span>
+<span class="hljs-keyword">SELECT</span> p.patient_id, p.first_name, p.last_name 
+<span class="hljs-keyword">FROM</span> patients <span class="hljs-keyword">AS</span> p
+<span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> admissions <span class="hljs-keyword">AS</span> d  
+<span class="hljs-keyword">ON</span> d.patient_id <span class="hljs-operator">=</span> p.patient_id 
+<span class="hljs-keyword">WHERE</span> d.diagnosis <span class="hljs-operator">=</span> <span class="hljs-string">'Dementia'</span>;
         
-  <span class="hljs-comment">/*
-  Show patient_id, first_name, last_name from patients whos diagnosis is 'Dementia'.
-  Primary diagnosis is stored in the admissions table.
-  */</span>
-  <span class="hljs-keyword">SELECT</span> p.patient_id, p.first_name, p.last_name 
-  <span class="hljs-keyword">FROM</span> patients <span class="hljs-keyword">AS</span> p
-  <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> admissions <span class="hljs-keyword">AS</span> d  
-  <span class="hljs-keyword">ON</span> d.patient_id <span class="hljs-operator">=</span> p.patient_id 
-  <span class="hljs-keyword">WHERE</span> d.diagnosis <span class="hljs-operator">=</span> <span class="hljs-string">'Dementia'</span>;
+<span class="hljs-comment">-- --- Easy ---</span>
         
-  <span class="hljs-comment">-- --- Easy ---</span>
+<span class="hljs-comment">-- Show first_name of patients that start with the letter 'C'</span>
+<span class="hljs-keyword">SELECT</span> first_name <span class="hljs-keyword">FROM</span> patients <span class="hljs-keyword">WHERE</span> first_name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'C%'</span>;
         
-  <span class="hljs-comment">-- Show first_name of patients that start with the letter 'C'</span>
-  <span class="hljs-keyword">SELECT</span> first_name <span class="hljs-keyword">FROM</span> patients <span class="hljs-keyword">WHERE</span> first_name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'C%'</span>;
+<span class="hljs-comment">-- Show first_name and last_name of patients that weight within the range of 100 to 120 (inclusive)</span>
+<span class="hljs-keyword">SELECT</span> first_name, last_name <span class="hljs-keyword">FROM</span> patients <span class="hljs-keyword">WHERE</span> weight <span class="hljs-keyword">BETWEEN</span> <span class="hljs-number">100</span> <span class="hljs-keyword">AND</span> <span class="hljs-number">120</span>;
         
-  <span class="hljs-comment">-- Show first_name and last_name of patients that weight within the range of 100 to 120 (inclusive)</span>
-  <span class="hljs-keyword">SELECT</span> first_name, last_name <span class="hljs-keyword">FROM</span> patients <span class="hljs-keyword">WHERE</span> weight <span class="hljs-keyword">BETWEEN</span> <span class="hljs-number">100</span> <span class="hljs-keyword">AND</span> <span class="hljs-number">120</span>;
+<span class="hljs-comment">-- Update the patients table for the allergies column. 
+  If the patient's allergies are null then replace it with 'NKA'</span>
+<span class="hljs-keyword">UPDATE</span> patients <span class="hljs-keyword">SET</span> allergies <span class="hljs-operator">=</span> <span class="hljs-string">'NKA'</span> <span class="hljs-keyword">WHERE</span> allergies <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NULL</span>;
         
-  <span class="hljs-comment">-- Update the patients table for the allergies column. If the patient's allergies are null then replace it with 'NKA'</span>
-  <span class="hljs-keyword">UPDATE</span> patients <span class="hljs-keyword">SET</span> allergies <span class="hljs-operator">=</span> <span class="hljs-string">'NKA'</span> <span class="hljs-keyword">WHERE</span> allergies <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NULL</span>;
+<span class="hljs-comment">-- Show first name and last name concatenated into one column to show their full name.</span>
+<span class="hljs-keyword">SELECT</span> CONCAT(first_name, <span class="hljs-string">' '</span>, last_name) <span class="hljs-keyword">AS</span> full_name <span class="hljs-keyword">FROM</span> patients;
         
-  <span class="hljs-comment">-- Show first name and last name concatenated into one column to show their full name.</span>
-  <span class="hljs-keyword">SELECT</span> CONCAT(first_name, <span class="hljs-string">' '</span>, last_name) <span class="hljs-keyword">AS</span> full_name <span class="hljs-keyword">FROM</span> patients;
+<span class="hljs-comment">-- Show how many patients have a birth_date with 2010 as the birth year.</span>
+<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">AS</span> total_patients <span class="hljs-keyword">FROM</span> patients <span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">YEAR</span>(birth_date) <span class="hljs-operator">=</span> <span class="hljs-number">2010</span>;
         
-  <span class="hljs-comment">-- Show how many patients have a birth_date with 2010 as the birth year.</span>
-  <span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">AS</span> total_patients <span class="hljs-keyword">FROM</span> patients <span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">YEAR</span>(birth_date) <span class="hljs-operator">=</span> <span class="hljs-number">2010</span>;
+<span class="hljs-comment">-- Show the first_name, last_name, and height of the patient with the greatest height.</span>
+<span class="hljs-keyword">SELECT</span> first_name, last_name, height
+<span class="hljs-keyword">FROM</span> patients
+<span class="hljs-keyword">WHERE</span> height <span class="hljs-operator">=</span> (
+    <span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">MAX</span>(height)
+    <span class="hljs-keyword">FROM</span> patients
+);
         
-  <span class="hljs-comment">-- Show the first_name, last_name, and height of the patient with the greatest height.</span>
-  <span class="hljs-keyword">SELECT</span> first_name, last_name, height
-  <span class="hljs-keyword">FROM</span> patients
-  <span class="hljs-keyword">WHERE</span> height <span class="hljs-operator">=</span> (
-      <span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">MAX</span>(height)
-      <span class="hljs-keyword">FROM</span> patients
-  );
+<span class="hljs-comment">--Show all columns for patients who have one of the following 
+  patient_ids: 1,45,534,879,1000</span>
+<span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> patients <span class="hljs-keyword">WHERE</span> patient_id <span class="hljs-keyword">IN</span> (<span class="hljs-number">1</span>,<span class="hljs-number">45</span>,<span class="hljs-number">534</span>,<span class="hljs-number">879</span>,<span class="hljs-number">1000</span>);
         
-  <span class="hljs-comment">--Show all columns for patients who have one of the following patient_ids: 1,45,534,879,1000</span>
-  <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> patients <span class="hljs-keyword">WHERE</span> patient_id <span class="hljs-keyword">IN</span> (<span class="hljs-number">1</span>,<span class="hljs-number">45</span>,<span class="hljs-number">534</span>,<span class="hljs-number">879</span>,<span class="hljs-number">1000</span>);
+<span class="hljs-comment">-- Show the patient id and the total number of admissions for patient_id 579.</span>
+<span class="hljs-keyword">SELECT</span> patient_id, <span class="hljs-built_in">COUNT</span>(admission_date) <span class="hljs-keyword">FROM</span> admissions <span class="hljs-keyword">WHERE</span> patient_id <span class="hljs-operator">=</span> <span class="hljs-number">579</span>;
         
-  <span class="hljs-comment">-- Show the patient id and the total number of admissions for patient_id 579.</span>
-  <span class="hljs-keyword">SELECT</span> patient_id, <span class="hljs-built_in">COUNT</span>(admission_date) <span class="hljs-keyword">FROM</span> admissions <span class="hljs-keyword">WHERE</span> patient_id <span class="hljs-operator">=</span> <span class="hljs-number">579</span>;
-        
-  <span class="hljs-comment">--Based on the cities that our patients live in, show unique cities that are in province_id 'NS'?</span>
-  <span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">DISTINCT</span> city <span class="hljs-keyword">FROM</span> patients <span class="hljs-keyword">WHERE</span> province_id <span class="hljs-operator">=</span> <span class="hljs-string">'NS'</span>;
-  </code>
+<span class="hljs-comment">--Based on the cities that our patients live in, show unique cities that are in province_id 'NS'?</span>
+<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">DISTINCT</span> city <span class="hljs-keyword">FROM</span> patients <span class="hljs-keyword">WHERE</span> province_id <span class="hljs-operator">=</span> <span class="hljs-string">'NS'</span>;</code>
     </div>
 
     <div class="end"></div>
