@@ -897,7 +897,64 @@
       prototype object, in turn, has its own prototype, and this chain continues until we reach an object with null as
       its prototype. </p>
 
-    <div class="code"></div>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">/* 
+  1. Understanding Prototypes: 
+  In JavaScript, every function and object has a property named prototype by default.*/</span>
+        
+ <span class="hljs-comment">// Constructor function</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">Person</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = <span class="hljs-string">'John'</span>;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">age</span> = <span class="hljs-number">23</span>;
+}
+        
+<span class="hljs-comment">// Creating objects</span>
+<span class="hljs-keyword">const</span> person1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>();
+<span class="hljs-keyword">const</span> person2 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>();
+        
+<span class="hljs-comment">/* 
+2. Adding Properties to the Prototype: 
+    You can use the prototype to add properties and methods to a constructor function. 
+    Objects created from that constructor will inherit these properties. */</span>
+        
+<span class="hljs-comment">// Adding a property to the constructor function</span>
+<span class="hljs-title class_">Person</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">gender</span> = <span class="hljs-string">'male'</span>;
+        
+<span class="hljs-comment">// Prototype value of Person</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Person</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>); <span class="hljs-comment">// { gender: "male" }</span>
+        
+<span class="hljs-comment">// Inheriting the property from the prototype</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(person1.<span class="hljs-property">gender</span>); <span class="hljs-comment">// "male"</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(person2.<span class="hljs-property">gender</span>); <span class="hljs-comment">// "male"</span>
+        
+<span class="hljs-comment">/* 
+3. Adding Methods to the Prototype: 
+  You can also add new methods to a constructor function using the prototype */</span>
+        
+<span class="hljs-comment">// Adding a method to the constructor function</span>
+<span class="hljs-title class_">Person</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">greet</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Hello, <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.name}</span>!`</span>);
+};
+        
+person1.<span class="hljs-title function_">greet</span>(); <span class="hljs-comment">// "Hello, John!"</span>
+person2.<span class="hljs-title function_">greet</span>(); <span class="hljs-comment">// "Hello, John!"</span>
+        
+<span class="hljs-comment">/* 
+4. Changing the Prototype: 
+  If you change a prototype value, all new objects created from the constructor will have the updated property value. 
+  Existing objects will retain their previous values */</span>
+        
+<span class="hljs-comment">// Changing the prototype</span>
+<span class="hljs-keyword">const</span> animal = { <span class="hljs-attr">eats</span>: <span class="hljs-literal">true</span> };
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">Rabbit</span>(<span class="hljs-params">name</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = name;
+}
+<span class="hljs-title class_">Rabbit</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span> = animal;
+        
+<span class="hljs-keyword">const</span> rabbit = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Rabbit</span>(<span class="hljs-string">'White Rabbit'</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(rabbit.<span class="hljs-property">eats</span>); <span class="hljs-comment">// true</span>
+        </code>
+    </div>
   </div>
 
   <div id="16" class="con">
