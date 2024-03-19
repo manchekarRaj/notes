@@ -1579,6 +1579,89 @@
       )
       </code>
     </div>
+
+    <p><b>Generate and Verify Token</b></p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// Generate and Verify Token</span>
+
+  <span class="hljs-keyword">const</span> jwt = <span class="hljs-built_in">require</span>(<span class="hljs-string">'jsonwebtoken'</span>);
+  <span class="hljs-keyword">const</span> secretKey = <span class="hljs-string">'rTj%#ghso&amp;654hE*9'</span>;
+        
+  <span class="hljs-keyword">function</span> <span class="hljs-title function_">setTokenExpiration</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-keyword">return</span> {
+          <span class="hljs-attr">expiresIn</span>: <span class="hljs-string">'30m'</span>
+      };
+  }
+        
+  <span class="hljs-comment">/*
+  let payload = { id: result._id ? result._id : result.id, role: result.role}; */</span>
+        
+  <span class="hljs-keyword">function</span> <span class="hljs-title function_">generateToken</span>(<span class="hljs-params">payload</span>) {
+      <span class="hljs-keyword">const</span> expiresIn = <span class="hljs-title function_">setTokenExpiration</span>();
+      <span class="hljs-keyword">return</span> jwt.<span class="hljs-title function_">sign</span>(payload, secretKey, expiresIn);
+  }
+        
+  <span class="hljs-keyword">function</span> <span class="hljs-title function_">verifyToken</span>(<span class="hljs-params">token</span>) {
+      <span class="hljs-keyword">try</span> {
+          <span class="hljs-keyword">const</span> payload = jwt.<span class="hljs-title function_">verify</span>(token, secretKey);
+          <span class="hljs-keyword">if</span> (!payload) {
+              <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">"Invalid Token"</span>);
+          }
+          <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+       } <span class="hljs-keyword">catch</span> (error) {
+          <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+      }
+  }
+        
+  <span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
+      generateToken,
+      verifyToken
+  };</code>
+
+    </div>
+
+    <p><b>Refresh tokens</b> allow users to obtain new access tokens without re-entering their credentials.</p>
+    <b>1. Initial Authentication</b>:
+    <ul>
+      <li>When a user logs in, the server generates an access token (short-lived) and a refresh token (long-lived).
+      </li>
+      <li>The access token contains user details and is sent with each authenticated request.</li>
+      <li>The refresh token is securely stored on the client side (usually as an HTTP-only cookie).</li>
+    </ul>
+
+    <b>2. Access Token Expiry</b>:
+    <ul>
+      <li>Access tokens have a short lifespan (e.g., 10 - 30 minutes).</li>
+      <li>When an access token expires, the client sends the refresh token to the server.</li>
+    </ul>
+
+    <b>3. Server Validation</b>:
+    <ul>
+      <li>The server validates the refresh token</li>
+      <li>If valid, it generates a new access token.</li>
+      <li>If invalid (e.g., expired, tampered), it denies the request.</li>
+    </ul>
+
+    <b>4. New Access Token</b>:
+    <ul>
+      <li>If the refresh token is valid, the server issues a new access token.</li>
+      <li>The client uses this new access token for subsequent requests.</li>
+    </ul>
+
+    <b>5. Repeat Process</b>:
+    <ul>
+      <li>The client continues using the new access token until it expires.</li>
+      <li>When the new access token expires, the process repeats: the client sends the refresh token, and the server
+        provides another access token.</li>
+    </ul>
+    <br>
+    <p><b>Error code</b>:
+    <ul>
+      <li>401 Unauthorized - If a server receives invalid credentials.</li>
+      <li>403 Forbidden - If a server receives valid credentials that are inadequate to access a given resource, the
+        server should respond with the 403 Forbidden status code.</li>
+    </ul>
+    </p>
   </div>
 
   <div id="27" class="con">
@@ -2040,14 +2123,113 @@
     <span class="hljs-title function_">consume</span>();
         </code>
     </div>
-
-
-
   </div>
 
+  <div id="35" class="con">
+    <h2>Restful API data Validation</h2>
+    <p>Data validation is important so that whenever the user sends data to the API, you can make sure that the data is
+      what you expected to be and not something mailicious. We used a third-party Nodejs library called JOI, to protect
+      our routes. This module validates the data based on schemas.</p>
+    <div class="code">
+      <code class="!whitespace-pre hljs language-javascript"><span class="hljs-comment">// authSchema.js</span>
+  <span class="hljs-keyword">const</span> <span class="hljs-title class_">Joi</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@hapi/joi'</span>);       
+  <span class="hljs-keyword">const</span> authSchema = <span class="hljs-title class_">Joi</span>.<span class="hljs-title function_">object</span>({
+      <span class="hljs-attr">username</span>: <span class="hljs-title class_">Joi</span>.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">alphanum</span>().<span class="hljs-title function_">min</span>(<span class="hljs-number">3</span>).<span class="hljs-title function_">max</span>(<span class="hljs-number">30</span>).required(),
+      <span class="hljs-attr">email</span>: <span class="hljs-title class_">Joi</span>.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">lowercase</span>().required(),
+      <span class="hljs-attr">password</span>: <span class="hljs-title class_">Joi</span>.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">min</span>(<span class="hljs-number">8</span>).required()
+  });   
+  <span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = { authSchema }; 
+  <span class="hljs-comment">// Object destructuring, authSchema.js might have multiple schemas.</span>
+          
+<span class="hljs-comment">// login.js</span>
+  <span class="hljs-keyword">const</span> { authSchema } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../utils/authSchema'</span>);
+          
+  loginRoute.<span class="hljs-title function_">post</span>(<span class="hljs-string">'/api/login'</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
+      <span class="hljs-keyword">try</span> {
+          <span class="hljs-keyword">if</span> (!!req.<span class="hljs-property">body</span>.<span class="hljs-property">email</span> &amp;&amp; !!req.<span class="hljs-property">body</span>.<span class="hljs-property">password</span>) {
+              <span class="hljs-keyword">const</span> { email, password } = req.<span class="hljs-property">body</span>;
+          
+              <span class="hljs-comment">// validate the req body with authSchema</span>
+              <span class="hljs-keyword">const</span> { error, value } = authSchema.<span class="hljs-title function_">validate</span>(req.<span class="hljs-property">body</span>);       
+<span class="hljs-comment">// If the input is valid, then the error will be undefined.</span>
+<span class="hljs-comment">// If the input is invalid, error is assigned a ValidationError object providing more information.</span>
+              <span class="hljs-keyword">if</span> (error) {
+                  <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">status</span>(<span class="hljs-number">422</span>).<span class="hljs-title function_">json</span>({
+                      <span class="hljs-attr">message</span>: error.<span class="hljs-property">details</span>
+                  });
+              } <span class="hljs-keyword">else</span> {
+                  <span class="hljs-comment">// Validate username password from DB</span>
+              }
+          }
+      } <span class="hljs-keyword">catch</span> (error) {
+          <span class="hljs-title function_">next</span>(error);
+      }
+  });</code>
+    </div>
+  </div>
 
+  <div id="36" class="con">
+    <h2>Package vulnerabilities in NodeJS</h2>
+    <p>Identifying and addressing package vulnerabilities in Node.js is crucial for maintaining the security of your
+      application. For this you can use <b>npm audit</b></p><br>
+    <p>The npm audit command is a built-in feature in npm (available in npm@6 and later). It scans your project's
+      dependencies for known vulnerabilities and provides a report.</p>
+    <p><b>Fix Vulnerabilities</b>: If vulnerabilities are found, you can automatically install compatible updates to
+      vulnerable dependencies using: npm audit fix
+    </p><br>
+    <p><b>Regularly Audit Dependencies</b>: Perform security audits periodically. Consider using tools like <b>Snyk</b>,
+      Node
+      Security Platform, or other third-party services.
+      These tools scan your package.json file and report known vulnerabilities in your packages.</p><br>
+    <p><b>Using Snyk with CLI</b>:</p>
 
-
+    <div class="code">
+      <code class="!whitespace-pre hljs language-plaintext">// Scan for vulnerabilities with CLI
+// C:/project/demo/myapp&gt; (Project directory)
+          
+C:/project/demo/myapp&gt; snyk auth 
+// This will authenticate your account with Snyk. Authentication is required for the vulnerability scan.
+          
+C:/project/demo/myapp&gt; snyk test 
+// Check for vulnerabilities in your project
+          
+/* 
+Output:
+Issue to fix by upgrading: These issues can be fixed by upgrading.
+Issues with no direct upgrade or patch: Some issues have no patches for the vulnerabilities.
+*/
+          
+// --------------------------------------
+          
+// Using GUI mode
+C:/project/demo/myapp&gt; snyk monitor 
+          
+/* 
+This command creates a snapshot of your project, which can be found in the project segment 
+at https://app.snyk.io/org/&lt;username&gt;/projects.
+          
+In the Project snapshot, you will get all the details of the vulnerability list.
+In the fixes section, you can find out how you can fix the vulnerabilities.
+*/
+          
+// -------------------------------------
+          
+// Scan code for vulnerabilities
+          
+C:/project/demo/myapp&gt; snyk code test 
+          
+/* 
+To get this working, you have to configure it in the settings section at  
+(https://app.snyk.io/org/&lt;username&gt;/manage/snyk-code).
+Settings &gt; Snyk Code &gt; Enable Snyk Code 
+*/
+          
+/*
+This scan will give you all the vulnerability code you have in your project.
+*/</code>
+    </div>
+  </div>
+  <div class="end"></div>
 </body>
 
 </html>
